@@ -1,0 +1,85 @@
+<div class="row container-fluid mt-4 ">
+  <div class="col-sm-0	col-md-0	col-lg-1	col-xl-1"></div>
+  <div class="col-sm-12	col-md-12	col-lg-6	col-xl-6">
+    <div class="card card-light">
+      <div class="card-header ">
+        <h5 class="text-center">EMPLEADO</h5>
+      </div>
+      <div class="card-body text-center">
+        <div style="margin: auto;">
+          <webcam [height]="460" [trigger]="triggerObservable" (imageCapture)="handleImage($event)">
+          </webcam>
+        </div>
+        <!-- <div class="snapshot" *ngIf="webcamImage">
+            <h2>Here is your image!</h2>
+            <img style="height: 400px;width: 400px;" [src]="webcamImage.imageAsDataUrl" />
+          </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12	col-md-12	col-lg-4 col-xl-4">
+    <div class="card card-light">
+      <div class="card-header text-center">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-success active mr-5">
+            <input type="radio" name="options" id="option_a1" autocomplete="off" checked> Entrada
+          </label>
+          <label class="btn btn-warning">
+            <input type="radio" name="options" id="option_a3" autocomplete="off"> Salida
+          </label>
+        </div>
+      </div>
+
+        <div class="card-body text-center">
+          <label for="codigo"></label>
+          <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="text" ng-minlength="4"
+            ng-maxlength="4"><br>
+          <div role="alert" class="error-message" *ngIf="validar">
+            <p>No codigo ingresado no existe</p>
+          </div>
+          <table style=" margin: auto;">
+            <tr>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('7')">7</button></td>
+              <td> <button class="btn btn-outline-secondary"style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('8')">8</button></td>
+              <td> <button class="btn btn-outline-secondary"style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('9')">9</button></td>
+            </tr>
+
+            <tr>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('4')">4</button></td>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('5')">5</button></td>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('6')">6</button></td>
+            </tr>
+
+
+            <tr>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('1')">1</button></td>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('2')">2</button></td>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('3')">3</button></td>
+            </tr>
+            <tr>
+              <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+                (click)="asignar('0')">0</button></td>
+              <td colspan="2"> <button class="btn btn-outline-secondary" style="height: 70px;width: 140px;font-size: 20pt;"
+                (click)="clear()">Clear</button></td>
+            </tr>
+            <tr>
+              <td colspan="3"> <button class="btn btn-primary mt-1" (click)="triggerSnapshot();">
+                  Registrar</button></td>
+            </tr>
+          </table>
+
+
+        </div>
+
+    </div>
+  </div>
+</div>
