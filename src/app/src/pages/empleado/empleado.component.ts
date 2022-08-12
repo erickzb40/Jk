@@ -7,9 +7,11 @@ import {Subject, Observable} from 'rxjs';
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css']
 })
-export class EmpleadoComponent{
+export class EmpleadoComponent implements OnInit{
+
+now: Date;
 codigo='';
-validar=true;
+validar=false;//si no existe el codigo
 title = 'gfgangularwebcam';
 imageName = 'imagen';
 imageFormat= 'image/jpeg';
@@ -43,6 +45,17 @@ constructor() { }
 
   public get triggerObservable(): Observable<void> {
    return this.trigger.asObservable();
+  }
+
+
+  ngOnInit(): void {
+    this.now = new Date();
+
+    setInterval(() => {
+
+      this.now = new Date();
+
+    }, 1000);
   }
 
 

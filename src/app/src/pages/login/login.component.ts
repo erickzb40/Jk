@@ -1,5 +1,10 @@
+import { finalize } from 'rxjs';
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,9 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  usuario = {
+    nombreUsuario: '',
+    contrasena: ''
+  }
+
+  cargando: boolean = false;
+
+  constructor(private fb: FormBuilder, private router: Router, public auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  login(form: NgForm) {
+    console.log(form.controls);
+    if (form.invalid) { return; }
+    this.auth.login(this.usuario).pipe(finalize(()=>{
+    })).subscribe(res=>{
+      this.router.navigateByUrl('empleado');
+    });
+
   }
 
 }
