@@ -1,33 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import {WebcamImage} from 'ngx-webcam';
-import {Subject, Observable} from 'rxjs';
+import { WebcamImage } from 'ngx-webcam';
+import { Subject, Observable, finalize } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
+import Swal from 'sweetalert2';
+import * as moment from 'moment';
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css']
 })
-export class EmpleadoComponent implements OnInit{
+export class EmpleadoComponent implements OnInit {
 
-now: Date;
-codigo='';
-validar=false;//si no existe el codigo
-title = 'gfgangularwebcam';
-imageName = 'imagen';
-imageFormat= 'image/jpeg';
-constructor() { }
-
-   asignar(codigo:string){
-    this.codigo+=codigo;
-  }
-   clear(){
-    this.codigo='';
+  now: Date;
+  codigo = '';
+  validar = false;//si no existe el codigo
+  title = 'gfgangularwebcam';
+  imageName = 'imagen';
+  imageFormat = 'image/jpeg';
+  hoy: Date = new Date();
+  constructor(public aut: AuthService) {
+    moment.locale();
    }
+
+  asignar(codigo: string) {
+    this.codigo += codigo;
+  }
+  clear() {
+    this.codigo = '';
+  }
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
   triggerSnapshot(): void {
-   this.trigger.next();
-   this.validar=false;
+    this.trigger.next();
+    this.validar = false;
   }
   handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
@@ -44,7 +50,7 @@ constructor() { }
   }
 
   public get triggerObservable(): Observable<void> {
-   return this.trigger.asObservable();
+    return this.trigger.asObservable();
   }
 
 
@@ -54,10 +60,34 @@ constructor() { }
     setInterval(() => {
 
       this.now = new Date();
-
     }, 1000);
   }
 
+  entrada() {
+    console.log('entrada');
+    this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), 'ENTRADA').pipe(finalize(() => {})).subscribe(
+      res => {
+      return this.popup(res['fecha'],'ENTRADA');
+      }
+    );
+  }
 
+  salida() {
+    console.log('salida');
+     this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), 'SALIDA').pipe(finalize(() => {})).subscribe(
+      res => {
+      return this.popup(res['fecha'],'SALIDA');
+      }
+    );
+  }
+
+  popup(parametroDate,tipo){
+    let fecha = (moment(parametroDate)).format('LTS')
+    return Swal.fire({
+      icon: 'success',
+      title: tipo+' Registrada!',
+      text: ''+fecha
+    });
+  }
 
 }

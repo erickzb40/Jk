@@ -1,4 +1,4 @@
-import { finalize } from 'rxjs';
+import { empty, finalize } from 'rxjs';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, NgForm } from '@angular/forms';
@@ -24,14 +24,22 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(form: NgForm) {
-    console.log(form.controls);
-    if (form.invalid) { return; }
-    this.auth.login(this.usuario).pipe(finalize(()=>{
-    })).subscribe(res=>{
-      this.router.navigateByUrl('empleado');
-    });
+  // login(form: NgForm) {
+  //   console.log(form.form.value.nombreUsuario);
+  //   if (form.invalid) { return; }
+  //   this.auth.login(form.form.value).pipe(finalize(()=>{
+  //   })).subscribe(res=>{
+  //     if(Object.entries(res).length>0){
+  //      this.router.navigateByUrl('empleado');
+  //     }else{
+  //      Swal.fire({
+  //       title:'Mensaje',
+  //       icon:'warning',
+  //       text:'No se encontro ningun usuario'
+  //      })
+  //     }
+  //   });
 
-  }
+  // }
 
 }

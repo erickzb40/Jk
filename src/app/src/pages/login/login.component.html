@@ -8,7 +8,7 @@
         <div class="card-body login-card-body">
           <p class="login-box-msg">Inicia sesión</p>
 
-          <form  (ngSubmit)="login(f)" #f="ngForm">
+          <form   #f="ngForm">
             <span class="text-danger animated fadeIn" *ngIf="f.submitted&&f.controls['nombreUsuario'].errors">Este campo es obligatiorio</span>
             <div class="input-group mb-3">
               <input type="text" [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario"
