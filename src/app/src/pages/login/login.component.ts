@@ -24,22 +24,22 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // login(form: NgForm) {
-  //   console.log(form.form.value.nombreUsuario);
-  //   if (form.invalid) { return; }
-  //   this.auth.login(form.form.value).pipe(finalize(()=>{
-  //   })).subscribe(res=>{
-  //     if(Object.entries(res).length>0){
-  //      this.router.navigateByUrl('empleado');
-  //     }else{
-  //      Swal.fire({
-  //       title:'Mensaje',
-  //       icon:'warning',
-  //       text:'No se encontro ningun usuario'
-  //      })
-  //     }
-  //   });
+  login(form: NgForm) {
+    console.log(form.form.value.nombreUsuario);
+    if (form.invalid) { return; }
+    this.auth.login(form.form.value).pipe(finalize(()=>{
+    })).subscribe(res=>{
+      if(Object.entries(res).length>0){
+       this.router.navigateByUrl('empleado');
+      }else{
+       Swal.fire({
+        title:'Mensaje',
+        icon:'warning',
+        text:'No se encontro ningun usuario'
+       })
+      }
+    });
 
-  // }
+  }
 
 }

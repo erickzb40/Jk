@@ -48,11 +48,10 @@ export class EmpleadoComponent implements OnInit {
     const file: File = new File([u8arr], this.imageName, { type: this.imageFormat })
     console.log(file);
   }
-
+//https://localhost:7195/api/Empleado/file
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
-
 
   ngOnInit(): void {
     this.now = new Date();
@@ -64,6 +63,7 @@ export class EmpleadoComponent implements OnInit {
   }
 
   entrada() {
+    this.triggerSnapshot();
     console.log('entrada');
     this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), 'ENTRADA').pipe(finalize(() => {})).subscribe(
       res => {

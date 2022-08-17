@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   loginUrl = 'https://localhost:7195/api/Usuario/login';
-  registerUrl = 'https://localhost:7195/api/Asistencia';
+  AsistenciaUrl = 'https://localhost:7195/api/Asistencia';
   constructor(private http: HttpClient) {
   }
 
@@ -14,10 +14,10 @@ export class AuthService {
     return this.http.post(this.loginUrl, form);
   }
   entrada(fecha: Date, tipo: string, cod_empleado:Number,identificador:string) {
-    return this.http.post(this.registerUrl,this.marcar(fecha,tipo,cod_empleado,identificador));
+    return this.http.post(this.AsistenciaUrl,this.marcar(fecha,tipo,cod_empleado,identificador));
   }
   salida(fecha: Date, tipo: string, cod_empleado:Number,identificador:string) {
-    return this.http.post(this.registerUrl, this.marcar(fecha,tipo,cod_empleado,identificador));
+    return this.http.post(this.AsistenciaUrl, this.marcar(fecha,tipo,cod_empleado,identificador));
   }
   marcar(fecha: Date, tipo: string, cod_empleado:Number,identificador:string) {
    const val= {
@@ -26,5 +26,8 @@ export class AuthService {
       "cod_empleado": cod_empleado,
       "identificador": identificador}
       return val;
+  }
+  obtenerAsistencia(){
+    return this.http.get(this.AsistenciaUrl);
   }
 }
