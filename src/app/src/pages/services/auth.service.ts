@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
   loginUrl = 'https://localhost:7195/api/Usuario/login';
   AsistenciaUrl = 'https://localhost:7195/api/Asistencia';

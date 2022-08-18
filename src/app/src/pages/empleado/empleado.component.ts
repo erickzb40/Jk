@@ -3,7 +3,6 @@ import { WebcamImage } from 'ngx-webcam';
 import { Subject, Observable, finalize } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 @Component({
@@ -27,7 +26,8 @@ export class EmpleadoComponent implements OnInit {
   hoy: Date = new Date();
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
-  constructor(public aut: AuthService) {
+
+  constructor(public aut: AuthService,private modalService: NgbModal) {
     moment.locale();
   }
 
@@ -72,6 +72,11 @@ export class EmpleadoComponent implements OnInit {
   entrada(Registro) {
    this.registro=Registro;
    this.modal=true;
+   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
   }
 
   marcarEntrada(){
