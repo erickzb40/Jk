@@ -26,7 +26,7 @@
       </div>
       <div class="card-body text-center">
         <label for="codigo"></label>
-        <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="text" ng-minlength="4"
+        <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="password" ng-minlength="4"
           ng-maxlength="4" style="text-align: center;"><br>
         <div role="alert" class="error-message" *ngIf="validar">
           <p>No codigo ingresado no existe</p>
@@ -67,9 +67,10 @@
           </tr>
         </table>
         <div class="text-center">
-          <button class="btn btn-success mt-2 mr-2" (click)="entrada()"style="width: 170px;" >Registrar Entrada</button>
-          <button class="btn btn-danger mt-2" (click)="salida()" style="width: 170px;" >Registrar Salida</button>
+          <button class="btn btn-success mt-2 mr-2" (click)="entrada('ENTRADA')"style="width: 170px;" >Registrar Entrada</button>
+          <button class="btn btn-danger mt-2" (click)="entrada('SALIDA')" style="width: 170px;" >Registrar Salida</button>
         </div>
+
 
       </div>
 
