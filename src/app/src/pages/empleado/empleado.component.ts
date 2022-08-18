@@ -21,6 +21,8 @@ export class EmpleadoComponent implements OnInit {
   title = 'gfgangularwebcam';
   imageName = 'imagen';
   imageFormat = 'image/jpeg';
+  modal=false;//abre o cierra el modal
+  registro='';//almacena texto si es entrada o salida
   uri: any = null;
   hoy: Date = new Date();
   public webcamImage: WebcamImage | undefined;
@@ -68,25 +70,20 @@ export class EmpleadoComponent implements OnInit {
   }
 
   entrada(Registro) {
-    Swal.fire({
-      title: 'Esta Seguro?',
-      showCancelButton: true,
-      confirmButtonText: 'Marcar',
-      html: '<img src="./../../../../assets/dist/img/avatar.png" alt="">',
-      reverseButtons: true
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        this.triggerSnapshot();
-        const reader = new FileReader();
-        reader.readAsDataURL(this.file);
-        reader.onload = () => {
-          this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), Registro,reader.result ).pipe(finalize(() => { })).subscribe(
-            res => { return this.popup(res['fecha'], Registro); }
-          );
-        };
-      }
-    })
+   this.registro=Registro;
+   this.modal=true;
+  }
+
+  marcarEntrada(){
+    this.triggerSnapshot();
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = () => {
+      this.modal=false;
+      this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro,reader.result ).pipe(finalize(() => { })).subscribe(
+        res => { return this.popup(res['fecha'], this.registro); }
+      );
+    };
   }
 
   popup(parametroDate, tipo) {

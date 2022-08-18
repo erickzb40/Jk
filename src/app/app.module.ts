@@ -14,6 +14,7 @@ import { HeaderComponent } from './src/pages/admin/header/header.component';
 import { FooterComponent } from './src/pages/admin/footer/footer.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 
+
 // import {AuthModule} from './auth/auth.module';
 
 @NgModule({
