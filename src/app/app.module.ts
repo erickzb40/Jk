@@ -13,6 +13,8 @@ import {WebcamModule} from 'ngx-webcam';
 import { HeaderComponent } from './src/pages/admin/header/header.component';
 import { FooterComponent } from './src/pages/admin/footer/footer.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { ModalComponent } from './src/pages/shared/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 // import {AuthModule} from './auth/auth.module';
@@ -26,6 +28,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
+    ModalComponent,
       ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     FormsModule,
     CommonModule,
 HttpClientModule,
-    WebcamModule
+    WebcamModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

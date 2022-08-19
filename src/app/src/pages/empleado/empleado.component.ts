@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
 import { Subject, Observable, finalize } from 'rxjs';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
+
 
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
@@ -11,19 +13,20 @@ import * as moment from 'moment';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
-
+  closeResult = '';//viene del modal
   now: Date;
   file: File = null;
+  img64:any=null;
   fileUrl: any = null;
   codigo = '';
   validar = false;//si no existe el codigo
   title = 'gfgangularwebcam';
   imageName = 'imagen';
   imageFormat = 'image/jpeg';
-  modal=false;//abre o cierra el modal
   registro='';//almacena texto si es entrada o salida
   uri: any = null;
   hoy: Date = new Date();
+  public confirmar=false;
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
 
@@ -42,6 +45,7 @@ export class EmpleadoComponent implements OnInit {
   triggerSnapshot(): void {
     this.trigger.next();
     this.validar = false;
+
   }
   handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
@@ -69,26 +73,12 @@ export class EmpleadoComponent implements OnInit {
     }, 1000);
   }
 
-  entrada(Registro) {
-   this.registro=Registro;
-   this.modal=true;
-   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-    this.closeResult = `Closed with: ${result}`;
-  }, (reason) => {
-    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  });
-  }
-
   marcarEntrada(){
-    this.triggerSnapshot();
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      this.modal=false;
-      this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro,reader.result ).pipe(finalize(() => { })).subscribe(
-        res => { return this.popup(res['fecha'], this.registro); }
-      );
-    };
+    this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro,this.img64).pipe(finalize(() => { })).subscribe(
+      res => {
+        this.codigo='';
+        return this.popup(res['fecha'], this.registro); }
+    );
   }
 
   popup(parametroDate, tipo) {
@@ -100,7 +90,30 @@ export class EmpleadoComponent implements OnInit {
     });
   }
 
+  open(content,registro) {
+    this.triggerSnapshot();
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = () => {
+      this.img64=reader.result;
+    };
+    this.registro=registro;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
 
 }

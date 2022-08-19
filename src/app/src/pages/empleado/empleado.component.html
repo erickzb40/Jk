@@ -3,9 +3,9 @@
   <div class="col-sm-12	col-md-12	col-lg-6	col-xl-6">
     <div class="card card-light">
       <div class="card-header ">
-       <div class="text-center">
-        <h3>{{now|date:'hh:mm:ss a'}}</h3>
-       </div>
+        <div class="text-center">
+          <h3>{{now|date:'hh:mm:ss a'}}</h3>
+        </div>
       </div>
       <div class="card-body text-center">
         <div style="margin: auto;">
@@ -67,34 +67,33 @@
           </tr>
         </table>
         <div class="text-center">
-          <button class="btn btn-success mt-2 mr-2" (click)="entrada('ENTRADA')"style="width: 170px;" >Registrar Entrada</button>
-          <button class="btn btn-danger mt-2" (click)="entrada('SALIDA')" style="width: 170px;" >Registrar Salida</button>
+          <button class="btn btn-success mt-2 mr-2" (click)="open(content,'ENTRADA')" style="width: 170px;">Registrar
+            Entrada</button>
+          <button class="btn btn-danger mt-2" (click)="open(content,'SALIDA')" style="width: 170px;">Registrar
+            Salida</button>
         </div>
-
-
-      </div>
-
-    </div>
-  </div>
-</div>
-<div class="modal" tabindex="-1" role="dialog" *ngIf="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Estas seguro?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="snapshot" *ngIf="webcamImage">
-          <img [src]="webcamImage.imageAsDataUrl" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="snapshot col-8" *ngIf="webcamImage">
+        <img style="height: 200px;" [src]="webcamImage.imageAsDataUrl" />
+      </div>
+      <div class="col-4">
+         nombre<br>apellido
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success"
+      (click)="marcarEntrada();modal.close('Save click')">Aceptar</button>
+  </div>
+</ng-template>
