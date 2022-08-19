@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
 import { Subject, Observable, finalize } from 'rxjs';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
 
 
@@ -16,29 +16,32 @@ export class EmpleadoComponent implements OnInit {
   closeResult = '';//viene del modal
   now: Date;
   file: File = null;
-  img64:any=null;
+  img64: any = null;
   fileUrl: any = null;
   codigo = '';
   validar = false;//si no existe el codigo
   title = 'gfgangularwebcam';
   imageName = 'imagen';
   imageFormat = 'image/jpeg';
-  registro='';//almacena texto si es entrada o salida
+  registro = '';//almacena texto si es entrada o salida
 
-  nombreEmpleado='';
-  num_doc='';
+  nombreEmpleado = '';
+  num_doc = '';
+
+  validacionInput = false;
   uri: any = null;
-  hoy: Date = new Date();
-  public confirmar=false;
+  hoy: Date = null;
+  public confirmar = false;
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
 
-  constructor(public aut: AuthService,private modalService: NgbModal) {
+  constructor(public aut: AuthService, private modalService: NgbModal) {
     moment.locale();
   }
 
   asignar(codigo: string) {
     this.codigo += codigo;
+    this.validarInput();
   }
   clear() {
     this.codigo = '';
@@ -76,11 +79,21 @@ export class EmpleadoComponent implements OnInit {
     }, 1000);
   }
 
-  marcarEntrada(){
-    this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro,this.img64).pipe(finalize(() => { })).subscribe(
+  marcarEntrada() {
+    Swal.fire({
+      title: 'Cargando...',
+      focusCancel:false,
+      allowOutsideClick: false
+    });
+    Swal.showLoading();
+    this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).pipe(finalize(() => { })).subscribe(
       res => {
-        this.codigo='';
-        return this.popup(res['fecha'], this.registro); }
+        this.codigo = '';
+        return this.popup(res['fecha'], this.registro);
+      },
+       err => {
+        Swal.fire({ icon: 'warning', text: 'hubo un error en la conexion al servidor' });
+      }
     );
   }
 
@@ -88,27 +101,45 @@ export class EmpleadoComponent implements OnInit {
     let fecha = (moment(parametroDate)).format('LTS')
     return Swal.fire({
       icon: 'success',
-      title: tipo + ' Registrada!',
+      title: ' Registrado!',
       text: '' + fecha
     });
   }
 
-  open(content,registro) {
-    this.aut.getEmpleado(this.codigo).subscribe(res=>{
-      this.nombreEmpleado=res[0].nombre;
-      this.num_doc=res[0].num_doc;
+  open(content, registro) {
+    this.validarInput();
+    Swal.fire({
+      title: 'Cargando...',
+      focusCancel:false,
+      allowOutsideClick: false
     });
-    this.triggerSnapshot();
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      this.img64=reader.result;
-    };
-    this.registro=registro;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    Swal.showLoading();
+    this.aut.getEmpleado(this.codigo).subscribe(res => {
+      if (Object.entries(res).length !== 0) {
+        Swal.close();
+        this.nombreEmpleado = res[0].nombre;
+        this.num_doc = res[0].num_doc;
+        this.hoy = new Date();
+        this.triggerSnapshot();
+        const reader = new FileReader();
+        reader.readAsDataURL(this.file);
+        reader.onload = () => {
+          this.img64 = reader.result;
+        };
+        this.registro = registro;
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+      }
+      else {
+        this.nombreEmpleado = '';
+        this.num_doc = '';
+        Swal.fire({ icon: 'warning', text: 'No se encontro ningun empleado con ese codigo' });
+      }
+    }, err => {
+      Swal.fire({ icon: 'warning', text: 'hubo un error en la conexion al servidor' });
     });
   }
 
@@ -119,6 +150,14 @@ export class EmpleadoComponent implements OnInit {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  validarInput() {
+    if (this.codigo.length == 0) {
+      this.validacionInput = true;
+    } else {
+      this.validacionInput = false;
     }
   }
 

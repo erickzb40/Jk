@@ -16,27 +16,41 @@ export class LoginComponent implements OnInit {
     nombreUsuario: '',
     contrasena: ''
   }
+  recordarme = false;
 
   cargando: boolean = false;
 
   constructor(private fb: FormBuilder, private router: Router, public auth: AuthService) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('user')) {
+      this.usuario.nombreUsuario = localStorage.getItem('user');
+      this.recordarme=true;
+    }
   }
 
   login(form: NgForm) {
+    Swal.fire({
+      title: 'Cargando...',
+      focusCancel:false,
+      allowOutsideClick: false
+    });
+    Swal.showLoading();
     console.log(form.form.value.nombreUsuario);
     if (form.invalid) { return; }
-    this.auth.login(form.form.value).pipe(finalize(()=>{
-    })).subscribe(res=>{
-      if(Object.entries(res).length>0){
-       this.router.navigateByUrl('empleado');
-      }else{
-       Swal.fire({
-        title:'Mensaje',
-        icon:'warning',
-        text:'No se encontro ningun usuario'
-       })
+    this.auth.login(form.form.value).pipe(finalize(() => {
+    })).subscribe(res => {
+      if (Object.entries(res).length > 0) {
+        this.router.navigateByUrl('admin');
+        if (this.recordarme) {
+          localStorage.setItem('user', this.usuario.nombreUsuario);
+        }
+      } else {
+        Swal.fire({
+          title: 'Mensaje',
+          icon: 'warning',
+          text: 'No se encontro ningun usuario'
+        })
       }
     });
 

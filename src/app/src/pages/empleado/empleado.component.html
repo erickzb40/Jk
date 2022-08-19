@@ -28,8 +28,8 @@
         <label for="codigo"></label>
         <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="password" ng-minlength="4"
           ng-maxlength="4" style="text-align: center;"><br>
-        <div role="alert" class="error-message" *ngIf="validar">
-          <p>No codigo ingresado no existe</p>
+        <div role="alert" class="error-message" *ngIf="validacionInput">
+          <p>Ingrese un codigo!</p>
         </div>
         <table style=" margin: auto;">
           <tr>
@@ -88,9 +88,11 @@
         <img style="height: 200px;" [src]="webcamImage.imageAsDataUrl" />
       </div>
       <div class="col-4">
-         <h4>{{nombreEmpleado|uppercase}}</h4><br>
-         <h4>{{num_doc}}</h4>
-         <h4>{{hoy|date:'mediumTime'}}</h4>
+         <ul class="list-group">
+          <li class="list-group-item">{{nombreEmpleado|uppercase}}</li>
+          <li class="list-group-item">{{num_doc}}</li>
+          <li class="list-group-item">{{hoy|date:'mediumTime'}}</li>
+        </ul>
       </div>
     </div>
   </div>

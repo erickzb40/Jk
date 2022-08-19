@@ -66,5 +66,12 @@ export class AuthService {
     return dummyArr;
   }
 
+estaAutenticado():boolean{
+  if(localStorage.getItem('user')){
+   return true;
+  }else{
+    return false;
+  }
 
+}
 }
