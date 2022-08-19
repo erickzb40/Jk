@@ -11,6 +11,7 @@ export class AuthService {
   loginUrl = 'https://localhost:7195/api/Usuario/login';
   AsistenciaUrl = 'https://localhost:7195/api/Asistencia';
   archivo = 'https://localhost:7195/api/Empleado/file';
+  empleadoUrl='https://localhost:7195/api/Empleado/codigo?codigo=';
   private apiUploadUrl: string;
   constructor(private http: HttpClient) {
 
@@ -41,6 +42,9 @@ export class AuthService {
 
   obtenerAsistencia() {
     return this.http.get(this.AsistenciaUrl);
+  }
+  getEmpleado(codigo:string){
+    return this.http.get(this.empleadoUrl+codigo);
   }
   parseData(data: string | ArrayBuffer | null){
     var dummyArr: string[][] = []

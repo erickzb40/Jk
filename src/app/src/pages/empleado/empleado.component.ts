@@ -24,6 +24,9 @@ export class EmpleadoComponent implements OnInit {
   imageName = 'imagen';
   imageFormat = 'image/jpeg';
   registro='';//almacena texto si es entrada o salida
+
+  nombreEmpleado='';
+  num_doc='';
   uri: any = null;
   hoy: Date = new Date();
   public confirmar=false;
@@ -91,6 +94,10 @@ export class EmpleadoComponent implements OnInit {
   }
 
   open(content,registro) {
+    this.aut.getEmpleado(this.codigo).subscribe(res=>{
+      this.nombreEmpleado=res[0].nombre;
+      this.num_doc=res[0].num_doc;
+    });
     this.triggerSnapshot();
     const reader = new FileReader();
     reader.readAsDataURL(this.file);

@@ -79,7 +79,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <h4 class="modal-title" id="modal-basic-title">Perfil Empleado</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -88,7 +88,9 @@
         <img style="height: 200px;" [src]="webcamImage.imageAsDataUrl" />
       </div>
       <div class="col-4">
-         nombre<br>apellido
+         <h4>{{nombreEmpleado|uppercase}}</h4><br>
+         <h4>{{num_doc}}</h4>
+         <h4>{{hoy|date:'mediumTime'}}</h4>
       </div>
     </div>
   </div>
