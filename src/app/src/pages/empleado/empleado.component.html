@@ -84,19 +84,22 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="snapshot col-8" *ngIf="webcamImage">
+      <div class="snapshot col-7" *ngIf="webcamImage">
         <img style="height: 200px;" [src]="webcamImage.imageAsDataUrl" />
       </div>
-      <div class="col-4">
+      <div class="col-5">
          <ul class="list-group">
           <li class="list-group-item">{{nombreEmpleado|uppercase}}</li>
           <li class="list-group-item">{{num_doc}}</li>
           <li class="list-group-item">{{hoy|date:'mediumTime'}}</li>
+          <li class="list-group-item">{{registro|uppercase}}</li>
         </ul>
       </div>
     </div>
   </div>
   <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger"
+    (click)="modal.dismiss('Cross click')">Cancelar</button>
     <button type="button" class="btn btn-outline-success"
       (click)="marcarEntrada();modal.close('Save click')">Aceptar</button>
   </div>

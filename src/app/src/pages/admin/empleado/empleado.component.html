@@ -1,0 +1,23 @@
+<div class="row m-2">
+  <label for="">Nombre: </label>
+  <input type="text" [(ngModel)]="empleado.nombre" name="nombre" class="form-control" required>
+</div>
+<div class="row m-2">
+  <label for="">Numero Documento: </label>
+  <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
+</div>
+<div class="row m-2">
+  <label for="">Tipo Documento: </label>
+  <select type="text" [(ngModel)]="empleado.tipo_doc" name="tipo_doc" class="form-control" required>
+    <option value="1">DNI</option>
+  </select>
+</div>
+<div class="row m-2">
+  <label for="">Area: </label>
+  <input type="text" [(ngModel)]="empleado.area" name="area" class="form-control" required>
+</div>
+<div class="row m-2">
+  <label for="">Codigo: </label>
+  <input type="password" [(ngModel)]="empleado.codigo" name="codigo" class="form-control" required>
+</div>
+<button type="submit" class="btn btn-success">Insertar</button>

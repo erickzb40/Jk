@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   usuario = {
     nombreUsuario: '',
     contrasena: ''
@@ -41,10 +40,10 @@ export class LoginComponent implements OnInit {
     this.auth.login(form.form.value).pipe(finalize(() => {
     })).subscribe(res => {
       if (Object.entries(res).length > 0) {
+        if (this.recordarme) {localStorage.setItem('user', this.usuario.nombreUsuario); }
+        Swal.close();
+        localStorage.setItem('token',this.usuario.nombreUsuario);
         this.router.navigateByUrl('admin');
-        if (this.recordarme) {
-          localStorage.setItem('user', this.usuario.nombreUsuario);
-        }
       } else {
         Swal.fire({
           title: 'Mensaje',
@@ -52,6 +51,8 @@ export class LoginComponent implements OnInit {
           text: 'No se encontro ningun usuario'
         })
       }
+    }, err => {
+      Swal.fire({ icon: 'warning', text: 'hubo un error en la conexion al servidor' });
     });
 
   }

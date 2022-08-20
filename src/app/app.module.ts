@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { APP_ROUTING} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmpleadoComponent } from './src/pages/empleado/empleado.component';
+import { EmpleadoCrudComponent} from './src/pages/admin/empleado/empleado.component';
 import { LoginComponent } from './src/pages/login/login.component';
 import { AdminComponent } from './src/pages/admin/admin.component';
 import { MenuComponent } from './src/pages/shared/menu/menu.component';
@@ -15,6 +16,7 @@ import { FooterComponent } from './src/pages/admin/footer/footer.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalComponent } from './src/pages/shared/modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageNotFoundComponent } from './src/pages/page-not-found/page-not-found.component';
 
 
 // import {AuthModule} from './auth/auth.module';
@@ -25,10 +27,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EmpleadoComponent,
     AdminComponent,
     MenuComponent,
+    EmpleadoCrudComponent,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
     ModalComponent,
+    PageNotFoundComponent,
       ],
   imports: [
     BrowserModule,

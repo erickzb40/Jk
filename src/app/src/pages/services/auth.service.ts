@@ -67,11 +67,9 @@ export class AuthService {
   }
 
 estaAutenticado():boolean{
-  if(localStorage.getItem('user')){
-   return true;
-  }else{
-    return false;
-  }
-
+  if(localStorage.getItem('token')){return true;}else{return false;}
+}
+getListaEmpleados(){
+ return this.http.get('https://localhost:7195/api/Empleado');
 }
 }

@@ -1,6 +1,5 @@
-
 <div class="wrapper">
-<app-header></app-header>
+  <app-header></app-header>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -13,33 +12,115 @@
 
     <!-- Main content -->
     <section class="content">
-  <div class="container-fluid">
-   <div class="card">
-    <div class="card-body">
-      <table *ngIf="asistencia!=null" class="table">
-        <thead>
-          <tr>
-            <th scope="col" style="width: 60px;">ID</th>
-            <th scope="col">FECHA</th>
-            <th scope="col">TIPO</th>
-            <th scope="col">CODIGO EMPLEADO</th>
-            <th scope="col">IDENTIFICADOR</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fila of asistencia | paginate: { itemsPerPage: 5, currentPage: p } ">
-            <td>{{fila.id}}</td>
-            <td>{{fila.fecha}}</td>
-            <td>{{fila.tipo}}</td>
-            <td>{{fila.cod_empleado}}</td>
-            <td>{{fila.identificador}}</td>
-        </tr>
-        </tbody>
-      </table>
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div>
-   </div>
-  </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="card card-primary card-tabs">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill"
+                      href="#asistencia-crud">Asistencia</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill"
+                      href="#custom-tabs-one-empleado"
+                      >Empleado</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="asistencia-crud">
+                    <table *ngIf="asistencia!=null" class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 60px;">ID</th>
+                          <th scope="col">FECHA</th>
+                          <th scope="col">TIPO</th>
+                          <th scope="col">CODIGO EMPLEADO</th>
+                          <th scope="col">IDENTIFICADOR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let fila of asistencia | paginate: { itemsPerPage: 5, currentPage: p } ">
+                          <td>{{fila.id}}</td>
+                          <td>{{fila.fecha}}</td>
+                          <td>{{fila.tipo}}</td>
+                          <td>{{fila.cod_empleado}}</td>
+                          <td>{{fila.identificador}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-one-empleado">
+                    <div class="row">
+                      <div class="col-12 col-sm-12">
+                        <div class="card card-light card-tabs">
+                          <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs">
+                              <li class="nav-item">
+                                <a class="nav-link" (click)="ListarEmpleado()"data-toggle="pill" href="#listar-crud-empleado">Listado</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link active"  data-toggle="pill" href="#crear-crud-ref">Crear</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#update-crud-ref">Actualizar</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <div class="tab-content">
+                              <div class="tab-pane fade show" id="listar-crud-empleado">
+                                <table *ngIf="empleados!=null" class="table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col" style="width: 60px;">ID</th>
+                                      <th scope="col">NOMBRE</th>
+                                      <th scope="col">TIPO DOCUMENTO</th>
+                                      <th scope="col">NUMERO DOCUMENTO</th>
+                                      <th scope="col">AREA</th>
+                                      <th scope="col">EDITAR</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let fila of empleados | paginate: { itemsPerPage: 5, currentPage: p } ">
+                                      <td>{{fila.id}}</td>
+                                      <td>{{fila.nombre}}</td>
+                                      <td>{{fila.num_doc}}</td>
+                                      <td>{{fila.tipo_doc}}</td>
+                                      <td>{{fila.area}}</td>
+                                      <td><a href="#update-crud-ref"><i class="bi bi-pencil-square"></i></a></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                              <div class="tab-pane fade show active" id="crear-crud-ref">
+                                  <form (ngSubmit)="insertar(insert)" #insert="ngForm">
+                                 <app-empleado-crud></app-empleado-crud>
+                                  </form>
+                              </div>
+                              <div class="tab-pane fade show" id="update-crud-ref">
+                                <form (ngSubmit)="update(updateForm)" #updateForm="ngForm">
+                                 <app-empleado-crud></app-empleado-crud>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- /.card -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -57,4 +138,3 @@
   </aside>
   <!-- /.control-sidebar -->
 </div>
-
