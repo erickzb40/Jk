@@ -1,3 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" style="font-size: 20px;" href="admin">Dashboard<span
+          class="sr-only">(current)</span></a>
+    </div>
+  </div>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto">
+    <button (click)="salir()" *ngIf="token" class="btn btn-outline-danger mr-2">Salir</button>
+    <button (click)="login()" *ngIf="!token" class="btn btn-outline-danger mr-2">Login</button>
+    <li class="nav-item">
+      <a class="nav-link" data-widget="fullscreen" role="button">
+        <i class="fas fa-expand-arrows-alt"></i>
+      </a>
+    </li>
+
+  </ul>
+
+
+
+</nav>
 <div class="row container-fluid mt-4 ">
   <div class="col-sm-0	col-md-0	col-lg-1	col-xl-1"></div>
   <div class="col-sm-12	col-md-12	col-lg-6	col-xl-6">
@@ -88,7 +115,7 @@
         <img style="height: 200px;" [src]="webcamImage.imageAsDataUrl" />
       </div>
       <div class="col-5">
-         <ul class="list-group">
+        <ul class="list-group">
           <li class="list-group-item">{{nombreEmpleado|uppercase}}</li>
           <li class="list-group-item">{{num_doc}}</li>
           <li class="list-group-item">{{hoy|date:'mediumTime'}}</li>
@@ -98,8 +125,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger"
-    (click)="modal.dismiss('Cross click')">Cancelar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('Cross click')">Cancelar</button>
     <button type="button" class="btn btn-outline-success"
       (click)="marcarEntrada();modal.close('Save click')">Aceptar</button>
   </div>

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
 import { Subject, Observable, finalize } from 'rxjs';
@@ -13,6 +14,8 @@ import * as moment from 'moment';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
+  token = localStorage.getItem('token');
+
   closeResult = '';//viene del modal
   now: Date;
   file: File = null;
@@ -35,7 +38,7 @@ export class EmpleadoComponent implements OnInit {
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
 
-  constructor(public aut: AuthService, private modalService: NgbModal) {
+  constructor(public aut: AuthService, private modalService: NgbModal, public rout: Router) {
     moment.locale();
   }
 
@@ -65,7 +68,6 @@ export class EmpleadoComponent implements OnInit {
     }
     this.file = new File([u8arr], this.imageName, { type: this.imageFormat })
   }
-  //https://localhost:7195/api/Empleado/file
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
@@ -82,7 +84,7 @@ export class EmpleadoComponent implements OnInit {
   marcarEntrada() {
     Swal.fire({
       title: 'Cargando...',
-      focusCancel:false,
+      focusCancel: false,
       allowOutsideClick: false
     });
     Swal.showLoading();
@@ -91,7 +93,7 @@ export class EmpleadoComponent implements OnInit {
         this.codigo = '';
         return this.popup(res['fecha'], this.registro);
       },
-       err => {
+      err => {
         Swal.fire({ icon: 'warning', text: 'hubo un error en la conexion al servidor' });
       }
     );
@@ -102,7 +104,6 @@ export class EmpleadoComponent implements OnInit {
     return Swal.fire({
       icon: 'success',
       title: ' Registrado!',
-      text: '' + fecha
     });
   }
 
@@ -110,7 +111,7 @@ export class EmpleadoComponent implements OnInit {
     this.validarInput();
     Swal.fire({
       title: 'Cargando...',
-      focusCancel:false,
+      focusCancel: false,
       allowOutsideClick: false
     });
     Swal.showLoading();
@@ -161,5 +162,11 @@ export class EmpleadoComponent implements OnInit {
     }
   }
 
-
+  login() {
+   this.rout.navigateByUrl('/login');
+  }
+   salir(){
+  localStorage.removeItem('token');
+  this.token=null;
+   }
 }

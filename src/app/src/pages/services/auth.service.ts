@@ -13,7 +13,7 @@ export class AuthService {
   loginUrl = 'https://localhost:7195/api/Usuario/login';
   AsistenciaUrl = 'https://localhost:7195/api/Asistencia';
   archivo = 'https://localhost:7195/api/Empleado/file';
-  empleadoUrl='https://localhost:7195/api/Empleado/codigo?codigo=';
+  empleadoUrl='https://localhost:7195/api/Empleado/codigoInsert?codigo=';
   private apiUploadUrl: string;
   constructor(private http: HttpClient) {
 
@@ -33,7 +33,7 @@ export class AuthService {
     var pos = uri.search(",");
     var res = uri.substr(pos + 1);
     const val = {
-      "fecha": fecha,
+      // "fecha": fecha,
       "tipo": tipo,
       "cod_empleado": cod_empleado,
       "identificador": identificador,
