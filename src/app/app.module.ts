@@ -17,6 +17,10 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalComponent } from './src/pages/shared/modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './src/pages/page-not-found/page-not-found.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
 
 
 // import {AuthModule} from './auth/auth.module';
@@ -36,6 +40,9 @@ import { PageNotFoundComponent } from './src/pages/page-not-found/page-not-found
       ],
   imports: [
     BrowserModule,
+    MatTableModule,
+    BrowserAnimationsModule,
+    MatInputModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     APP_ROUTING,
@@ -43,7 +50,8 @@ import { PageNotFoundComponent } from './src/pages/page-not-found/page-not-found
     CommonModule,
 HttpClientModule,
     WebcamModule,
-    NgbModule
+    NgbModule,
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 
 import { EmpleadoModel } from './../../../../models/empleado.interface';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 @Component({
@@ -11,28 +11,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmpleadoCrudComponent implements OnInit {
 
-  empleado:EmpleadoModel={
-    nombre:'',
-    num_doc:'',
-    tipo_doc:'',
-    area:null,
-    codigo:null
+  @Input() empleado: EmpleadoModel = {
+    id: null,
+    nombre: '',
+    num_doc: '',
+    tipo_doc: '',
+    area: null,
+    codigo: null
   };
-constructor() {
-}
-
+  @Input() crud:boolean=false;
+  @Output() empleadoUpdate: EventEmitter<NgForm>;
+  @Output() empleadoObj:EmpleadoModel=this.empleado;
+  constructor() {
+    this.empleadoUpdate = new EventEmitter();
+  }
 
   ngOnInit(): void {
   }
 
-  insertar(form:NgForm){
-   if (form.invalid) { return; }//si el formulario es invalido no hace nada
-   console.log(form.value);
+  enviar(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }//si el formulario es invalido no hace nada;
+     this.empleadoUpdate.emit(form);
 
-  }
-  update(form:NgForm){
-    if (form.invalid) { return; }//si el formulario es invalido no hace nada
-   console.log(form.value);
   }
 
 }

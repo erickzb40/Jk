@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+import { EmpleadoModel } from './../../../models/empleado.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -71,5 +73,29 @@ estaAutenticado():boolean{
 }
 getListaEmpleados(){
  return this.http.get('https://localhost:7195/api/Empleado');
+}
+updateEmpleado(form:EmpleadoModel){
+  return this.http.put('https://localhost:7195/api/Empleado/'+form.id,form);
+}
+insertEmpleado(form:EmpleadoModel){
+  return this.http.post('https://localhost:7195/api/Empleado',form);
+}
+getEmpeladoCodigo(codigo:any,id:any){
+  this.cargando();
+return this.http.get('https://localhost:7195/api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id);
+}
+getEmpeladoCodigoInsert(codigo:any){
+  this.cargando();
+return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo);
+}
+
+
+cargando(){
+  Swal.fire({
+    title: 'Cargando...',
+    focusCancel:false,
+    allowOutsideClick: false
+  });
+  Swal.showLoading();
 }
 }

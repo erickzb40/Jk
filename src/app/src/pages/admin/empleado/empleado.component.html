@@ -1,23 +1,53 @@
-<div class="row m-2">
-  <label for="">Nombre: </label>
-  <input type="text" [(ngModel)]="empleado.nombre" name="nombre" class="form-control" required>
-</div>
-<div class="row m-2">
-  <label for="">Numero Documento: </label>
-  <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
-</div>
-<div class="row m-2">
-  <label for="">Tipo Documento: </label>
-  <select type="text" [(ngModel)]="empleado.tipo_doc" name="tipo_doc" class="form-control" required>
-    <option value="1">DNI</option>
-  </select>
-</div>
-<div class="row m-2">
-  <label for="">Area: </label>
-  <input type="text" [(ngModel)]="empleado.area" name="area" class="form-control" required>
-</div>
-<div class="row m-2">
-  <label for="">Codigo: </label>
-  <input type="password" [(ngModel)]="empleado.codigo" name="codigo" class="form-control" required>
-</div>
-<button type="submit" class="btn btn-success">Insertar</button>
+<form (ngSubmit)="enviar(updateForm)" #updateForm="ngForm" autocomplete="off">
+  <span [ngSwitch]="crud">
+  <div *ngSwitchCase="true">
+    <div class="row m-2">
+      <label class="col-3 form-label">ID: </label>
+      <div class="col-9">
+        <input type="text" [(ngModel)]="empleado.id" name="id" class="form-control" required>
+      </div>
+    </div>
+  </div>
+  </span>
+
+  <div class="row m-2">
+    <label class="col-3 form-label">Nombre: </label>
+    <div class="col-9">
+      <input type="text" [(ngModel)]="empleado.nombre" id="nombre" name="nombre" class="form-control" required>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['nombre'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+  <div class="row m-2">
+    <label class="col-3 form-label">Numero Documento: </label>
+    <div class="col-9">
+      <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['num_doc'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+  <div class="row m-2">
+    <label class="col-3 form-label">Tipo Documento: </label>
+    <div class="col-9">
+      <select type="text" [(ngModel)]="empleado.tipo_doc" name="tipo_doc" class="custom-select" required>
+        <option value="01">DNI</option>
+        <option value="06">RUC</option>
+        <option value="04">CARNET DE EXTRANJERIA</option>
+      </select>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['tipo_doc'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+  <div class="row m-2">
+    <label class="col-3 form-label">Area: </label>
+    <div class="col-9">
+      <input type="text" [(ngModel)]="empleado.area" name="area" class="form-control" required>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['area'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+  <div class="row m-2">
+    <label class="col-3 form-label">Codigo: </label>
+    <div class="col-9">
+      <input type="password" [(ngModel)]="empleado.codigo" name="codigo" class="form-control" required>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['codigo'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">Aceptar</button>
+</form>
