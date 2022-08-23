@@ -1,24 +1,24 @@
-import { EmpleadoComponent } from './../empleado/empleado.component';
 import { NgForm } from '@angular/forms';
 import { EmpleadoModel } from './../../../models/empleado.interface';
-import { finalize, empty } from 'rxjs';
-
+import { finalize} from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import * as XLSX from 'xlsx';//exportar a excel
 import Swal from 'sweetalert2';
-import { waitForAsync } from '@angular/core/testing';
+
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
+
 export class AdminComponent implements OnInit {
   empleado: EmpleadoModel = {
     nombre: '',
     num_doc: '',
     tipo_doc: '',
-    area: null,
+    local: null,
     codigo: null
   };
   asistencia: any = [];
@@ -32,10 +32,11 @@ export class AdminComponent implements OnInit {
     nombre: '',
     num_doc: '',
     tipo_doc: '',
-    area: null,
+    local: null,
     codigo: null
   };
-  constructor(public aut: AuthService) { }
+
+  constructor(public aut: AuthService,private domSanitizer: DomSanitizer,public _DomSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.aut.obtenerAsistencia().pipe(finalize(() => {
@@ -105,5 +106,8 @@ export class AdminComponent implements OnInit {
     const book: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
     XLSX.writeFile(book, this.name);
+  }
+  mostrarImagen(img){
+
   }
 }

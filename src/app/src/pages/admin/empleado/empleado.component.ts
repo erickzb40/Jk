@@ -16,7 +16,7 @@ export class EmpleadoCrudComponent implements OnInit {
     nombre: '',
     num_doc: '',
     tipo_doc: '',
-    area: null,
+    local: null,
     codigo: null
   };
   @Input() crud:boolean=false;

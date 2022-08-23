@@ -3,6 +3,6 @@ export interface EmpleadoModel {
   nombre: string;
   num_doc: string;
   tipo_doc: string;
-  area: number;
+  local: number;
   codigo: number;
 }

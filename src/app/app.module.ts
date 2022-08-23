@@ -21,6 +21,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
 
 
 // import {AuthModule} from './auth/auth.module';
@@ -37,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     FooterComponent,
     ModalComponent,
     PageNotFoundComponent,
+    ImagenPipe,
       ],
   imports: [
     BrowserModule,

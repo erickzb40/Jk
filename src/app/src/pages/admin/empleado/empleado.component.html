@@ -9,19 +9,11 @@
     </div>
   </div>
   </span>
-
   <div class="row m-2">
     <label class="col-3 form-label">Nombre: </label>
     <div class="col-9">
       <input type="text" [(ngModel)]="empleado.nombre" id="nombre" name="nombre" class="form-control" required>
       <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['nombre'].errors">Este Campo es obligatorio (*)</span>
-    </div>
-  </div>
-  <div class="row m-2">
-    <label class="col-3 form-label">Numero Documento: </label>
-    <div class="col-9">
-      <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
-      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['num_doc'].errors">Este Campo es obligatorio (*)</span>
     </div>
   </div>
   <div class="row m-2">
@@ -36,14 +28,22 @@
     </div>
   </div>
   <div class="row m-2">
-    <label class="col-3 form-label">Area: </label>
+    <label class="col-3 form-label">Numero Documento: </label>
     <div class="col-9">
-      <input type="text" [(ngModel)]="empleado.area" name="area" class="form-control" required>
+      <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['num_doc'].errors">Este Campo es obligatorio (*)</span>
+    </div>
+  </div>
+
+  <div class="row m-2">
+    <label class="col-3 form-label">Local: </label>
+    <div class="col-9">
+      <input type="text" [(ngModel)]="empleado.local" name="area" class="form-control" required>
       <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['area'].errors">Este Campo es obligatorio (*)</span>
     </div>
   </div>
   <div class="row m-2">
-    <label class="col-3 form-label">Codigo: </label>
+    <label class="col-3 form-label">Clave: </label>
     <div class="col-9">
       <input type="password" [(ngModel)]="empleado.codigo" name="codigo" class="form-control" required>
       <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['codigo'].errors">Este Campo es obligatorio (*)</span>

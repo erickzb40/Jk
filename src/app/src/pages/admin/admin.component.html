@@ -29,6 +29,8 @@
                         <tr>
                           <th scope="col" style="width: 60px;">ID</th>
                           <th scope="col">FECHA</th>
+                          <th scope="col">NOMBRE</th>
+                          <th scope="col">IMAGEN</th>
                           <th scope="col">TIPO</th>
                           <th scope="col">IDENTIFICADOR</th>
                         </tr>
@@ -37,6 +39,8 @@
                         <tr *ngFor="let fila of asistencia | paginate: { itemsPerPage: 10, currentPage: po } ">
                           <td>{{fila.id}}</td>
                           <td>{{fila.fecha|date:'short'}}</td>
+                          <td>{{fila.nombre}}</td>
+                          <td><img width="50" [src]="fila.imagen |imagen"></td>
                           <td>{{fila.tipo}}</td>
                           <td>{{fila.identificador}}</td>
                         </tr>

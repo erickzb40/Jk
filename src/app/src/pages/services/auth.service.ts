@@ -22,12 +22,11 @@ export class AuthService {
   login(form: object) {
     return this.http.post(this.loginUrl, form);
   }
-  entrada(fecha: Date, tipo: string, cod_empleado: Number, identificador: string, uri: any) {
-    return this.http.post(this.AsistenciaUrl, this.marcar(fecha, tipo, cod_empleado, identificador, uri));
+  entrada(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
+    return this.http.post(this.AsistenciaUrl, this.marcar(tipo, cod_empleado, identificador, uri));
   }
 
-  marcar(fecha: Date, tipo: string, cod_empleado: Number, identificador: string, uri: any) {
-
+  marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
     var uri:any=this.parseData(uri);
     uri=uri[0][1];
     var pos = uri.search(",");

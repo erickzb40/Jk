@@ -27,13 +27,12 @@ export class EmpleadoComponent implements OnInit {
   imageName = 'imagen';
   imageFormat = 'image/jpeg';
   registro = '';//almacena texto si es entrada o salida
-
+  hoy = new Date;
   nombreEmpleado = '';
   num_doc = '';
 
   validacionInput = false;
   uri: any = null;
-  hoy: Date = null;
   public confirmar = false;
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
@@ -88,7 +87,7 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.entrada(this.hoy, 'AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).pipe(finalize(() => { })).subscribe(
+    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).pipe(finalize(() => { })).subscribe(
       res => {
         this.codigo = '';
         return this.popup(res['fecha'], this.registro);
@@ -120,7 +119,6 @@ export class EmpleadoComponent implements OnInit {
         Swal.close();
         this.nombreEmpleado = res[0].nombre;
         this.num_doc = res[0].num_doc;
-        this.hoy = new Date();
         this.triggerSnapshot();
         const reader = new FileReader();
         reader.readAsDataURL(this.file);
@@ -163,10 +161,10 @@ export class EmpleadoComponent implements OnInit {
   }
 
   login() {
-   this.rout.navigateByUrl('/login');
+    this.rout.navigateByUrl('/login');
   }
-   salir(){
-  localStorage.removeItem('token');
-  this.token=null;
-   }
+  salir() {
+    localStorage.removeItem('token');
+    this.token = null;
+  }
 }
