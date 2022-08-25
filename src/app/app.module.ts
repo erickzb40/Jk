@@ -1,3 +1,4 @@
+import { AuthService } from './src/pages/services/auth.service';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,7 +23,8 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
-
+import { ExcelService} from './src/pages/services/export-excel.service';
+import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
 
 // import {AuthModule} from './auth/auth.module';
 
@@ -39,6 +41,7 @@ import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
     ModalComponent,
     PageNotFoundComponent,
     ImagenPipe,
+    FilterPipe,
       ],
   imports: [
     BrowserModule,
@@ -55,7 +58,7 @@ HttpClientModule,
     NgbModule,
     NoopAnimationsModule
   ],
-  providers: [],
+  providers: [ ExcelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

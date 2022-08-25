@@ -1,4 +1,4 @@
- <app-header></app-header>
+<app-header></app-header>
 <div class="">
 
   <!-- Content Wrapper. Contains page content -->
@@ -23,8 +23,11 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="asistencia-crud">
-                    <button class="buttoncss" (click)="exportToExcel()">Export to Excel</button>
-                    <table  *ngIf="asistencia!=null" id="asistencia-excel" class="table">
+                    <div class="form-group">
+                      <input type="text" class="input_ezb" placeholder="Buscar.." [(ngModel)]="filterpost" name="filterpost"/>
+                     <button class="buttoncss" style="float: right;" (click)="exportToExcel()">Export to Excel</button> </div>
+
+                    <table *ngIf="asistencia!=null" id="asistencia-excel" class="table">
                       <thead>
                         <tr>
                           <th scope="col" style="width: 60px;">ID</th>
@@ -36,17 +39,21 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let fila of asistencia | paginate: { itemsPerPage: 10, currentPage: po } ">
+
+                        <tr *ngFor="let fila of asistencia | paginate: { itemsPerPage: 10, currentPage: po }| filter:filterpost:['nombre','fecha','identificador','tipo']; let i = index">
                           <td>{{fila.id}}</td>
-                          <td>{{fila.fecha|date:'short'}}</td>
+                          <!-- |date:'short' -->
+                          <td>{{fila.fecha}}</td>
                           <td>{{fila.nombre}}</td>
-                          <td><img width="50" [src]="fila.imagen |imagen"></td>
+                          <td><a style="cursor: pointer;" (click)="mostrarImagen(fila.imagen)"><img width="50"
+                                [src]="fila.imagen |imagen"></a></td>
                           <td>{{fila.tipo}}</td>
                           <td>{{fila.identificador}}</td>
                         </tr>
                       </tbody>
                     </table>
                     <pagination-controls (pageChange)="po = $event"></pagination-controls>
+
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-empleado">
                     <div class="row">
@@ -63,7 +70,7 @@
                               </li>
                               <li class="nav-item">
                                 <a class="nav-link actualizar-crud-empleado-btn" id="id_update_crud" data-toggle="pill"
-                                  href="#update-crud-ref" >Actualizar</a>
+                                  href="#update-crud-ref">Actualizar</a>
                               </li>
                             </ul>
                           </div>
@@ -75,33 +82,35 @@
                                     <tr>
                                       <th scope="col" style="width: 60px;">ID</th>
                                       <th scope="col">NOMBRE</th>
-                                      <th scope="col">TIPO DOCUMENTO</th>
                                       <th scope="col">NUMERO DOCUMENTO</th>
-                                      <th scope="col">AREA</th>
+                                      <th scope="col">TIPO DOCUMENTO</th>
+                                      <th scope="col">LOCAL</th>
                                       <th scope="col">EDITAR</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr *ngFor="let fila of empleados" >
+                                    <tr *ngFor="let fila of empleados |paginate: { itemsPerPage: 10, currentPage: empleado_p}">
                                       <td>{{fila.id}}</td>
                                       <td>{{fila.nombre}}</td>
                                       <td>{{fila.num_doc}}</td>
                                       <td>{{fila.tipo_doc}}</td>
-                                      <td>{{fila.area}}</td>
+                                      <td>{{fila.descripcion}}</td>
                                       <td><a style="cursor: pointer;" (click)="openEdit(fila)"><i
                                             class="bi bi-pencil-square"></i></a></td>
                                     </tr>
                                   </tbody>
                                 </table>
+                                <pagination-controls (pageChange)="empleado_p = $event"></pagination-controls>
                                 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
                               </div>
                               <div class="tab-pane fade show active" id="crear-crud-ref">
-                                <app-empleado-crud (empleadoUpdate)="enviar($event,false)" [crud]="false"></app-empleado-crud>
+                                <app-empleado-crud (empleadoUpdate)="enviar($event,false)" [crud]="false">
+                                </app-empleado-crud>
                               </div>
                               <div class="tab-pane fade show" id="update-crud-ref">
                                 <app-empleado-crud (empleadoUpdate)="enviar($event,true)" [empleado]="empleado"
                                   [crud]="true">
-                              </app-empleado-crud>
+                                </app-empleado-crud>
                               </div>
                             </div>
                           </div>
@@ -121,7 +130,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-
   <!-- /.control-sidebar -->
 </div>
+<!-- Button trigger modal -->

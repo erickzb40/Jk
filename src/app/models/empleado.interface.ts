@@ -5,4 +5,5 @@ export interface EmpleadoModel {
   tipo_doc: string;
   local: number;
   codigo: number;
+  descripcion?:string;
 }

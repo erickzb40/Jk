@@ -9,3 +9,10 @@
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;}
+  .input_ezb {
+    width: 100%;
+    padding: 8px 16px;
+    margin: 7px 0;
+    box-sizing: border-box;
+    max-width: 200px;
+  }

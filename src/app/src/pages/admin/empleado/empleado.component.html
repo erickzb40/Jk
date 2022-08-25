@@ -20,6 +20,7 @@
     <label class="col-3 form-label">Tipo Documento: </label>
     <div class="col-9">
       <select type="text" [(ngModel)]="empleado.tipo_doc" name="tipo_doc" class="custom-select" required>
+        <option value="" selected>Elije un Documento</option>
         <option value="01">DNI</option>
         <option value="06">RUC</option>
         <option value="04">CARNET DE EXTRANJERIA</option>
@@ -38,8 +39,11 @@
   <div class="row m-2">
     <label class="col-3 form-label">Local: </label>
     <div class="col-9">
-      <input type="text" [(ngModel)]="empleado.local" name="area" class="form-control" required>
-      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['area'].errors">Este Campo es obligatorio (*)</span>
+      <select [(ngModel)]="empleado.local" name="local" class="custom-select" required>
+        <option value="null">Elije un local</option>
+        <option [value]="item.id" *ngFor="let item of local">{{item.descripcion}}</option>
+      </select>
+      <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['local'].errors">Este Campo es obligatorio (*)</span>
     </div>
   </div>
   <div class="row m-2">

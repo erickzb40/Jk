@@ -1,8 +1,7 @@
 import Swal from 'sweetalert2';
 import { EmpleadoModel } from './../../../models/empleado.interface';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient} from '@angular/common/http';
 
 
 @Injectable({
@@ -86,6 +85,9 @@ return this.http.get('https://localhost:7195/api/Empleado/codigoUpdate?codigo='+
 getEmpeladoCodigoInsert(codigo:any){
   this.cargando();
 return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo);
+}
+getLocales(){
+  return this.http.get('https://localhost:7195/local');
 }
 
 

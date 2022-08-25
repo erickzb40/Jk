@@ -2,7 +2,8 @@
 import { EmpleadoModel } from './../../../../models/empleado.interface';
 import { NgForm } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import {AuthService} from './../../services/auth.service';
+import { Local } from 'src/app/models/local.interface';
 
 @Component({
   selector: 'app-empleado-crud',
@@ -10,6 +11,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoCrudComponent implements OnInit {
+
+  local:any=[];
 
   @Input() empleado: EmpleadoModel = {
     id: null,
@@ -22,11 +25,15 @@ export class EmpleadoCrudComponent implements OnInit {
   @Input() crud:boolean=false;
   @Output() empleadoUpdate: EventEmitter<NgForm>;
   @Output() empleadoObj:EmpleadoModel=this.empleado;
-  constructor() {
+  constructor(public auth:AuthService) {
     this.empleadoUpdate = new EventEmitter();
   }
 
   ngOnInit(): void {
+    this.auth.getLocales().subscribe((res)=>{
+      this.local=res;
+      console.log(this.local);
+    });
   }
 
   enviar(form: NgForm) {
@@ -34,7 +41,7 @@ export class EmpleadoCrudComponent implements OnInit {
       return;
     }//si el formulario es invalido no hace nada;
      this.empleadoUpdate.emit(form);
-
   }
+
 
 }

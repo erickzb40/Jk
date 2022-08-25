@@ -1,9 +1,11 @@
-import { NgForm } from '@angular/forms';
+import { Asistencia } from './../../../models/asistencia.interface';
+import { NgForm,FormsModule } from '@angular/forms';
 import { EmpleadoModel } from './../../../models/empleado.interface';
 import { finalize} from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import * as XLSX from 'xlsx';//exportar a excel
+import { ExcelService } from '../services/export-excel.service';
+import { FilterPipe} from '../shared/pipes/filtrado.pipe';
 import Swal from 'sweetalert2';
 
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,10 +21,13 @@ export class AdminComponent implements OnInit {
     num_doc: '',
     tipo_doc: '',
     local: null,
+    descripcion:'',
     codigo: null
   };
+  filterpost:string;
   asistencia: any = [];
   empleados: any = [];
+  empleado_p:number=1;
   po: number = 1;
   p: number = 1;
 
@@ -32,11 +37,15 @@ export class AdminComponent implements OnInit {
     nombre: '',
     num_doc: '',
     tipo_doc: '',
+    descripcion:'',
     local: null,
     codigo: null
   };
 
-  constructor(public aut: AuthService,private domSanitizer: DomSanitizer,public _DomSanitizer: DomSanitizer) { }
+  constructor(public aut: AuthService,
+    private domSanitizer: DomSanitizer,
+    private excelService:ExcelService
+    ) { }
 
   ngOnInit(): void {
     this.aut.obtenerAsistencia().pipe(finalize(() => {
@@ -48,6 +57,7 @@ export class AdminComponent implements OnInit {
 
   //
   async enviar(formulario: NgForm,crud:boolean) {
+    console.log(formulario.value);
     if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
         if (crud) {
           console.log('actualizar');
@@ -99,15 +109,20 @@ export class AdminComponent implements OnInit {
     var elemento = document.getElementById("update-crud-ref");
     elemento.className += " active";
   }
-  name = 'ExcelSheet.xlsx';
-  exportToExcel(): void {
-    let element = document.getElementById('asistencia-excel');
-    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    const book: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
-    XLSX.writeFile(book, this.name);
+
+  mostrarImagen(imagen){
+    if (typeof(imagen) != 'undefined') {
+      this.domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' +imagen);
+      var img=this.domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' +imagen);
+      return Swal.fire({html:'<img style="max-width:500px" src="'+'data:image/jpg;base64,' +imagen+'">',showConfirmButton:false});
+   }else{
+      return this.domSanitizer.bypassSecurityTrustUrl('');
+   }
   }
-  mostrarImagen(img){
+
+  exportToExcel(): void {
+    this.excelService.exportAsExcelFile(this.asistencia,'asistencia');
 
   }
+
 }
