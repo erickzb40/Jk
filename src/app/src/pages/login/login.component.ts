@@ -13,7 +13,8 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   usuario = {
     nombreUsuario: '',
-    contrasena: ''
+    contrasena: '',
+    empresa:0
   }
   recordarme = false;
 
@@ -35,14 +36,14 @@ export class LoginComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    console.log(form.form.value.nombreUsuario);
     if (form.invalid) { return; }
     this.auth.login(form.form.value).pipe(finalize(() => {
-    })).subscribe(res => {
+    })).subscribe((res:any) => {
       if (Object.entries(res).length > 0) {
         if (this.recordarme) {localStorage.setItem('user', this.usuario.nombreUsuario); }
         Swal.close();
         localStorage.setItem('token',this.usuario.nombreUsuario);
+        localStorage.setItem('empresa',res[0].empresa);
         this.router.navigateByUrl('admin');
       } else {
         Swal.fire({

@@ -48,23 +48,19 @@ export class AdminComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.aut.obtenerAsistencia().pipe(finalize(() => {
+    this.aut.obtenerAsistencia(localStorage.getItem("empresa")).pipe(finalize(() => {
     })).subscribe((res: any[]) => {
       this.asistencia = res;
-      console.log(res);
     });
   }
 
   //
   async enviar(formulario: NgForm,crud:boolean) {
-    console.log(formulario.value);
     if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
         if (crud) {
-          console.log('actualizar');
           await this.aut.getEmpeladoCodigo(formulario.value.codigo,formulario.value.id).subscribe(res => {
             if (Object.entries(res).length !== 0) {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
-              return console.log('se detubo actualizar');
             }else{
               this.aut.updateEmpleado(formulario.value).subscribe(res => {
                 Swal.fire({ icon: 'success', text: 'Actualizado' });
@@ -80,7 +76,6 @@ export class AdminComponent implements OnInit {
         } else {
           await this.aut.getEmpeladoCodigoInsert(formulario.value.codigo).subscribe(res => {
             if (Object.entries(res).length !== 0) {
-              console.log(Object.entries(res).length);
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
               return ;
             }else{
@@ -97,14 +92,13 @@ export class AdminComponent implements OnInit {
   }
 
   ListarEmpleado() {
-    this.aut.getListaEmpleados().pipe(finalize(() => {
+    this.aut.getListaEmpleados(localStorage.getItem("empresa")).pipe(finalize(() => {
     })).subscribe((res: any[]) => {
       this.empleados = res;
     });
   }
   openEdit(empleado: EmpleadoModel) {
     this.empleado = empleado;
-    console.log(this.empleado);
     (<HTMLElement>document.getElementsByClassName('actualizar-crud-empleado-btn')[0]).click()
     var elemento = document.getElementById("update-crud-ref");
     elemento.className += " active";

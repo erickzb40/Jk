@@ -40,8 +40,8 @@ export class AuthService {
     return val;
   }
 
-  obtenerAsistencia() {
-    return this.http.get(this.AsistenciaUrl);
+  obtenerAsistencia(empresa) {
+    return this.http.get(this.AsistenciaUrl+"?empresa="+empresa);
   }
   getEmpleado(codigo:string){
     return this.http.get(this.empleadoUrl+codigo);
@@ -69,8 +69,8 @@ export class AuthService {
 estaAutenticado():boolean{
   if(localStorage.getItem('token')){return true;}else{return false;}
 }
-getListaEmpleados(){
- return this.http.get('https://localhost:7195/api/Empleado');
+getListaEmpleados(empresa){
+ return this.http.get('https://localhost:7195/api/Empleado?empresa='+empresa);
 }
 updateEmpleado(form:EmpleadoModel){
   return this.http.put('https://localhost:7195/api/Empleado/'+form.id,form);
