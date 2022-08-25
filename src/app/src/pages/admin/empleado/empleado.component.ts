@@ -20,7 +20,8 @@ export class EmpleadoCrudComponent implements OnInit {
     num_doc: '',
     tipo_doc: '',
     local: null,
-    codigo: null
+    codigo: null,
+    activo:false
   };
   @Input() crud:boolean=false;
   @Output() empleadoUpdate: EventEmitter<NgForm>;
@@ -30,7 +31,7 @@ export class EmpleadoCrudComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.auth.getLocales().subscribe((res)=>{
+    this.auth.getLocales(localStorage.getItem("empresa")).subscribe((res)=>{
       this.local=res;
       console.log(this.local);
     });

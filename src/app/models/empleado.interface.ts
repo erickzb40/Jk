@@ -6,4 +6,5 @@ export interface EmpleadoModel {
   local: number;
   codigo: number;
   descripcion?:string;
+  activo?:boolean;
 }

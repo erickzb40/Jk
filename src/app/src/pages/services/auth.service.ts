@@ -86,8 +86,8 @@ getEmpeladoCodigoInsert(codigo:any){
   this.cargando();
 return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo);
 }
-getLocales(){
-  return this.http.get('https://localhost:7195/local');
+getLocales(empresa){
+  return this.http.get('https://localhost:7195/local?empresa='+empresa);
 }
 
 

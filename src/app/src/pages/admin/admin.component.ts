@@ -63,6 +63,7 @@ export class AdminComponent implements OnInit {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
             }else{
               this.aut.updateEmpleado(formulario.value).subscribe(res => {
+                console.log(formulario.value);
                 Swal.fire({ icon: 'success', text: 'Actualizado' });
                formulario.resetForm();
               },
@@ -98,6 +99,7 @@ export class AdminComponent implements OnInit {
     });
   }
   openEdit(empleado: EmpleadoModel) {
+    console.log(empleado);
     this.empleado = empleado;
     (<HTMLElement>document.getElementsByClassName('actualizar-crud-empleado-btn')[0]).click()
     var elemento = document.getElementById("update-crud-ref");
@@ -116,7 +118,6 @@ export class AdminComponent implements OnInit {
 
   exportToExcel(): void {
     this.excelService.exportAsExcelFile(this.asistencia,'asistencia');
-
   }
 
 }
