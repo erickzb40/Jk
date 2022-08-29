@@ -44,7 +44,8 @@ export class AuthService {
     return this.http.get(this.AsistenciaUrl+"?empresa="+empresa);
   }
   getEmpleado(codigo:string){
-    return this.http.get(this.empleadoUrl+codigo);
+    var empresa= "&empresa="+localStorage.getItem('empresa');
+    return this.http.get(this.empleadoUrl+codigo+empresa);
   }
   parseData(data: string | ArrayBuffer | null){
     var dummyArr: string[][] = []
@@ -78,13 +79,14 @@ updateEmpleado(form:EmpleadoModel){
 insertEmpleado(form:EmpleadoModel){
   return this.http.post('https://localhost:7195/api/Empleado',form);
 }
-getEmpeladoCodigo(codigo:any,id:any){
+getEmpleadoCodigo(codigo:any,id:any){
   this.cargando();
 return this.http.get('https://localhost:7195/api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id);
 }
-getEmpeladoCodigoInsert(codigo:any){
+getEmpleadoCodigoInsert(codigo:any){
   this.cargando();
-return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo);
+ var empresaStorage=localStorage.getItem('empresa');
+return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+empresaStorage);
 }
 getLocales(empresa){
   return this.http.get('https://localhost:7195/local?empresa='+empresa);

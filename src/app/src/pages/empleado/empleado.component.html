@@ -36,13 +36,9 @@
       </div>
       <div class="card-body text-center">
         <div style="margin: auto;">
-          <webcam [height]="460" [trigger]="triggerObservable" (imageCapture)="handleImage($event)">
+          <webcam [height]="450" [trigger]="triggerObservable" (imageCapture)="handleImage($event)">
           </webcam>
         </div>
-        <!-- <div class="snapshot" *ngIf="webcamImage">
-            <h2>Here is your image!</h2>
-            <img style="height: 400px;width: 400px;" [src]="webcamImage.imageAsDataUrl" />
-          </div> -->
       </div>
     </div>
   </div>
@@ -54,7 +50,7 @@
       <div class="card-body text-center">
         <label for="codigo"></label>
         <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="password" ng-minlength="4"
-          ng-maxlength="4" style="text-align: center;"><br>
+          ng-maxlength="4" readonly style="text-align: center;"><br>
         <div role="alert" class="error-message" *ngIf="validacionInput">
           <p>Ingrese un codigo!</p>
         </div>

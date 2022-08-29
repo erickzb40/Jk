@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
   async enviar(formulario: NgForm,crud:boolean) {
     if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
         if (crud) {
-          await this.aut.getEmpeladoCodigo(formulario.value.codigo,formulario.value.id).subscribe(res => {
+          await this.aut.getEmpleadoCodigo(formulario.value.codigo,formulario.value.id).subscribe(res => {
             if (Object.entries(res).length !== 0) {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
             }else{
@@ -75,7 +75,7 @@ export class AdminComponent implements OnInit {
             }
           })
         } else {
-          await this.aut.getEmpeladoCodigoInsert(formulario.value.codigo).subscribe(res => {
+          await this.aut.getEmpleadoCodigoInsert(formulario.value.codigo).subscribe(res => {
             if (Object.entries(res).length !== 0) {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
               return ;

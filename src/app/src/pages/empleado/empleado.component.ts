@@ -107,6 +107,14 @@ export class EmpleadoComponent implements OnInit {
   }
 
   open(content, registro) {
+
+    if(this.validarLocalStorage()){
+     return Swal.fire({
+        icon:'warning',
+        title:'Mensaje',
+        text:'La empresa no ha sido asignada, debe logearse para realizar la configuración'
+      });
+    }
     this.validarInput();
     Swal.fire({
       title: 'Cargando...',
@@ -166,5 +174,10 @@ export class EmpleadoComponent implements OnInit {
   salir() {
     localStorage.removeItem('token');
     this.token = null;
+  }
+  validarLocalStorage() {
+    if (localStorage.getItem('empresa') == null) {
+      return true
+    } else { return false }
   }
 }

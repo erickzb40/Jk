@@ -63,20 +63,20 @@
                             <ul class="nav nav-tabs">
                               <li class="nav-item">
                                 <a class="nav-link" (click)="ListarEmpleado()" data-toggle="pill"
-                                  href="#listar-crud-empleado">Listado</a>
+                                  href="#lce">Listado</a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link active" data-toggle="pill" href="#crear-crud-ref">Crear</a>
+                                <a class="nav-link active" data-toggle="pill" href="#ccr">Crear</a>
                               </li>
                               <li class="nav-item">
                                 <a class="nav-link actualizar-crud-empleado-btn" id="id_update_crud" data-toggle="pill"
-                                  href="#update-crud-ref">Actualizar</a>
+                                  href="#ucr">Actualizar</a>
                               </li>
                             </ul>
                           </div>
                           <div class="card-body">
                             <div class="tab-content">
-                              <div class="tab-pane fade show" id="listar-crud-empleado">
+                              <div class="tab-pane fade show" id="lce">
                                 <table *ngIf="empleados!=null" class="table">
                                   <thead>
                                     <tr>
@@ -103,11 +103,11 @@
                                 <pagination-controls (pageChange)="empleado_p = $event"></pagination-controls>
                                 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
                               </div>
-                              <div class="tab-pane fade show active" id="crear-crud-ref">
+                              <div class="tab-pane fade show active" id="ccr">
                                 <app-empleado-crud (empleadoUpdate)="enviar($event,false)" [crud]="false">
                                 </app-empleado-crud>
                               </div>
-                              <div class="tab-pane fade show" id="update-crud-ref">
+                              <div class="tab-pane fade show" id="ucr">
                                 <app-empleado-crud (empleadoUpdate)="enviar($event,true)" [empleado]="empleado"
                                   [crud]="true">
                                 </app-empleado-crud>
