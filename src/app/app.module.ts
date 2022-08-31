@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
 import { ExcelService} from './src/pages/services/export-excel.service';
 import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
+import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asistencia-form.component';
 
 // import {AuthModule} from './auth/auth.module';
 
@@ -42,6 +43,7 @@ import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
     PageNotFoundComponent,
     ImagenPipe,
     FilterPipe,
+    AsistenciaFormComponent,
       ],
   imports: [
     BrowserModule,

@@ -1,8 +1,9 @@
 export interface Asistencia{
 id? :Number;
 fecha? :Date;
-identificador?:string;
-local?:Number;
-num_doc?:Number;
 tipo?:string;
+cod_empleado?:Number;
+identificador?:string;
+imagen?:string;
+empresa?:Number;
 }

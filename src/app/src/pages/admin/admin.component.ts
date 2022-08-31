@@ -5,7 +5,6 @@ import { finalize} from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ExcelService } from '../services/export-excel.service';
-import { FilterPipe} from '../shared/pipes/filtrado.pipe';
 import Swal from 'sweetalert2';
 
 import { DomSanitizer } from '@angular/platform-browser';
@@ -24,8 +23,17 @@ export class AdminComponent implements OnInit {
     descripcion:'',
     codigo: null
   };
+  asistencia:Asistencia={
+    id:null,
+    fecha :null,
+    tipo:null,
+    cod_empleado:null,
+    identificador:null,
+    imagen:null,
+    empresa:null
+  }
   filterpost:string;
-  asistencia: any = [];
+  asistencias: any = [];
   empleados: any = [];
   empleado_p:number=1;
   po: number = 1;
@@ -41,6 +49,7 @@ export class AdminComponent implements OnInit {
     local: null,
     codigo: null
   };
+  @Input() asistenciaObj:Asistencia;
 
   constructor(public aut: AuthService,
     private domSanitizer: DomSanitizer,
@@ -48,48 +57,55 @@ export class AdminComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.aut.obtenerAsistencia(localStorage.getItem("empresa")).pipe(finalize(() => {
-    })).subscribe((res: any[]) => {
-      this.asistencia = res;
-    });
+    this.cargarAsistencia();
+    this.ListarEmpleado();
   }
 
-  //
+  async enviarAsistencia(formulario: NgForm,crud:boolean){
+   if(crud){
+    this.aut.updateAsistencia(formulario.value).pipe(finalize(() => {
+    })).subscribe((res:any)=>{
+      Swal.fire({icon:'success',text:'Se actualizó con exito'});
+      formulario.resetForm();
+      this.cargarAsistencia();
+     },err=>{Swal.fire({icon:'warning',text:'Hubo un error al actualizar'});});
+   }
+   else{
+    this.validarEmpresaLocalStorage();
+    this.aut.getEmpleadoCodigoInsert(formulario.value.cod_empleado).subscribe((res:[])=>{
+     if (res.length>0) {
+      this.aut.crearAsistencia(formulario.value).pipe(finalize(() => {
+      })).subscribe((res:any)=>{
+        Swal.fire({icon:'success',text:'Se actualizó con exito'});
+        formulario.resetForm();
+        this.cargarAsistencia();
+       },err=>{Swal.fire({icon:'warning',text:'Hubo un error al actualizar'});});
+     } else {
+      Swal.fire({icon:'warning',text:'No existe ningun usuario con ese codigo'});
+     }
+    });
+
+   }
+  }
   async enviar(formulario: NgForm,crud:boolean) {
     if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
         if (crud) {
           await this.aut.getEmpleadoCodigo(formulario.value.codigo,formulario.value.id).subscribe(res => {
             if (Object.entries(res).length !== 0) {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
-            }else{
-              this.aut.updateEmpleado(formulario.value).subscribe(res => {
-                console.log(formulario.value);
-                Swal.fire({ icon: 'success', text: 'Actualizado' });
-               formulario.resetForm();
-              },
-                err => {
-                  Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' });
-                  return;
-                }
-              );
-            }
-          })
-        } else {
-          await this.aut.getEmpleadoCodigoInsert(formulario.value.codigo).subscribe(res => {
+            }else{   this.aut.updateEmpleado(formulario.value).subscribe(res => {
+                     Swal.fire({ icon: 'success', text: 'Actualizado' });
+                     formulario.resetForm();
+                     },err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' });return;});
+            }})
+        } else {await this.aut.getEmpleadoCodigoInsert(formulario.value.codigo).subscribe(res => {
             if (Object.entries(res).length !== 0) {
-              Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
-              return ;
-            }else{
-              this.aut.insertEmpleado(formulario.value).subscribe(res => {
-                Swal.fire({ icon: 'success', text: 'Registro Creado' });
-                formulario.resetForm();
-              }, err => {
-                Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' });
-                return;
-              });
-            }
-          })
-        }
+              Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });return;
+            }else{  this.aut.insertEmpleado(formulario.value).subscribe(res => {
+                    Swal.fire({ icon: 'success', text: 'Registro Creado' });
+                    formulario.resetForm();},
+                    err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' });return;});
+            }})}
   }
 
   ListarEmpleado() {
@@ -99,11 +115,16 @@ export class AdminComponent implements OnInit {
     });
   }
   openEdit(empleado: EmpleadoModel) {
-    console.log(empleado);
     this.empleado = empleado;
     (<HTMLElement>document.getElementsByClassName('actualizar-crud-empleado-btn')[0]).click()
-    var elemento = document.getElementById("update-crud-ref");
-    elemento.className += " active";
+    var elemento = document.getElementById("ucr");
+    elemento.className += "active";
+  }
+  openEditAsistencia(asistencia:Asistencia){
+    this.asistencia=asistencia;
+    (<HTMLElement>document.getElementsByClassName('actualizar-crud-asistencia-btn')[0]).click()
+    var elemento = document.getElementById("aucr");
+    elemento.className += "active";
   }
 
   mostrarImagen(imagen){
@@ -119,5 +140,13 @@ export class AdminComponent implements OnInit {
   exportToExcel(): void {
     this.excelService.exportAsExcelFile(this.asistencia,'asistencia');
   }
-
+  cargarAsistencia(){
+    this.aut.obtenerAsistencia(localStorage.getItem("empresa")).pipe(finalize(() => {
+    })).subscribe((res: any[]) => {
+      this.asistencias = res;
+    });
+  }
+  validarEmpresaLocalStorage(){
+    if(localStorage.getItem('empresa')==null){return Swal.fire({icon:'warning',text:'La empresa no esta asginada, vuelva a logearse'})}
+  }
 }

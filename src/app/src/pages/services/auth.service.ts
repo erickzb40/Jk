@@ -9,10 +9,11 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
-  loginUrl = 'https://localhost:7195/api/Usuario/login';
-  AsistenciaUrl = 'https://localhost:7195/api/Asistencia';
-  archivo = 'https://localhost:7195/api/Empleado/file';
-  empleadoUrl='https://localhost:7195/api/Empleado/codigoInsert?codigo=';
+  localhost='https://localhost:7195/';
+  loginUrl = this.localhost+'api/Usuario/login';
+  AsistenciaUrl = this.localhost+'api/Asistencia';
+  archivo = this.localhost+'api/Empleado/file';
+  empleadoUrl=this.localhost+'api/Empleado/codigoInsert?codigo=';
   private apiUploadUrl: string;
   constructor(private http: HttpClient) {
 
@@ -26,6 +27,7 @@ export class AuthService {
   }
 
   marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
+    var empresa=localStorage.getItem('empresa')?localStorage.getItem('empresa'):0;
     var uri:any=this.parseData(uri);
     uri=uri[0][1];
     var pos = uri.search(",");
@@ -35,7 +37,8 @@ export class AuthService {
       "tipo": tipo,
       "cod_empleado": cod_empleado,
       "identificador": identificador,
-      "imagen": res
+      "imagen": res,
+      "empresa":empresa
     }
     return val;
   }
@@ -71,27 +74,36 @@ estaAutenticado():boolean{
   if(localStorage.getItem('token')){return true;}else{return false;}
 }
 getListaEmpleados(empresa){
- return this.http.get('https://localhost:7195/api/Empleado?empresa='+empresa);
+ return this.http.get(this.localhost+'api/Empleado?empresa='+empresa);
 }
 updateEmpleado(form:EmpleadoModel){
-  return this.http.put('https://localhost:7195/api/Empleado/'+form.id,form);
+  return this.http.put(this.localhost+'api/Empleado/'+form.id,form);
 }
 insertEmpleado(form:EmpleadoModel){
-  return this.http.post('https://localhost:7195/api/Empleado',form);
+  return this.http.post(this.localhost+'api/Empleado',form);
 }
 getEmpleadoCodigo(codigo:any,id:any){
   this.cargando();
-return this.http.get('https://localhost:7195/api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id);
+return this.http.get(this.localhost+'api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id);
 }
 getEmpleadoCodigoInsert(codigo:any){
   this.cargando();
  var empresaStorage=localStorage.getItem('empresa');
-return this.http.get('https://localhost:7195/api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+empresaStorage);
+return this.http.get(this.localhost+'api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+empresaStorage);
 }
 getLocales(empresa){
-  return this.http.get('https://localhost:7195/local?empresa='+empresa);
+  return this.http.get(this.localhost+'local?empresa='+empresa);
 }
 
+updateAsistencia(form:any){
+  form.tipo='MANUAL';
+  return this.http.post(this.localhost+'api/Asistencia/update?id='+form.id,form);
+}
+crearAsistencia(form:any){
+  form.empresa=localStorage.getItem('empresa');
+  form.tipo='MANUAL';
+  return this.http.post(this.localhost+'api/Asistencia',form);
+}
 
 cargando(){
   Swal.fire({

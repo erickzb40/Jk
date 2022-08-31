@@ -33,7 +33,6 @@ export class EmpleadoCrudComponent implements OnInit {
   ngOnInit(): void {
     this.auth.getLocales(localStorage.getItem("empresa")).subscribe((res)=>{
       this.local=res;
-      console.log(this.local);
     });
   }
 
