@@ -1,12 +1,22 @@
-<nav class="navbar navbar-light bg-secondary justify-content-between">
-  <div>
-    <a href="/empleado" class="link-button ml-2">Empleado</a>
-  </div>
-  <div style="display: inline">
-    <button (click)="salir()" *ngIf="usuario" class="btn btn-outline-light mr-2">Salir</button>
-    <button (click)="login()" *ngIf="!usuario" class="btn btn-outline-light mr-2">Login</button>
-    <a class="mr-3" data-widget="fullscreen" role="button">
-      <i class="fas fa-expand-arrows-alt" style="color: white;"></i>
-    </a>
+
+<nav class="navbar navbar-expand-lg  bg-secondary navbar-light">
+  <a class="navbar-brand ml-2" ><span class="badge badge-light" style="color: black;">{{usuario|uppercase}}</span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+    <a href="/empleado" class="nav-link" style="color: white;font-size: 18px;">Empleado</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button (click)="salir()" *ngIf="usuario" class="btn btn-outline-light mr-2">Salir</button>
+      <button (click)="login()" *ngIf="!usuario" class="btn btn-outline-light mr-2">Login</button>
+      <a class="mr-3" data-widget="fullscreen" role="button">
+        <i class="fas fa-expand-arrows-alt" style="color: white;"></i>
+      </a>
+    </form>
   </div>
 </nav>

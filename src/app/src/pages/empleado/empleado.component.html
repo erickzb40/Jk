@@ -1,30 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg  bg-secondary navbar-light">
+  <a class="navbar-brand ml-2" ><span class="badge badge-light" style="color: black;">{{token|uppercase}}</span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" style="font-size: 20px;color: white;" href="admin" *ngIf="token">Dashboard<span
-          class="sr-only">(current)</span></a>
-    </div>
-  </div>
 
-  <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
-    <button (click)="salir()" *ngIf="token" class="btn btn-outline-light mr-2">Salir</button>
-    <button (click)="login()" *ngIf="!token" class="btn btn-outline-light mr-2">Login</button>
-    <li class="nav-item">
-      <a class="nav-link" data-widget="fullscreen" role="button">
-        <i class="fas fa-expand-arrows-alt"></i>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+    <a href="admin" class="nav-link" style="color: white;font-size: 18px;" *ngIf="token">Dashboard</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button (click)="salir()" *ngIf="token" class="btn btn-outline-light mr-2">Salir</button>
+      <button (click)="login()" *ngIf="!token" class="btn btn-outline-light mr-2">Login</button>
+      <a class="mr-3" data-widget="fullscreen" role="button">
+        <i class="fas fa-expand-arrows-alt" style="color: white;"></i>
       </a>
-    </li>
-
-  </ul>
-
-
-
+    </form>
+  </div>
 </nav>
+
+
 <div class="row container-fluid mt-4 ">
   <div class="col-sm-0	col-md-0	col-lg-1	col-xl-1"></div>
   <div class="col-sm-12	col-md-12	col-lg-6	col-xl-6">
