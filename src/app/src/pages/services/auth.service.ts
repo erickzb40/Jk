@@ -9,7 +9,7 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
-  localhost='https://localhost:7195/';
+  localhost='http://192.168.0.8:9091/';
   loginUrl = this.localhost+'api/Usuario/login';
   AsistenciaUrl = this.localhost+'api/Asistencia';
   archivo = this.localhost+'api/Empleado/file';
@@ -77,14 +77,15 @@ getListaEmpleados(empresa){
  return this.http.get(this.localhost+'api/Empleado?empresa='+empresa);
 }
 updateEmpleado(form:EmpleadoModel){
-  return this.http.put(this.localhost+'api/Empleado/'+form.id,form);
+  return this.http.post(this.localhost+'api/Empleado/'+form.id,form);
 }
 insertEmpleado(form:EmpleadoModel){
   return this.http.post(this.localhost+'api/Empleado',form);
 }
 getEmpleadoCodigo(codigo:any,id:any){
   this.cargando();
-return this.http.get(this.localhost+'api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id);
+var empresaStorage=localStorage.getItem('empresa');
+return this.http.get(this.localhost+'api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id+'&empresa='+empresaStorage);
 }
 getEmpleadoCodigoInsert(codigo:any){
   this.cargando();

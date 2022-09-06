@@ -4,7 +4,7 @@
     <div class="row m-2">
       <label class="col-3 form-label">ID: </label>
       <div class="col-9">
-        <input type="text" [(ngModel)]="empleado.id" name="id" class="form-control" readonly required>
+        <input type="text" [(ngModel)]="empleado.id" name="id" class="form-control" autocomplete="off" readonly required>
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="row m-2">
     <label class="col-3 form-label">Nombre: </label>
     <div class="col-9">
-      <input type="text" [(ngModel)]="empleado.nombre" id="nombre" name="nombre" class="form-control" required>
+      <input type="text" [(ngModel)]="empleado.nombre" id="nombre" name="nombre" class="form-control" autocomplete="off" required>
       <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['nombre'].errors">Este Campo es obligatorio (*)</span>
     </div>
   </div>
@@ -31,7 +31,7 @@
   <div class="row m-2">
     <label class="col-3 form-label">Numero Documento: </label>
     <div class="col-9">
-      <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" required>
+      <input type="text" [(ngModel)]="empleado.num_doc" name="num_doc" class="form-control" autocomplete="off" required>
       <span style="color: red;" *ngIf="updateForm.submitted&&updateForm.controls['num_doc'].errors">Este Campo es obligatorio (*)</span>
     </div>
   </div>

@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-    <a href="admin" class="nav-link" style="color: white;font-size: 18px;" *ngIf="token">Dashboard</a>
+    <a href="/#/admin" class="nav-link" style="color: white;font-size: 18px;" *ngIf="token">Dashboard</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -27,7 +27,7 @@
     <div class="card card-light">
       <div class="card-header ">
         <div class="text-center">
-          <h3>{{now|date:'hh:mm:ss a'}}</h3>
+          <h1>{{now|date:'hh:mm:ss a'}}</h1>
         </div>
       </div>
       <div class="card-body text-center">
@@ -41,7 +41,7 @@
   <div class="col-sm-12	col-md-12	col-lg-4 col-xl-4">
     <div class="card card-light">
       <div class="card-header text-center">
-        <h3>Registrar nueva marcación</h3>
+        <h1>Registrar nueva marcación</h1>
       </div>
       <div class="card-body text-center">
         <label for="codigo"></label>

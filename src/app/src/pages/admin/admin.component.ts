@@ -66,8 +66,10 @@ export class AdminComponent implements OnInit {
     this.aut.updateAsistencia(formulario.value).pipe(finalize(() => {
     })).subscribe((res:any)=>{
       Swal.fire({icon:'success',text:'Se actualizó con exito'});
+      this.openListaAsistencia();
       formulario.resetForm();
       this.cargarAsistencia();
+
      },err=>{Swal.fire({icon:'warning',text:'Hubo un error al actualizar'});});
    }
    else{
@@ -77,6 +79,7 @@ export class AdminComponent implements OnInit {
       this.aut.crearAsistencia(formulario.value).pipe(finalize(() => {
       })).subscribe((res:any)=>{
         Swal.fire({icon:'success',text:'Se actualizó con exito'});
+        this.openListaAsistencia();
         formulario.resetForm();
         this.cargarAsistencia();
        },err=>{Swal.fire({icon:'warning',text:'Hubo un error al actualizar'});});
@@ -94,7 +97,10 @@ export class AdminComponent implements OnInit {
             if (Object.entries(res).length !== 0) {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
             }else{   this.aut.updateEmpleado(formulario.value).subscribe(res => {
+                    console.log(' se actualizo');
                      Swal.fire({ icon: 'success', text: 'Actualizado' });
+                     this.ListarEmpleado();
+                     this.openListaEmpleado();
                      formulario.resetForm();
                      },err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' });return;});
             }})
@@ -103,6 +109,8 @@ export class AdminComponent implements OnInit {
               Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });return;
             }else{  this.aut.insertEmpleado(formulario.value).subscribe(res => {
                     Swal.fire({ icon: 'success', text: 'Registro Creado' });
+                    this.ListarEmpleado();
+                    this.openListaEmpleado();
                     formulario.resetForm();},
                     err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' });return;});
             }})}
@@ -118,12 +126,22 @@ export class AdminComponent implements OnInit {
     this.empleado = empleado;
     (<HTMLElement>document.getElementsByClassName('actualizar-crud-empleado-btn')[0]).click()
     var elemento = document.getElementById("ucr");
-    elemento.className += "active";
+    elemento.className += "active show";
   }
   openEditAsistencia(asistencia:Asistencia){
     this.asistencia=asistencia;
     (<HTMLElement>document.getElementsByClassName('actualizar-crud-asistencia-btn')[0]).click()
     var elemento = document.getElementById("aucr");
+    elemento.className += "active show";
+  }
+   openListaEmpleado(){
+    (<HTMLElement>document.getElementsByClassName('listadoEmpleadoCrud')[0]).click()
+    var elemento = document.getElementById("lce");
+    elemento.className += "active";
+  }
+  openListaAsistencia(){
+    (<HTMLElement>document.getElementsByClassName('listaAsistenciaBtn')[0]).click()
+    var elemento = document.getElementById("alce");
     elemento.className += "active";
   }
 
