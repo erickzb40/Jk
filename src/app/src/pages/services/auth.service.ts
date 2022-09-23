@@ -9,14 +9,13 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
-  localhost='http://192.168.0.8:9091/';
+  localhost='https://localhost:7195/';
   loginUrl = this.localhost+'api/Usuario/login';
   AsistenciaUrl = this.localhost+'api/Asistencia';
   archivo = this.localhost+'api/Empleado/file';
   empleadoUrl=this.localhost+'api/Empleado/codigoInsert?codigo=';
   private apiUploadUrl: string;
   constructor(private http: HttpClient) {
-
   }
 
   login(form: object) {

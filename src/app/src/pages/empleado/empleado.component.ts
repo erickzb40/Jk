@@ -107,7 +107,6 @@ export class EmpleadoComponent implements OnInit {
   }
 
   open(content, registro) {
-
     if(this.validarLocalStorage()){
      return Swal.fire({
         icon:'warning',
@@ -134,11 +133,19 @@ export class EmpleadoComponent implements OnInit {
           this.img64 = reader.result;
         };
         this.registro = registro;
+        // if(this.file.size<3000){
+        //   return Swal.fire({
+        //     icon:'warning',
+        //     title:'Mensaje',
+        //     text:'Hay problemas con la camara, Habilitelo y reinicie la pagina'
+        //   });
+        // }
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
+
       }
       else {
         this.nombreEmpleado = '';

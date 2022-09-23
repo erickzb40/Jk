@@ -40,10 +40,16 @@
                         <div class="card-body">
                           <div class="tab-content">
                             <div class="tab-pane fade show active" id="alce">
-                              <div class="form-group">
-                                <input type="text" class="input_ezb" placeholder="Buscar.." [(ngModel)]="filterpost"
-                                  name="filterpost" />
-                                <button class="buttoncss" style="float: right;" (click)="exportToExcel()">Export to
+                              <div class="hed">
+                                <select class="form-select" name="" id=""   style="max-width: 200px;">
+                                  <option [value]="item" *ngFor="let item of listadoEmpleado">{{item}}</option>
+                                </select>
+                                <select class="form-select" name="" id=""  style="max-width: 200px;">
+                                  <option [value]="item" *ngFor="let item of listadoEmpleado">{{item}}</option>
+                                </select>
+                                <!-- <input type="text" class="input_ezb" placeholder="Buscar.." [(ngModel)]="filterpost"
+                                  name="filterpost" /> -->
+                                <button class="btn btn-success " style="max-width: 200px;" (click)="exportToExcel()">Export to
                                   Excel</button>
                               </div>
                               <table *ngIf="asistencias!=null" id="asistencia-excel" class="table">

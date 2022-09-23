@@ -32,6 +32,7 @@ export class AdminComponent implements OnInit {
     imagen:null,
     empresa:null
   }
+  listadoEmpleado=[];//llenar el select con los datos del empleado
   filterpost:string;
   asistencias: any = [];
   empleados: any = [];
@@ -156,12 +157,18 @@ export class AdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    this.excelService.exportAsExcelFile(this.asistencia,'asistencia');
+    this.excelService.exportAsExcelFile(this.asistencias,'asistencia');
   }
   cargarAsistencia(){
     this.aut.obtenerAsistencia(localStorage.getItem("empresa")).pipe(finalize(() => {
     })).subscribe((res: any[]) => {
       this.asistencias = res;
+      var tmp=[];
+      res.forEach(element => {
+        tmp.push(element.nombre);
+      });
+      this.listadoEmpleado=Array.from(new Set(tmp))
+      console.log(this.listadoEmpleado);
     });
   }
   validarEmpresaLocalStorage(){
