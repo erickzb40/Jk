@@ -64,8 +64,7 @@ export class AdminComponent implements OnInit {
 
   async enviarAsistencia(formulario: NgForm,crud:boolean){
    if(crud){
-    this.aut.updateAsistencia(formulario.value).pipe(finalize(() => {
-    })).subscribe((res:any)=>{
+    this.aut.updateAsistencia(formulario.value).subscribe((res:any)=>{
       Swal.fire({icon:'success',text:'Se actualizó con exito'});
       this.openListaAsistencia();
       formulario.resetForm();
