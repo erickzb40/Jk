@@ -13,7 +13,7 @@ export class AuthService {
   loginUrl = this.localhost+'api/Usuario/login';
   AsistenciaUrl = this.localhost+'api/Asistencia';
   archivo = this.localhost+'api/Empleado/file';
-  empleadoUrl=this.localhost+'api/Empleado/codigoInsert?codigo=';
+  empleadoUrl=this.localhost+'api/Empleado/info';
   constructor(private http: HttpClient) {
   }
 
@@ -21,8 +21,8 @@ export class AuthService {
     return this.http.post(this.loginUrl, form);
   }
   entrada(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
-    var emp=localStorage.getItem('emp');
-    return this.http.post(this.AsistenciaUrl+'?empresa='+emp, this.marcar(tipo, cod_empleado, identificador, uri));
+    var token=localStorage.getItem('token');
+    return this.http.post(this.AsistenciaUrl+'?token='+token, this.marcar(tipo, cod_empleado, identificador, uri));
   }
 
   marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
@@ -45,8 +45,8 @@ export class AuthService {
     return this.http.get(this.AsistenciaUrl+"?token="+token);
   }
   getEmpleado(codigo:string){
-    var emp= "&empresa="+localStorage.getItem('emp');
-    return this.http.get(this.empleadoUrl+codigo+emp);
+    var token=localStorage.getItem('token');
+    return this.http.get(this.empleadoUrl+'?codigo='+codigo+'&token='+token);
   }
   parseData(data: string | ArrayBuffer | null){
     var dummyArr: string[][] = []
@@ -83,16 +83,7 @@ insertEmpleado(form:EmpleadoModel){
   var token=localStorage.getItem('token');
   return this.http.post(this.localhost+'api/Empleado/insert?token='+token,form);
 }
-getEmpleadoCodigo(codigo:any,id:any){
-  this.cargando();
-var empresaStorage=localStorage.getItem('emp');
-return this.http.get(this.localhost+'api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id+'&empresa='+empresaStorage);
-}
-getEmpleadoCodigoInsert(codigo:any){
-  this.cargando();
- var emp=localStorage.getItem('emp');
-return this.http.get(this.localhost+'api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+emp);
-}
+
 getLocales(){
   var token=localStorage.getItem('token');
   return this.http.get(this.localhost+'local?token='+token);
@@ -106,7 +97,7 @@ updateAsistencia(form:any){
 crearAsistencia(form:any){
   var token=localStorage.getItem('token');
   form.tipo='MANUAL';
-  return this.http.post(this.localhost+'api/Asistencia?token='+token,form);
+  return this.http.post(this.localhost+'api/Asistencia/insert?token='+token,form);
 }
 
 

@@ -65,20 +65,14 @@ export class AdminComponent implements OnInit {
     }
     else {
       this.validarEmpresaLocalStorage();
-      this.aut.getEmpleadoCodigoInsert(formulario.value.cod_empleado).subscribe((res: []) => {
-        if (res.length > 0) {
-          this.aut.crearAsistencia(formulario.value).pipe(finalize(() => {
-          })).subscribe((res: any) => {
-            Swal.fire({ icon: 'success', text: 'Se actualizó con exito' });
-            this.openListaAsistencia();
-            formulario.resetForm();
-            this.cargarAsistencia();
-          }, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' }); });
-        } else {
-          Swal.fire({ icon: 'warning', text: 'No existe ningun usuario con ese codigo' });
-        }
-      });
-
+      this.aut.crearAsistencia(formulario.value).subscribe((res: any) => {
+        Swal.fire({ icon: 'success', text: 'Se actualizó con exito' });
+        this.openListaAsistencia();
+        formulario.resetForm();
+        this.cargarAsistencia();
+      },
+        err => { Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' }); }
+      );
     }
   }
   // async enviar(formulario: NgForm,crud:boolean) {
@@ -111,24 +105,24 @@ export class AdminComponent implements OnInit {
     if (crud) {
       this.aut.updateEmpleado(formulario.value).subscribe(res => {
         this.openListaEmpleado();
-        return this.finUpdate(formulario,'Creado con éxito');
-      },  err => {
-        if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail });}
+        return this.finUpdate(formulario, 'Actualizado con éxito');
+      }, err => {
+        if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
         else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
       });
     } else {
       this.aut.insertEmpleado(formulario.value).subscribe(res => {
         this.openListaEmpleado();
-        return this.finUpdate(formulario,'Actualizado con éxito');
+        return this.finUpdate(formulario, 'Creado con éxito');
       },
         err => {
           if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
           else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
         })
-  }
+    }
   }
   //parte del codigo final de insertar y actualizar
-  public finUpdate(formulario,res) {
+  public finUpdate(formulario, res) {
     this.ListarEmpleado();
     formulario.resetForm();
     Swal.fire({ icon: 'success', text: res });
@@ -186,6 +180,6 @@ export class AdminComponent implements OnInit {
     });
   }
   validarEmpresaLocalStorage() {
-    if (localStorage.getItem('empresa') == null) { return Swal.fire({ icon: 'warning', text: 'La empresa no esta asginada, vuelva a logearse' }) }
+    if (localStorage.getItem('token') == null) { return Swal.fire({ icon: 'warning', text: 'La empresa no esta asginada, vuelva a logearse' }) }
   }
 }

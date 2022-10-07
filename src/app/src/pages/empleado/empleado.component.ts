@@ -87,7 +87,7 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).pipe(finalize(() => { })).subscribe(
+    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).subscribe(
       res => {
         this.codigo = '';
         return this.popup(res['fecha'], this.registro);
@@ -121,11 +121,11 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.getEmpleado(this.codigo).subscribe(res => {
+    this.aut.getEmpleado(this.codigo).subscribe((res:any) => {
       if (Object.entries(res).length !== 0) {
         Swal.close();
-        this.nombreEmpleado = res[0].nombre;
-        this.num_doc = res[0].num_doc;
+        this.nombreEmpleado = res.nombre;
+        this.num_doc = res.num_doc;
         this.triggerSnapshot();
         const reader = new FileReader();
         reader.readAsDataURL(this.file);
@@ -133,13 +133,13 @@ export class EmpleadoComponent implements OnInit {
           this.img64 = reader.result;
         };
         this.registro = registro;
-        // if(this.file.size<3000){
-        //   return Swal.fire({
-        //     icon:'warning',
-        //     title:'Mensaje',
-        //     text:'Hay problemas con la camara, Habilitelo y reinicie la pagina'
-        //   });
-        // }
+        if(this.file.size<3000){
+          return Swal.fire({
+            icon:'warning',
+            title:'Mensaje',
+            text:'Hay problemas con la camara, Habilitelo y reinicie la pagina'
+          });
+        }
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {

@@ -54,8 +54,9 @@ export class LoginComponent implements OnInit {
           text: 'No se encontro ningun usuario'
         })
       }
-    }, err => {
-      Swal.fire({ icon: 'warning', text: 'hubo un error en la conexion al servidor' });
+    },  err => {
+      if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
+      else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
     });
 
   }
