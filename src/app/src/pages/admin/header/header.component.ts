@@ -11,7 +11,7 @@ usuario='';
   constructor(public rout: Router) { }
 
   ngOnInit(): void {
-    this.usuario=localStorage.getItem('token');
+    this.usuario=localStorage.getItem('user');
   }
   salir(){
     localStorage.removeItem('token');

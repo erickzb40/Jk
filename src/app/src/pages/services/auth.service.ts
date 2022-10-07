@@ -14,7 +14,6 @@ export class AuthService {
   AsistenciaUrl = this.localhost+'api/Asistencia';
   archivo = this.localhost+'api/Empleado/file';
   empleadoUrl=this.localhost+'api/Empleado/codigoInsert?codigo=';
-  private apiUploadUrl: string;
   constructor(private http: HttpClient) {
   }
 
@@ -22,11 +21,11 @@ export class AuthService {
     return this.http.post(this.loginUrl, form);
   }
   entrada(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
-    return this.http.post(this.AsistenciaUrl, this.marcar(tipo, cod_empleado, identificador, uri));
+    var emp=localStorage.getItem('emp');
+    return this.http.post(this.AsistenciaUrl+'?empresa='+emp, this.marcar(tipo, cod_empleado, identificador, uri));
   }
 
   marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
-    var empresa=localStorage.getItem('empresa')?localStorage.getItem('empresa'):0;
     var uri:any=this.parseData(uri);
     uri=uri[0][1];
     var pos = uri.search(",");
@@ -36,18 +35,18 @@ export class AuthService {
       "tipo": tipo,
       "cod_empleado": cod_empleado,
       "identificador": identificador,
-      "imagen": res,
-      "empresa":empresa
+      "imagen": res
     }
     return val;
   }
 
-  obtenerAsistencia(empresa) {
-    return this.http.get(this.AsistenciaUrl+"?empresa="+empresa);
+  obtenerAsistencia() {
+    var token=localStorage.getItem('token');
+    return this.http.get(this.AsistenciaUrl+"?token="+token);
   }
   getEmpleado(codigo:string){
-    var empresa= "&empresa="+localStorage.getItem('empresa');
-    return this.http.get(this.empleadoUrl+codigo+empresa);
+    var emp= "&empresa="+localStorage.getItem('emp');
+    return this.http.get(this.empleadoUrl+codigo+emp);
   }
   parseData(data: string | ArrayBuffer | null){
     var dummyArr: string[][] = []
@@ -72,38 +71,44 @@ export class AuthService {
 estaAutenticado():boolean{
   if(localStorage.getItem('token')){return true;}else{return false;}
 }
-getListaEmpleados(empresa){
- return this.http.get(this.localhost+'api/Empleado?empresa='+empresa);
+getListaEmpleados(){
+ var token=localStorage.getItem('token');
+ return this.http.get(this.localhost+'api/Empleado?token='+token);
 }
 updateEmpleado(form:EmpleadoModel){
-  return this.http.post(this.localhost+'api/Empleado/'+form.id,form);
+  var token=localStorage.getItem('token');
+  return this.http.post(this.localhost+'api/Empleado/update?token='+token,form);
 }
 insertEmpleado(form:EmpleadoModel){
-  return this.http.post(this.localhost+'api/Empleado',form);
+  var token=localStorage.getItem('token');
+  return this.http.post(this.localhost+'api/Empleado/insert?token='+token,form);
 }
 getEmpleadoCodigo(codigo:any,id:any){
   this.cargando();
-var empresaStorage=localStorage.getItem('empresa');
+var empresaStorage=localStorage.getItem('emp');
 return this.http.get(this.localhost+'api/Empleado/codigoUpdate?codigo='+codigo+'&id='+id+'&empresa='+empresaStorage);
 }
 getEmpleadoCodigoInsert(codigo:any){
   this.cargando();
- var empresaStorage=localStorage.getItem('empresa');
-return this.http.get(this.localhost+'api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+empresaStorage);
+ var emp=localStorage.getItem('emp');
+return this.http.get(this.localhost+'api/Empleado/codigoInsert?codigo='+codigo+'&empresa='+emp);
 }
-getLocales(empresa){
-  return this.http.get(this.localhost+'local?empresa='+empresa);
+getLocales(){
+  var token=localStorage.getItem('token');
+  return this.http.get(this.localhost+'local?token='+token);
 }
 
 updateAsistencia(form:any){
   form.tipo='MANUAL';
-  return this.http.post(this.localhost+'api/Asistencia/update?id='+form.id,form);
+  var token=localStorage.getItem('token');
+  return this.http.post(this.localhost+'api/Asistencia/update?token='+token,form);
 }
 crearAsistencia(form:any){
-  form.empresa=localStorage.getItem('empresa');
+  var token=localStorage.getItem('token');
   form.tipo='MANUAL';
-  return this.http.post(this.localhost+'api/Asistencia',form);
+  return this.http.post(this.localhost+'api/Asistencia?token='+token,form);
 }
+
 
 cargando(){
   Swal.fire({

@@ -12,7 +12,7 @@
       <div class="row m-2">
         <label class="col-3 form-label">Codigo Empleado: </label>
         <div class="col-9">
-          <input type="text" [(ngModel)]="asistencia.cod_empleado" name="cod_empleado" class="form-control" autocomplete="off" required>
+          <input type="password" [(ngModel)]="asistencia.cod_empleado" name="cod_empleado" class="form-control" autocomplete="off" required>
           <span style="color: red;" *ngIf="AsistenciaForm.submitted&&AsistenciaForm.controls['cod_empleado'].errors">Este Campo es
             obligatorio (*)</span>
         </div>

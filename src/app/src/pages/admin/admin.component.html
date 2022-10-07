@@ -44,9 +44,6 @@
                                 <select class="form-select" name="" id=""   style="max-width: 200px;">
                                   <option [value]="item" *ngFor="let item of listadoEmpleado">{{item}}</option>
                                 </select>
-                                <select class="form-select" name="" id=""  style="max-width: 200px;">
-                                  <option [value]="item" *ngFor="let item of listadoEmpleado">{{item}}</option>
-                                </select>
                                 <!-- <input type="text" class="input_ezb" placeholder="Buscar.." [(ngModel)]="filterpost"
                                   name="filterpost" /> -->
                                 <button class="btn btn-success " style="max-width: 200px;" (click)="exportToExcel()">Export to
@@ -55,7 +52,7 @@
                               <table *ngIf="asistencias!=null" id="asistencia-excel" class="table">
                                 <thead>
                                   <tr>
-                                    <th scope="col" style="width: 60px;">ID</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">FECHA</th>
                                     <th scope="col">NOMBRE</th>
                                     <th scope="col">IMAGEN</th>
@@ -69,7 +66,7 @@
                                     *ngFor="let fila of asistencias | paginate: { itemsPerPage: 10, currentPage: po }| filter:filterpost:['nombre','fecha','identificador','tipo']; let i = index">
                                     <td>{{fila.id}}</td>
                                     <!-- |date:'short' -->
-                                    <td>{{fila.fecha}}</td>
+                                    <td>{{fila.fecha|date:'short'}}</td>
                                     <td>{{fila.nombre}}</td>
                                     <td *ngIf="fila.imagen"><a  style="cursor: pointer;"
                                         (click)="mostrarImagen(fila.imagen)"><img width="50"
@@ -178,4 +175,3 @@
     </div>
   </div>
 </section>
-<!-- /.content -->

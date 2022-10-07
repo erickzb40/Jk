@@ -183,7 +183,7 @@ export class EmpleadoComponent implements OnInit {
     this.token = null;
   }
   validarLocalStorage() {
-    if (localStorage.getItem('empresa') == null) {
+    if (localStorage.getItem('emp') == null) {
       return true
     } else { return false }
   }

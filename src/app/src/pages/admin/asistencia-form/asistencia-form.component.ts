@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Asistencia } from 'src/app/models/asistencia.interface';
@@ -31,6 +32,11 @@ export class AsistenciaFormComponent implements OnInit {
     if (form.invalid) {
       return;
     }//si el formulario es invalido no hace nada;
-     this.AsistenciaUpdate.emit(form);
+
+     if(!isNaN(form.form.value.codigo)||form.form.value.codigo==undefined){
+      this.AsistenciaUpdate.emit(form);
+    }else{
+      return Swal.fire({icon:'warning',text:'El codigo debe ser numerico!'});
+    }
   }
 }

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   usuario = {
     nombreUsuario: '',
     contrasena: '',
-    empresa:0
+    empresa:'LONGHORN'
   }
   recordarme = false;
 
@@ -37,13 +37,15 @@ export class LoginComponent implements OnInit {
     });
     Swal.showLoading();
     if (form.invalid) { return; }
-    this.auth.login(form.form.value).pipe(finalize(() => {
+    this.auth.login(this.usuario).pipe(finalize(() => {
     })).subscribe((res:any) => {
       if (Object.entries(res).length > 0) {
-        if (this.recordarme) {localStorage.setItem('user', this.usuario.nombreUsuario); }
+        if (this.recordarme) {
+          localStorage.setItem('user', this.usuario.nombreUsuario);
+        }
         Swal.close();
-        localStorage.setItem('token',this.usuario.nombreUsuario);
-        localStorage.setItem('empresa',res[0].empresa);
+        localStorage.setItem('token',res.token);
+        localStorage.setItem('emp',this.usuario.empresa);
         this.router.navigateByUrl('admin');
       } else {
         Swal.fire({

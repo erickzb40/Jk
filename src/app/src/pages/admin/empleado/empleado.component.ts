@@ -1,3 +1,4 @@
+import  Swal from 'sweetalert2';
 
 import { EmpleadoModel } from './../../../../models/empleado.interface';
 import { NgForm } from '@angular/forms';
@@ -13,7 +14,6 @@ import { Local } from 'src/app/models/local.interface';
 export class EmpleadoCrudComponent implements OnInit {
 
   local:any=[];
-
   @Input() empleado: EmpleadoModel = {
     id: null,
     nombre: '',
@@ -31,7 +31,7 @@ export class EmpleadoCrudComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.auth.getLocales(localStorage.getItem("empresa")).subscribe((res)=>{
+    this.auth.getLocales().subscribe((res)=>{
       this.local=res;
     });
   }
@@ -40,7 +40,12 @@ export class EmpleadoCrudComponent implements OnInit {
     if (form.invalid) {
       return;
     }//si el formulario es invalido no hace nada;
-     this.empleadoUpdate.emit(form);
+    if(!isNaN(form.form.value.codigo)||form.form.value.codigo==undefined){
+      this.empleadoUpdate.emit(form);
+    }else{
+      return Swal.fire({icon:'warning',text:'El codigo debe ser numerico!'});
+    }
+
   }
 
 

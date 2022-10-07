@@ -9,7 +9,15 @@
           <p class="login-box-msg">Inicia sesión</p>
 
           <form  (ngSubmit)="login(f)" #f="ngForm">
-            <span class="text-danger animated fadeIn" *ngIf="f.submitted&&f.controls['nombreUsuario'].errors">Este campo es obligatiorio</span>
+            <span class="text-danger animated fadeIn" *ngIf="f.submitted&&f.controls['empresa'].errors">Este campo es obligatiorio</span>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" [(ngModel)]="usuario.empresa" name="empresa">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="far fa-building"></span>
+                </div>
+              </div>
+            </div>
             <div class="input-group mb-3">
               <input type="text" [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario"
               class="form-control" placeholder="Nombre de Usuario" required>
@@ -30,7 +38,7 @@
               </div>
             </div>
             <div class="row">
-              <div [ngClass]="{'col-6': cargando, 'col-8' : !cargando }" >
+              <div class="col-8">
                 <div class="icheck-primary">
                   <input [(ngModel)]="recordarme"
                   type="checkbox" name="remember" id="remember">
@@ -40,21 +48,17 @@
                 </div>
               </div>
               <!-- /.col -->
-              <div [ngClass]="{'col-6': cargando, 'col-4' : !cargando }">
+              <div class="col-4">
                 <button type="submit"  class="btn btn-primary btn-block" >
-                  <ng-container *ngIf="cargando">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    &nbsp;&nbsp;Ingresando...
-                  </ng-container>
                   <ng-container *ngIf="!cargando">
                     Ingresar
                   </ng-container>
-
                 </button>
               </div>
               <!-- /.col -->
             </div>
           </form>
+
         </div>
       </div>
     </div>

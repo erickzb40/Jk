@@ -1,4 +1,3 @@
-import { AuthService } from './src/pages/services/auth.service';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +21,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
 import { ExcelService} from './src/pages/services/export-excel.service';
 import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
@@ -48,6 +48,7 @@ import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asist
   imports: [
     BrowserModule,
     MatTableModule,
+    MatTabsModule,
     BrowserAnimationsModule,
     MatInputModule,
     ReactiveFormsModule,
