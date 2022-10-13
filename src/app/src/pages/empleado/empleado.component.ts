@@ -14,7 +14,7 @@ import * as moment from 'moment';
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
-  token = localStorage.getItem('token');
+  token = localStorage.getItem('access');
 
   closeResult = '';//viene del modal
   now: Date;
@@ -30,7 +30,7 @@ export class EmpleadoComponent implements OnInit {
   hoy = new Date;
   nombreEmpleado = '';
   num_doc = '';
-
+  ip_public='';
   validacionInput = false;
   uri: any = null;
   public confirmar = false;
@@ -38,6 +38,9 @@ export class EmpleadoComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
 
   constructor(public aut: AuthService, private modalService: NgbModal, public rout: Router) {
+    aut.buscarIp().subscribe((res:any)=>{
+    this.ip_public=res.ip;
+    });
     moment.locale();
   }
 
@@ -87,7 +90,7 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64).subscribe(
+    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64,this.ip_public).subscribe(
       res => {
         this.codigo = '';
         return this.popup(res['fecha'], this.registro);
@@ -179,11 +182,11 @@ export class EmpleadoComponent implements OnInit {
     this.rout.navigateByUrl('/login');
   }
   salir() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access');
     this.token = null;
   }
   validarLocalStorage() {
-    if (localStorage.getItem('emp') == null) {
+    if (localStorage.getItem('token') == null) {
       return true
     } else { return false }
   }

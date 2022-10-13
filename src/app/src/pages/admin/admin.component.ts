@@ -1,7 +1,6 @@
-import { Asistencia } from './../../../models/asistencia.interface';
+import { Asistencia } from 'src/app/models/asistencia.interface';
 import { NgForm, FormsModule } from '@angular/forms';
 import { EmpleadoModel } from './../../../models/empleado.interface';
-import { finalize } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ExcelService } from '../services/export-excel.service';
@@ -23,23 +22,15 @@ export class AdminComponent implements OnInit {
     descripcion: '',
     codigo: null
   };
-  asistencia: Asistencia = {
-    id: null,
-    fecha: null,
-    tipo: null,
-    cod_empleado: null,
-    identificador: null,
-    imagen: null,
-    empresa: null
-  }
-  listadoEmpleado = [];//llenar el select con los datos del empleado
+  asistencia= {} as Asistencia;
+  // listadoEmpleado = [];//llenar el select con los datos del empleado
   filterpost: string;
   asistencias: any = [];
   empleados: any = [];
   empleado_p: number = 1;
   po: number = 1;
   p: number = 1;
-
+  ip_public='';
   @Input() empleadoObj: any;
   empleadoObj2 = {} as EmpleadoModel;
   @Input() asistenciaObj: Asistencia;
@@ -52,12 +43,17 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.cargarAsistencia();
     this.ListarEmpleado();
+    this.aut.buscarIp().subscribe((res:any)=>{
+      this.ip_public=res.ip;
+    });
   }
 
   async enviarAsistencia(formulario: NgForm, crud: boolean) {
+    if (formulario.invalid) { return; }
+    formulario.value.ip_public=this.ip_public;
     if (crud) {
       this.aut.updateAsistencia(formulario.value).subscribe((res: any) => {
-        Swal.fire({ icon: 'success', text: 'Se actualizó con exito' });
+        Swal.fire({ icon: 'success', text: 'Se actualizó con éxito' });
         this.openListaAsistencia();
         formulario.resetForm();
         this.cargarAsistencia();
@@ -66,7 +62,7 @@ export class AdminComponent implements OnInit {
     else {
       this.validarEmpresaLocalStorage();
       this.aut.crearAsistencia(formulario.value).subscribe((res: any) => {
-        Swal.fire({ icon: 'success', text: 'Se actualizó con exito' });
+        Swal.fire({ icon: 'success', text: 'Se actualizó con éxito' });
         this.openListaAsistencia();
         formulario.resetForm();
         this.cargarAsistencia();
@@ -171,12 +167,12 @@ export class AdminComponent implements OnInit {
   cargarAsistencia() {
     this.aut.obtenerAsistencia().subscribe((res: any[]) => {
       this.asistencias = res;
-      var tmp = [];
-      res.forEach(element => {
-        tmp.push(element.nombre);
-      });
-      this.listadoEmpleado = Array.from(new Set(tmp))
-      console.log(this.listadoEmpleado);
+      // var tmp = [];
+      // res.forEach(element => {
+      //   tmp.push(element.nombre);
+      // });
+      // this.listadoEmpleado = Array.from(new Set(tmp))
+      // console.log(this.listadoEmpleado);
     });
   }
   validarEmpresaLocalStorage() {

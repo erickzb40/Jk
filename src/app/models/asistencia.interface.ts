@@ -6,4 +6,5 @@ cod_empleado?:Number;
 identificador?:string;
 imagen?:string;
 empresa?:Number;
+ip_public:string;
 }

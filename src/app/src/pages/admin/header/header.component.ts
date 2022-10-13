@@ -7,18 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-usuario='';
   constructor(public rout: Router) { }
 
   ngOnInit(): void {
-    this.usuario=localStorage.getItem('user');
   }
   salir(){
-    localStorage.removeItem('token');
-    this.rout.navigateByUrl('login');
+    localStorage.removeItem('access');
+    this.rout.navigateByUrl('empleado');
   }
-  login() {
-    this.rout.navigateByUrl('/login');
-   }
 
 }

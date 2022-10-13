@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   usuario = {
     nombreUsuario: '',
     contrasena: '',
-    empresa:'LONGHORN'
+    empresa:''
   }
   recordarme = false;
 
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('user')) {
+      this.usuario.empresa=localStorage.getItem('emp');
       this.usuario.nombreUsuario = localStorage.getItem('user');
       this.recordarme=true;
     }
@@ -42,10 +43,15 @@ export class LoginComponent implements OnInit {
       if (Object.entries(res).length > 0) {
         if (this.recordarme) {
           localStorage.setItem('user', this.usuario.nombreUsuario);
+          localStorage.setItem('emp', this.usuario.empresa);
+        }else{
+          localStorage.removeItem('user');
+          localStorage.removeItem('emp');
         }
         Swal.close();
         localStorage.setItem('token',res.token);
         localStorage.setItem('emp',this.usuario.empresa);
+        localStorage.setItem('access', 'true');
         this.router.navigateByUrl('admin');
       } else {
         Swal.fire({

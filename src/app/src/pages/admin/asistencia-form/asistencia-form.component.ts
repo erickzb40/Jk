@@ -13,15 +13,7 @@ export class AsistenciaFormComponent implements OnInit {
   constructor() {
     this.AsistenciaUpdate = new EventEmitter();
    }
-  @Input() asistencia: Asistencia = {
-    id :null,
-    fecha :null,
-    tipo:'',
-    cod_empleado:null,
-    identificador:'',
-    imagen:null,
-    empresa:null
-  };
+  @Input() asistencia= {} as Asistencia;
   @Input() crud:boolean=false;
   @Output() AsistenciaUpdate: EventEmitter<NgForm>;
   @Output() asistenciaObj:Asistencia=this.asistencia;

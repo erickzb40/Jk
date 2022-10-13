@@ -20,12 +20,12 @@ export class AuthService {
   login(form: object) {
     return this.http.post(this.loginUrl, form);
   }
-  entrada(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
+  entrada(tipo: string, cod_empleado: Number, identificador: string, uri: any,ip_public:string) {
     var token=localStorage.getItem('token');
-    return this.http.post(this.AsistenciaUrl+'?token='+token, this.marcar(tipo, cod_empleado, identificador, uri));
+    return this.http.post(this.AsistenciaUrl+'?token='+token, this.marcar(tipo, cod_empleado, identificador, uri,ip_public));
   }
 
-  marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any) {
+  marcar(tipo: string, cod_empleado: Number, identificador: string, uri: any,ip_public:string) {
     var uri:any=this.parseData(uri);
     uri=uri[0][1];
     var pos = uri.search(",");
@@ -35,7 +35,8 @@ export class AuthService {
       "tipo": tipo,
       "cod_empleado": cod_empleado,
       "identificador": identificador,
-      "imagen": res
+      "imagen": res,
+      "ip_public":ip_public
     }
     return val;
   }
@@ -69,7 +70,11 @@ export class AuthService {
   }
 
 estaAutenticado():boolean{
-  if(localStorage.getItem('token')){return true;}else{return false;}
+  if(localStorage.getItem('access')){
+    return true;
+  }else{
+    return false;
+  }
 }
 getListaEmpleados(){
  var token=localStorage.getItem('token');
@@ -99,7 +104,9 @@ crearAsistencia(form:any){
   form.tipo='MANUAL';
   return this.http.post(this.localhost+'api/Asistencia/insert?token='+token,form);
 }
-
+buscarIp(){
+  return this.http.get('https://api.ipify.org/?format=json');
+}
 
 cargando(){
   Swal.fire({
