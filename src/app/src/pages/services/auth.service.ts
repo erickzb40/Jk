@@ -9,7 +9,9 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
-  localhost='https://localhost:7195/';
+  localhost='https://jk-smart.com:82/';
+  // localhost='https://localhost:7195/';
+
   loginUrl = this.localhost+'api/Usuario/login';
   AsistenciaUrl = this.localhost+'api/Asistencia';
   archivo = this.localhost+'api/Empleado/file';
