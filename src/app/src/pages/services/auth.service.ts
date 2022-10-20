@@ -82,6 +82,9 @@ getListaEmpleados(){
  var token=localStorage.getItem('token');
  return this.http.get(this.localhost+'api/Empleado?token='+token);
 }
+
+
+
 updateEmpleado(form:EmpleadoModel){
   var token=localStorage.getItem('token');
   return this.http.post(this.localhost+'api/Empleado/update?token='+token,form);

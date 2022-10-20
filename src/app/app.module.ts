@@ -26,6 +26,7 @@ import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
 import { ExcelService} from './src/pages/services/export-excel.service';
 import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
 import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asistencia-form.component';
+import { SortPipe } from './src/pages/shared/pipes/sort.pipe';
 
 // import {AuthModule} from './auth/auth.module';
 
@@ -44,6 +45,7 @@ import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asist
     ImagenPipe,
     FilterPipe,
     AsistenciaFormComponent,
+    SortPipe,
       ],
   imports: [
     BrowserModule,

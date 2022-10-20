@@ -20,30 +20,31 @@
 </nav>
 
 
-<div class="row container-fluid mt-4 ">
-  <div class="col-sm-0	col-md-0	col-lg-1	col-xl-1"></div>
-  <div class="col-sm-12	col-md-12	col-lg-6	col-xl-6">
+<div class="row container-fluid mt-1">
+  <div class="col-sm-8 col-md-8	col-lg-8	col-xl-8">
     <div class="card card-light">
-      <div class="card-header ">
-        <div class="text-center">
-          <h1>{{now|date:'hh:mm:ss a'}}</h1>
-        </div>
+    <!-- <div class="card-header ">
+      <div class="text-center">
+        <h1>{{now|date:'hh:mm:ss a'}}</h1>
       </div>
-      <div class="card-body text-center">
-        <div style="margin: auto;">
-          <webcam [height]="450" [trigger]="triggerObservable" (imageCapture)="handleImage($event)">
+    </div> -->
+      <div class="card-body text-center" style="height: 470px;">
+        <h3>{{now|date:'hh:mm:ss a'}}</h3>
+        <div style="margin: auto;margin-top: 20px;">
+          <webcam [height]="350" [trigger]="triggerObservable" (imageCapture)="handleImage($event)">
           </webcam>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-12	col-md-12	col-lg-4 col-xl-4">
+  <div class="col-sm-4	col-md-4	col-lg-4 col-xl-4">
     <div class="card card-light">
-      <div class="card-header text-center">
-        <h1>Registrar nueva marcación</h1>
-      </div>
+<!--       <div class="card-header text-center">
+        <h1>Registrar marcación</h1>
+      </div> -->
       <div class="card-body text-center">
-        <label for="codigo"></label>
+    <!--     <h3>Registrar marcación</h3> -->
+
         <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="password" ng-minlength="4"
           ng-maxlength="4" readonly style="text-align: center;"><br>
         <div role="alert" class="error-message" *ngIf="validacionInput">
@@ -51,24 +52,21 @@
         </div>
         <table style=" margin: auto;">
           <tr>
-            <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+            <td><button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('7')">7</button></td>
             <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('8')">8</button></td>
             <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('9')">9</button></td>
           </tr>
-
           <tr>
-            <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
+            <td><button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('4')">4</button></td>
             <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('5')">5</button></td>
             <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('6')">6</button></td>
           </tr>
-
-
           <tr>
             <td> <button class="btn btn-outline-secondary" style="height: 70px;width: 70px;font-size: 20pt;"
                 (click)="asignar('1')">1</button></td>
@@ -85,9 +83,9 @@
           </tr>
         </table>
         <div class="text-center">
-          <button class="btn btn-success mt-2 mr-2" (click)="open(content,'ENTRADA')" style="width: 170px;">Registrar
+          <button class="btn btn-success mt-2 mr-2" (click)="open(content,'ENTRADA')" style="width: 90px;height: 55px;">
             Entrada</button>
-          <button class="btn btn-danger mt-2" (click)="open(content,'SALIDA')" style="width: 170px;">Registrar
+          <button class="btn btn-danger mt-2" (click)="open(content,'SALIDA')" style="width: 90px;height: 55px;">
             Salida</button>
         </div>
       </div>

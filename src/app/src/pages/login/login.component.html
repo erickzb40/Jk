@@ -11,10 +11,10 @@
           <form  (ngSubmit)="login(f)" #f="ngForm">
             <span class="text-danger animated fadeIn" *ngIf="f.submitted&&f.controls['empresa'].errors">Este campo es obligatiorio</span>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" [(ngModel)]="usuario.empresa" name="empresa">
+              <input type="text" class="form-control" placeholder="Empresa" [(ngModel)]="usuario.empresa" name="empresa">
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <span class="far fa-building"></span>
+                  <span class="fas fa-building"></span>
                 </div>
               </div>
             </div>

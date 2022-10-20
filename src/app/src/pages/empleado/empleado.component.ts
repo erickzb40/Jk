@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
+import { round } from 'lodash';
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
@@ -30,20 +31,73 @@ export class EmpleadoComponent implements OnInit {
   hoy = new Date;
   nombreEmpleado = '';
   num_doc = '';
-  ip_public='';
+  ip_public = '';
   validacionInput = false;
   uri: any = null;
   public confirmar = false;
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
 
+
+/*   list: any[] = [
+    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
+    { "fecha": "2022-10-01T22:40:00", "identificador": "SALIDA", "nombre": "erickass" },
+    { "fecha": "2022-10-01T23:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
+    { "fecha": "2022-10-01T23:40:00", "identificador": "SALIDA", "nombre": "erick" },
+    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
+    { "fecha": "2022-10-01T22:30:00", "identificador": "SALIDA", "nombre": "erickass" },
+    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erick" },
+    { "fecha": "2022-10-01T23:30:00", "identificador": "SALIDA", "nombre": "erick" },
+    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
+  ] */
+
   constructor(public aut: AuthService, private modalService: NgbModal, public rout: Router) {
-    aut.buscarIp().subscribe((res:any)=>{
-    this.ip_public=res.ip;
+   /*  var lista=this.ordenarEmpleadoFecha(this.list);
+    var listaFinal=[];
+    lista.forEach(element => {
+      listaFinal.push({nombre:element.nombre});
+      for (let index = 1; index <= 31; index++) {
+      var horas=this.extraerHoraDia(element,index);
+      Object.defineProperty(listaFinal[0], 'dia '+index, {value:(horas / (1000 * 60 * 60)).toFixed(1)})
+    }});
+    console.log(listaFinal); */
+    aut.buscarIp().subscribe((res: any) => {
+      this.ip_public = res.ip;
     });
     moment.locale();
   }
-
+  extraerHoraDia(element,dia:Number){
+    var ENTRADA=0;
+    var SALIDA=0;
+    for (let index = 0; index < element.asistencia.length; index++) {
+     if(element.asistencia[index].identificador=='ENTRADA'&&element.asistencia.length-1>index&&new Date(element.asistencia[index].fecha).getDate()==dia){
+      ENTRADA=ENTRADA+new Date(element.asistencia[index].fecha).getTime();
+     }
+     if(element.asistencia[index].identificador=='SALIDA'&&index>=1&&new Date(element.asistencia[index].fecha).getDate()==dia){
+          SALIDA=SALIDA+new Date(element.asistencia[index].fecha).getTime();
+        }
+    }
+    var horas= Math.abs(SALIDA-ENTRADA);
+    return horas;
+  }
+  ordenarEmpleadoFecha(list:any) {
+    var empleados = [];
+    var fecha = [];
+    const busqueda = list.reduce((acc, persona) => {
+      acc[persona.nombre] = ++acc[persona.nombre] || 0;
+      return acc;
+    }, {});
+    let empNombre = Object.keys(busqueda);
+    empNombre.forEach(nombre => {
+      fecha = [];
+      list.forEach(element => {
+        if (element.nombre == nombre) {
+          fecha.push({ fecha: element.fecha ,identificador:element.identificador});
+        }});
+      empleados.push({ nombre: nombre, asistencia: fecha });
+    });
+    return empleados;
+  }
   asignar(codigo: string) {
     this.codigo += codigo;
     this.validarInput();
@@ -90,7 +144,7 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64,this.ip_public).subscribe(
+    this.aut.entrada('AUTOMATICO', parseInt(this.codigo), this.registro, this.img64, this.ip_public).subscribe(
       res => {
         this.codigo = '';
         return this.popup(res['fecha'], this.registro);
@@ -110,11 +164,11 @@ export class EmpleadoComponent implements OnInit {
   }
 
   open(content, registro) {
-    if(this.validarLocalStorage()){
-     return Swal.fire({
-        icon:'warning',
-        title:'Mensaje',
-        text:'La empresa no ha sido asignada, debe logearse para realizar la configuración'
+    if (this.validarLocalStorage()) {
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Mensaje',
+        text: 'La empresa no ha sido asignada, debe logearse para realizar la configuración'
       });
     }
     this.validarInput();
@@ -124,7 +178,7 @@ export class EmpleadoComponent implements OnInit {
       allowOutsideClick: false
     });
     Swal.showLoading();
-    this.aut.getEmpleado(this.codigo).subscribe((res:any) => {
+    this.aut.getEmpleado(this.codigo).subscribe((res: any) => {
       if (Object.entries(res).length !== 0) {
         Swal.close();
         this.nombreEmpleado = res.nombre;
@@ -136,11 +190,11 @@ export class EmpleadoComponent implements OnInit {
           this.img64 = reader.result;
         };
         this.registro = registro;
-        if(this.file.size<3000){
+        if (this.file.size < 3000) {
           return Swal.fire({
-            icon:'warning',
-            title:'Mensaje',
-            text:'Hay problemas con la camara, Habilitelo y reinicie la pagina'
+            icon: 'warning',
+            title: 'Mensaje',
+            text: 'Hay problemas con la camara, Habilitelo y reinicie la pagina'
           });
         }
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {

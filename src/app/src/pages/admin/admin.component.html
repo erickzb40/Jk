@@ -64,7 +64,7 @@
                                 </thead>
                                 <tbody>
                                   <tr
-                                    *ngFor="let fila of asistencias | paginate: { itemsPerPage: 10, currentPage: po }| filter:filterpost:['nombre','fecha','identificador','tipo']; let i = index">
+                                    *ngFor="let fila of asistencias| sort: 'id' | paginate: { itemsPerPage: 10, currentPage: po }| filter:filterpost:['nombre','fecha','identificador','tipo']; let i = index">
                                     <td>{{fila.id}}</td>
                                     <!-- |date:'short' -->
                                     <td>{{fila.fecha|date:'short'}}</td>
