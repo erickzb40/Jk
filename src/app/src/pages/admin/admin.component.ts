@@ -1,3 +1,4 @@
+import { FiltrarTablaService } from './../services/filtrar-tabla.service';
 import { Asistencia } from 'src/app/models/asistencia.interface';
 import { NgForm, FormsModule } from '@angular/forms';
 import { EmpleadoModel } from './../../../models/empleado.interface';
@@ -25,7 +26,9 @@ export class AdminComponent implements OnInit {
   asistencia= {} as Asistencia;
   // listadoEmpleado = [];//llenar el select con los datos del empleado
   filterpost: string;
+  HorasTrabajadas:any=[];//horas trabajadas de asistencia
   asistencias: any = [];
+  asistencias2: any = [];
   empleados: any = [];
   empleado_p: number = 1;
   po: number = 1;
@@ -37,8 +40,9 @@ export class AdminComponent implements OnInit {
 
   constructor(public aut: AuthService,
     private domSanitizer: DomSanitizer,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService,
+    private FiltrarTabla:FiltrarTablaService
+      ) { }
 
   ngOnInit(): void {
     this.cargarAsistencia();
@@ -162,17 +166,13 @@ export class AdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    this.excelService.exportAsExcelFile(this.asistencias, 'asistencia');
+    var reporte=this.FiltrarTabla.filtrarHorasEmpleado(this.asistencias);
+    this.excelService.exportAsExcelFile(reporte, 'reporte');
   }
   cargarAsistencia() {
     this.aut.obtenerAsistencia().subscribe((res: any[]) => {
       this.asistencias = res;
-      // var tmp = [];
-      // res.forEach(element => {
-      //   tmp.push(element.nombre);
-      // });
-      // this.listadoEmpleado = Array.from(new Set(tmp))
-      // console.log(this.listadoEmpleado);
+      this.asistencias2 = res;
     });
   }
   validarEmpresaLocalStorage() {

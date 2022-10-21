@@ -38,66 +38,13 @@ export class EmpleadoComponent implements OnInit {
   public webcamImage: WebcamImage | undefined;
   private trigger: Subject<void> = new Subject<void>();
 
-
-/*   list: any[] = [
-    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
-    { "fecha": "2022-10-01T22:40:00", "identificador": "SALIDA", "nombre": "erickass" },
-    { "fecha": "2022-10-01T23:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
-    { "fecha": "2022-10-01T23:40:00", "identificador": "SALIDA", "nombre": "erick" },
-    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
-    { "fecha": "2022-10-01T22:30:00", "identificador": "SALIDA", "nombre": "erickass" },
-    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erick" },
-    { "fecha": "2022-10-01T23:30:00", "identificador": "SALIDA", "nombre": "erick" },
-    { "fecha": "2022-10-01T20:30:00", "identificador": "ENTRADA", "nombre": "erickass" },
-  ] */
-
   constructor(public aut: AuthService, private modalService: NgbModal, public rout: Router) {
-   /*  var lista=this.ordenarEmpleadoFecha(this.list);
-    var listaFinal=[];
-    lista.forEach(element => {
-      listaFinal.push({nombre:element.nombre});
-      for (let index = 1; index <= 31; index++) {
-      var horas=this.extraerHoraDia(element,index);
-      Object.defineProperty(listaFinal[0], 'dia '+index, {value:(horas / (1000 * 60 * 60)).toFixed(1)})
-    }});
-    console.log(listaFinal); */
     aut.buscarIp().subscribe((res: any) => {
       this.ip_public = res.ip;
     });
     moment.locale();
   }
-  extraerHoraDia(element,dia:Number){
-    var ENTRADA=0;
-    var SALIDA=0;
-    for (let index = 0; index < element.asistencia.length; index++) {
-     if(element.asistencia[index].identificador=='ENTRADA'&&element.asistencia.length-1>index&&new Date(element.asistencia[index].fecha).getDate()==dia){
-      ENTRADA=ENTRADA+new Date(element.asistencia[index].fecha).getTime();
-     }
-     if(element.asistencia[index].identificador=='SALIDA'&&index>=1&&new Date(element.asistencia[index].fecha).getDate()==dia){
-          SALIDA=SALIDA+new Date(element.asistencia[index].fecha).getTime();
-        }
-    }
-    var horas= Math.abs(SALIDA-ENTRADA);
-    return horas;
-  }
-  ordenarEmpleadoFecha(list:any) {
-    var empleados = [];
-    var fecha = [];
-    const busqueda = list.reduce((acc, persona) => {
-      acc[persona.nombre] = ++acc[persona.nombre] || 0;
-      return acc;
-    }, {});
-    let empNombre = Object.keys(busqueda);
-    empNombre.forEach(nombre => {
-      fecha = [];
-      list.forEach(element => {
-        if (element.nombre == nombre) {
-          fecha.push({ fecha: element.fecha ,identificador:element.identificador});
-        }});
-      empleados.push({ nombre: nombre, asistencia: fecha });
-    });
-    return empleados;
-  }
+
   asignar(codigo: string) {
     this.codigo += codigo;
     this.validarInput();

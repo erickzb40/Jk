@@ -8,7 +8,7 @@ const EXCEL_EXTENSION = '.xlsx';
 export class ExcelService {
 constructor() { }
 public exportAsExcelFile(json: any , excelFileName: string): void {
-  var emp=json;
+/*   var emp=json;
   var emp2=[];
   emp.forEach(element => {
     // _.omit(element, [ 'nombre' ])
@@ -16,8 +16,8 @@ public exportAsExcelFile(json: any , excelFileName: string): void {
     var i=b;
     emp2.push(i);
   });
-  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet((emp2));
-  console.log('worksheet',worksheet);
+  console.log(emp2); */
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet((json));
   const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
