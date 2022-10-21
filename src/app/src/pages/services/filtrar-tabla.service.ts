@@ -1,3 +1,4 @@
+import { Asistencia } from 'src/app/models/asistencia.interface';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -30,47 +31,60 @@ export class FiltrarTablaService {
       lista.push(i);
     });
     lista = list.sort(function (a, b) {
-      if (a.id < b.id)
+      if (a.fecha < b.fecha)
         return -1;
-      if (a.campoString > b.campoString)
+      if (a.fecha > b.fecha)
         return 1;
       return 0;
     })
     return lista;
+
   }
-  extraerHoraDia(element, dia: number) {
+  extraerHoraDia(element, dia: number) {//asistencias de un empleado
     var ENTRADA = 0;
     var SALIDA = 0;
     var HORAS = 0;
-    for (let index = 0; index < element.asistencia.length; index++) {
+    for (let index = 0; index < element.asistencia.length; index++) {//array de asistencias del empleado
       var fecha = new Date(element.asistencia[index].fecha);
       var identificador = element.asistencia[index].identificador;
       if (fecha.getDate() == dia) {//filtra por dia
-        if(index==0&&identificador=='ENTRADA'){//validar si el primer marcador es entrada
-          ENTRADA=fecha.getTime();
+        if (index == 0 && identificador == 'ENTRADA') {//validar si el primer marcador es entrada
+          ENTRADA = fecha.getTime();
+        } if (index > 0 && identificador == 'ENTRADA') {//validar las demas entradas
+          ENTRADA = fecha.getTime();
         }
-        if(index>0&&identificador=='SALIDA'&&ENTRADA!=0){
-          SALIDA=fecha.getTime();
-          HORAS=HORAS+SALIDA-ENTRADA;
-          SALIDA=0;
-          ENTRADA=0;
+        if (index > 0 && identificador == 'SALIDA' && ENTRADA != 0) {//valida las salidas
+          SALIDA = fecha.getTime();
+          HORAS = HORAS + SALIDA - ENTRADA;
+          SALIDA = 0;
+          ENTRADA = 0;
+        }
+        if(element.asistencia.length-1!=index && new Date(element.asistencia[index+1].fecha).getDate()==(dia+1)&&identificador == 'ENTRADA'){
+          if(element.asistencia[index+1].identificador=='SALIDA'){
+            ENTRADA=fecha.getTime();
+            SALIDA = new Date(element.asistencia[index+1].fecha).getTime();
+            HORAS = HORAS + SALIDA - ENTRADA;
+            SALIDA = 0;
+            ENTRADA = 0;
+          }
         }
       }
     }
     return this.convertirMiliHora(HORAS);
   }
+
   convertirMiliHora(s) {
-    if(s==0){return ''}
-      function addZ(n) {
-        return (n < 10 ? '0' : '') + n;
-      }
-      var ms = s % 1000;
-      s = (s - ms) / 1000;
-      var secs = s % 60;
-      s = (s - secs) / 60;
-      var mins = s % 60;
-      var hrs = (s - mins) / 60;
-      return addZ(hrs) + ':' + addZ(mins) + ':' + addZ(secs);
+    if (s == 0) { return '' }
+    function addZ(n) {
+      return (n < 10 ? '0' : '') + n;
+    }
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    var hrs = (s - mins) / 60;
+    return addZ(hrs) + ':' + addZ(mins) + ':' + addZ(secs);
   }
   ordenarEmpleadoFecha(list: any) {
     var empleados = [];
