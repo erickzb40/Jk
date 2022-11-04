@@ -45,7 +45,7 @@
       <div class="card-body text-center">
     <!--     <h3>Registrar marcación</h3> -->
 
-        <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="password" ng-minlength="4"
+        <input class="mb-1 form-control" [ngModel]="codigo" id="codigo" name="codigo" type="text" ng-minlength="4"
           ng-maxlength="4" readonly style="text-align: center;"><br>
         <div role="alert" class="error-message" *ngIf="validacionInput">
           <p>Ingrese un codigo!</p>
@@ -96,7 +96,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Perfil Empleado</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="limpiarModal();modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -114,7 +114,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('Cross click')">Cancelar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="limpiarModal();modal.dismiss('Cross click')">Cancelar</button>
     <button type="button" class="btn btn-outline-success"
       (click)="marcarEntrada();modal.close('Save click')">Aceptar</button>
   </div>

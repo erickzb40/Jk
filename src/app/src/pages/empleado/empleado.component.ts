@@ -102,12 +102,17 @@ export class EmpleadoComponent implements OnInit {
     );
   }
 
+
   popup(parametroDate, tipo) {
     let fecha = (moment(parametroDate)).format('LTS')
     return Swal.fire({
       icon: 'success',
       title: ' Registrado!',
     });
+  }
+
+  limpiarModal(){
+    this.codigo='';
   }
 
   open(content, registro) {
@@ -128,6 +133,7 @@ export class EmpleadoComponent implements OnInit {
     this.aut.getEmpleado(this.codigo).subscribe((res: any) => {
       if (Object.entries(res).length !== 0) {
         Swal.close();
+        this.hoy=new Date();
         this.nombreEmpleado = res.nombre;
         this.num_doc = res.num_doc;
         this.triggerSnapshot();

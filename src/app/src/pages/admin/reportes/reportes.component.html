@@ -1,0 +1,112 @@
+<app-header></app-header>
+<section class="content">
+<div class="m-2">
+  <div class="card">
+    <div class="card-header text-center" style="height: 50px;">
+      <h2>Reporte Consolidado Diario</h2>
+    </div>
+    <div class="card-body">
+      <div class="hed">
+        <input type="text" class="form-control" style="width: 250px" placeholder="Buscar.." [(ngModel)]="filterpost"
+        name="filterpost" />
+        <select class="form-select" [(ngModel)]="mesActual" style="width: 150px;" (change)="reporteMesSelect()">
+          <option  [value]="i" *ngFor="let item of fecha; let i = index">{{item}}</option>
+        </select>
+        <div class="dropdown mb-1">
+          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Reportes Excel
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" (click)="reporteMes()">Total</a>
+            <!--    <a class="dropdown-item" disabled>Reporte Por dia</a> -->
+            <a class="dropdown-item" (click)="exportToExcel()">Consolidado Diario</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive table-bordered table-hover">
+        <table *ngIf="reporteMesActual!=null" id="tblreporte" class="table">
+          <thead>
+            <tr style="background-color: rgb(0, 255, 255);">
+              <th scope="col">Empleado</th>
+              <th scope="col">Codigo</th>
+              <th scope="col">1</th>
+              <th scope="col">2</th>
+              <th scope="col">3</th>
+              <th scope="col">4</th>
+              <th scope="col">5</th>
+              <th scope="col">6</th>
+              <th scope="col">7</th>
+              <th scope="col">8</th>
+              <th scope="col">9</th>
+              <th scope="col">10</th>
+              <th scope="col">11</th>
+              <th scope="col">12</th>
+              <th scope="col">13</th>
+              <th scope="col">14</th>
+              <th scope="col">15</th>
+              <th scope="col">16</th>
+              <th scope="col">17</th>
+              <th scope="col">18</th>
+              <th scope="col">19</th>
+              <th scope="col">20</th>
+              <th scope="col">21</th>
+              <th scope="col">22</th>
+              <th scope="col">23</th>
+              <th scope="col">24</th>
+              <th scope="col">25</th>
+              <th scope="col">26</th>
+              <th scope="col">27</th>
+              <th scope="col">28</th>
+              <th scope="col">29</th>
+              <th scope="col">30</th>
+              <th scope="col">31</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fila of reporteMesActual| filter:filterpost:['Nombre']| sort: 'Nombre' |paginate: { itemsPerPage: 5, currentPage: reporte}">
+              <td scope="col">{{fila.Nombre}}</td>
+              <td scope="col">{{fila.Codigo}}</td>
+              <td scope="col">{{fila.dia1}}</td>
+              <td scope="col">{{fila.dia2}}</td>
+              <td scope="col">{{fila.dia3}}</td>
+              <td scope="col">{{fila.dia4}}</td>
+              <td scope="col">{{fila.dia5}}</td>
+              <td scope="col">{{fila.dia6}}</td>
+              <td scope="col">{{fila.dia7}}</td>
+              <td scope="col">{{fila.dia8}}</td>
+              <td scope="col">{{fila.dia9}}</td>
+              <td scope="col">{{fila.dia10}}</td>
+              <td scope="col">{{fila.dia11}}</td>
+              <td scope="col">{{fila.dia12}}</td>
+              <td scope="col">{{fila.dia13}}</td>
+              <td scope="col">{{fila.dia14}}</td>
+              <td scope="col">{{fila.dia15}}</td>
+              <td scope="col">{{fila.dia16}}</td>
+              <td scope="col">{{fila.dia17}}</td>
+              <td scope="col">{{fila.dia18}}</td>
+              <td scope="col">{{fila.dia19}}</td>
+              <td scope="col">{{fila.dia20}}</td>
+              <td scope="col">{{fila.dia21}}</td>
+              <td scope="col">{{fila.dia22}}</td>
+              <td scope="col">{{fila.dia23}}</td>
+              <td scope="col">{{fila.dia24}}</td>
+              <td scope="col">{{fila.dia25}}</td>
+              <td scope="col">{{fila.dia26}}</td>
+              <td scope="col">{{fila.dia27}}</td>
+              <td scope="col">{{fila.dia28}}</td>
+              <td scope="col">{{fila.dia29}}</td>
+              <td scope="col">{{fila.dia30}}</td>
+              <td scope="col">{{fila.dia31}}</td>
+              <td scope="col" style="background-color: rgb(0, 255, 255);">{{fila.Total}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="reporte = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

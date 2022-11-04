@@ -1,6 +1,7 @@
-.hed{
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 10px;
-  width: 100%;
+
+.dropdown-item{
+  cursor: pointer;
+}
+.myCustomModalClass .modal-dialog {
+  max-width: 1165px;
 }

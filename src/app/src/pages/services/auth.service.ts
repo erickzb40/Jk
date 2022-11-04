@@ -9,8 +9,8 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
-  localhost='https://jk-smart.com:82/';
-  //localhost='https://localhost:7195/';
+ localhost='https://jk-smart.com:82/';
+   //localhost='https://localhost:7195/';
 
   loginUrl = this.localhost+'api/Usuario/login';
   AsistenciaUrl = this.localhost+'api/Asistencia';
@@ -82,9 +82,6 @@ getListaEmpleados(){
  var token=localStorage.getItem('token');
  return this.http.get(this.localhost+'api/Empleado?token='+token);
 }
-
-
-
 updateEmpleado(form:EmpleadoModel){
   var token=localStorage.getItem('token');
   return this.http.post(this.localhost+'api/Empleado/update?token='+token,form);
@@ -93,12 +90,10 @@ insertEmpleado(form:EmpleadoModel){
   var token=localStorage.getItem('token');
   return this.http.post(this.localhost+'api/Empleado/insert?token='+token,form);
 }
-
 getLocales(){
   var token=localStorage.getItem('token');
   return this.http.get(this.localhost+'local?token='+token);
 }
-
 updateAsistencia(form:any){
   form.tipo='MANUAL';
   var token=localStorage.getItem('token');
@@ -120,5 +115,15 @@ cargando(){
     allowOutsideClick: false
   });
   Swal.showLoading();
+}
+
+getAsistenciaPorMes(mes:any){
+var token=localStorage.getItem('token');
+return this.http.get(this.localhost+'api/Asistencia/mes?token='+token+'&mes='+mes);
+}
+
+getAsistenciaEmpleado(desde:string,hasta:string,empleado:string){
+  var token=localStorage.getItem('token');
+  return this.http.get(this.localhost+"api/Asistencia/empleado?token="+token+"&desde="+desde+"&hasta="+hasta+"&empleado="+empleado);
 }
 }

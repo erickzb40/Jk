@@ -27,6 +27,9 @@ import { ExcelService} from './src/pages/services/export-excel.service';
 import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
 import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asistencia-form.component';
 import { SortPipe } from './src/pages/shared/pipes/sort.pipe';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { ReportesComponent } from './src/pages/admin/reportes/reportes.component';
 
 // import {AuthModule} from './auth/auth.module';
 
@@ -46,12 +49,15 @@ import { SortPipe } from './src/pages/shared/pipes/sort.pipe';
     FilterPipe,
     AsistenciaFormComponent,
     SortPipe,
+    ReportesComponent,
       ],
   imports: [
     BrowserModule,
     MatTableModule,
     MatTabsModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatInputModule,
     ReactiveFormsModule,
     NgxPaginationModule,

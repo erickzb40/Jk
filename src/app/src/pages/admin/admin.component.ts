@@ -1,10 +1,11 @@
-import { FiltrarTablaService } from './../services/filtrar-tabla.service';
 import { Asistencia } from 'src/app/models/asistencia.interface';
 import { NgForm, FormsModule } from '@angular/forms';
 import { EmpleadoModel } from './../../../models/empleado.interface';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ExcelService } from '../services/export-excel.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
 import Swal from 'sweetalert2';
 
 import { DomSanitizer } from '@angular/platform-browser';
@@ -25,15 +26,21 @@ export class AdminComponent implements OnInit {
   };
   asistencia= {} as Asistencia;
   // listadoEmpleado = [];//llenar el select con los datos del empleado
-  filterpost: string;
+  closeResult = '';//viene del modal
+  filterpost: string='';
   HorasTrabajadas:any=[];//horas trabajadas de asistencia
+
   asistencias: any = [];
-  asistencias2: any = [];
+  asistenciaEmpleado: any = [];
   empleados: any = [];
   empleado_p: number = 1;
   po: number = 1;
   p: number = 1;
+  ae:number=1;
   ip_public='';
+  fecha1: string;
+  fecha2: string;
+  id_empleado:string;//dato para obtener asistencia del empleado
   @Input() empleadoObj: any;
   empleadoObj2 = {} as EmpleadoModel;
   @Input() asistenciaObj: Asistencia;
@@ -41,10 +48,13 @@ export class AdminComponent implements OnInit {
   constructor(public aut: AuthService,
     private domSanitizer: DomSanitizer,
     private excelService: ExcelService,
-    private FiltrarTabla:FiltrarTablaService
+    private modalService: NgbModal
       ) { }
 
   ngOnInit(): void {
+    var fecha = new Date();
+    this.fecha1 = fecha.toJSON().slice(0, 10);
+    this.fecha2 = fecha.toJSON().slice(0, 10);
     this.cargarAsistencia();
     this.ListarEmpleado();
     this.aut.buscarIp().subscribe((res:any)=>{
@@ -165,17 +175,43 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  exportToExcel(): void {
-    var reporte=this.FiltrarTabla.filtrarHorasEmpleado(this.asistencias);
-    this.excelService.exportAsExcelFile(reporte, 'reporte');
-  }
+
+
   cargarAsistencia() {
+    Swal.showLoading();
     this.aut.obtenerAsistencia().subscribe((res: any[]) => {
+      Swal.close();
       this.asistencias = res;
-      this.asistencias2 = res;
-    });
+    },error=>{Swal.close();});
   }
   validarEmpresaLocalStorage() {
     if (localStorage.getItem('token') == null) { return Swal.fire({ icon: 'warning', text: 'La empresa no esta asginada, vuelva a logearse' }) }
+  }
+  openReport(content,id_empleado){
+    this.id_empleado=id_empleado;
+    this.asistenciaEmpleado=[];
+    this.busquedaAsistenciaEmpleado();
+    this.modalService.open(content,{ size: 'lg', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  busquedaAsistenciaEmpleado(){
+    this.aut.getAsistenciaEmpleado(this.fecha1,this.fecha2,this.id_empleado).subscribe((res:[])=>{
+      this.asistenciaEmpleado=res;
+    })
+  }
+  reporteEmpleado(){
+    this.excelService.exportAsExcelFile(this.asistenciaEmpleado, 'Reporte Empleado');
   }
 }

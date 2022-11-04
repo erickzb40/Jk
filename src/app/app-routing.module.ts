@@ -1,3 +1,4 @@
+import { ReportesComponent } from './src/pages/admin/reportes/reportes.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './src/pages/login/login.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,6 +8,7 @@ import { PageNotFoundComponent} from './src/pages/page-not-found/page-not-found.
 
 const APP_ROUTES: Routes = [
   {path:'login',component:LoginComponent},
+  {path:'reportes',component:ReportesComponent,canActivate:[AuthGuard]},
   {path:'empleado',component:EmpleadoComponent},
   {path:'admin',component:AdminComponent,canActivate:[AuthGuard]},
   {path: '', pathMatch: 'full', redirectTo: 'empleado'},
