@@ -78,7 +78,7 @@ export class FiltrarTablaService {
             ENTRADA = 0;
           }
           //VALIDAMOS SI EL DIA TERMINA CON UNA ENTRADA Y TIENE UNA SALIDA EN EL DIA SIGUIENTE
-          if (identificador == 'ENTRADA' && new Date(element.asistencia[index + 1].fecha).getDate() == (dia + 1) && element.asistencia[index + 1].identificador != 'SALIDA') {
+          if (identificador == 'ENTRADA' && new Date(element.asistencia[index + 1].fecha).getDate() == (dia + 1) && element.asistencia[index + 1].identificador == 'SALIDA') {
             SALIDA = new Date(element.asistencia[index+1].fecha).getTime();
             HORAS = HORAS + SALIDA - fecha.getTime();
             SALIDA = 0;
@@ -92,29 +92,6 @@ export class FiltrarTablaService {
             ENTRADA = 0;
           }
         }
-
-
-
-        /*     if (index == 0 && identificador == 'ENTRADA') {//validar si el primer marcador es entrada
-              ENTRADA = fecha.getTime();
-            } if (index > 0 && identificador == 'ENTRADA' && ENTRADA!=0) {//validar las demas entradas
-              ENTRADA = fecha.getTime();
-            }
-            if (index > 0 && identificador == 'SALIDA' && ENTRADA != 0) {//valida las salidas
-              SALIDA = fecha.getTime();
-              HORAS = HORAS + SALIDA - ENTRADA;
-              SALIDA = 0;
-              ENTRADA = 0;
-            }
-            if(element.asistencia.length-1!=index && new Date(element.asistencia[index+1].fecha).getDate()==(dia+1)&&identificador == 'ENTRADA'){
-              if(element.asistencia[index+1].identificador=='SALIDA'){
-                ENTRADA=fecha.getTime();
-                SALIDA = new Date(element.asistencia[index+1].fecha).getTime();
-                HORAS = HORAS + SALIDA - ENTRADA;
-                SALIDA = 0;
-                ENTRADA = 0;
-              }
-            } */
       }
     }
     return (HORAS);

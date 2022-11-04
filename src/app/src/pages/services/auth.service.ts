@@ -9,7 +9,7 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class AuthService {
- localhost='https://jk-smart.com:82/';
+   localhost='https://jk-smart.com:82/';
    //localhost='https://localhost:7195/';
 
   loginUrl = this.localhost+'api/Usuario/login';
@@ -117,13 +117,18 @@ cargando(){
   Swal.showLoading();
 }
 
-getAsistenciaPorMes(mes:any){
+getAsistenciaPorMes(mes:any,año:any){
 var token=localStorage.getItem('token');
-return this.http.get(this.localhost+'api/Asistencia/mes?token='+token+'&mes='+mes);
+return this.http.get(this.localhost+'api/Asistencia/mes?token='+token+'&mes='+mes+'&year='+año);
 }
 
 getAsistenciaEmpleado(desde:string,hasta:string,empleado:string){
   var token=localStorage.getItem('token');
   return this.http.get(this.localhost+"api/Asistencia/empleado?token="+token+"&desde="+desde+"&hasta="+hasta+"&empleado="+empleado);
 }
+rangoAsistencia(desde:string,hasta:string){
+  var token=localStorage.getItem('token');
+  return this.http.get(this.localhost+"api/Asistencia/rangoAsistencia?token="+token+"&desde="+desde+"&hasta="+hasta);
+}
+
 }

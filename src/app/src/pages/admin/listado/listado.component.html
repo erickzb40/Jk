@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <div class="card card-light card-tabs">
+      <div class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active listaAsistenciaBtn" data-toggle="pill" href="#alce">Listado</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " data-toggle="pill" href="#accr">Crear</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link actualizar-crud-asistencia-btn" data-toggle="pill"
+              href="#aucr">Actualizar</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="alce">
+         <div class="row mb-1">
+          <div style="width: 260px;">
+            <label for="">Filtrar por nombre:</label>
+            <input type="text" class="form-control" style="width: 250px" placeholder="Buscar.." [(ngModel)]="filterAsistencia"
+            name="filterpost" />
+          </div>
+          <div style="width: 230px;">
+            <label for="">Desde:</label>
+            <div class="input-group date" data-provide="datepicker">
+              <input type="date" class="form-control" [(ngModel)]="fecha1">
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </div>
+            </div>
+          </div>
+          <div style="width: 230px;">
+            <label for="">Hasta:</label>
+            <div class="input-group date" data-provide="datepicker">
+              <input type="date" class="form-control" [(ngModel)]="fecha2">
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </div>
+            </div>
+          </div>
+          <div style="width: 60px;">
+            <label for="">Buscar:</label><br>
+            <button class="btn btn-success" style="width: 50px;" (click)="busquedaAsistenciaRango()"><i
+                class="bi bi-search"></i></button>
+          </div>
+         </div>
+            <div class="table-responsive">
+              <table *ngIf="asistencias!=null" id="asistencia-excel" class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">IMAGEN</th>
+                    <th scope="col">TIPO</th>
+                    <th scope="col">IDENTIFICADOR</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">EDITAR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let fila of asistencias| filter:filterAsistencia:['nombre']| sort: 'fecha'| paginate: { itemsPerPage: 10, currentPage: ae }">
+                    <td>{{fila.id}}</td>
+                    <!-- |date:'short' -->
+                    <td>{{fila.fecha|date:'short'}}</td>
+                    <td>{{fila.nombre}}</td>
+                    <td *ngIf="fila.imagen"><a style="cursor: pointer;"
+                        (click)="mostrarImagen(fila.imagen)"><img width="50"
+                          [src]="fila.imagen |imagen"></a></td>
+                    <td *ngIf="!fila.imagen"><a><img width="50"
+                          src="./../../../../assets/dist/img/userDefault.jpg"></a></td>
+                    <td>{{fila.tipo}}</td>
+                    <td *ngIf="fila.identificador=='SALIDA'"><span
+                        class="badge badge-pill badge-danger">{{fila.identificador}}</span></td>
+                    <td *ngIf="fila.identificador=='ENTRADA'"><span
+                        class="badge badge-pill badge-success">{{fila.identificador}}</span></td>
+                        <td>{{fila.ip_public}}</td>
+                    <td><a style="cursor: pointer;" (click)="openEditAsistencia(fila)"><i
+                          class="bi bi-pencil-square"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <pagination-controls (pageChange)="ae = $event"></pagination-controls>
+          </div>
+          <div class="tab-pane fade show" id="accr">
+            <app-asistencia-form (AsistenciaUpdate)="enviarAsistencia($event,false)" [crud]="false">
+            </app-asistencia-form>
+          </div>
+          <div class="tab-pane fade show" id="aucr">
+            <app-asistencia-form (AsistenciaUpdate)="enviarAsistencia($event,true)" [crud]="true"
+              [asistencia]="asistencia"></app-asistencia-form>
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>

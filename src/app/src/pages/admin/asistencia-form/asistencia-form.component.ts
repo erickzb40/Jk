@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import Swal from 'sweetalert2';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -10,25 +11,32 @@ import { Asistencia } from 'src/app/models/asistencia.interface';
 })
 export class AsistenciaFormComponent implements OnInit {
 
-  constructor() {
+  constructor(public aut: AuthService) {
     this.AsistenciaUpdate = new EventEmitter();
-   }
-  @Input() asistencia= {} as Asistencia;
-  @Input() crud:boolean=false;
+  }
+  fechaModelo ='';
+  @Input() asistencia = { identificador: 'null'} as Asistencia;
+  @Input() crud: boolean = false;
   @Output() AsistenciaUpdate: EventEmitter<NgForm>;
-  @Output() asistenciaObj:Asistencia=this.asistencia;
+  @Output() asistenciaObj: Asistencia = this.asistencia;
 
   ngOnInit(): void {
   }
+
   enviar(form: NgForm) {
     if (form.invalid) {
       return;
     }//si el formulario es invalido no hace nada;
 
-     if(!isNaN(form.form.value.codigo)||form.form.value.codigo==undefined){
+    if (!isNaN(form.form.value.codigo) || form.form.value.codigo == undefined) {
       this.AsistenciaUpdate.emit(form);
-    }else{
-      return Swal.fire({icon:'warning',text:'El codigo debe ser numerico!'});
+    } else {
+      return Swal.fire({ icon: 'warning', text: 'El codigo debe ser numerico!' });
     }
   }
+  /*   ListarEmpleado() {
+      this.aut.getListaEmpleados().subscribe((res: any[]) => {
+        this.empleados = res;
+      });
+    } */
 }

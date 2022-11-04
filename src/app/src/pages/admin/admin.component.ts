@@ -24,22 +24,20 @@ export class AdminComponent implements OnInit {
     descripcion: '',
     codigo: null
   };
-  asistencia= {} as Asistencia;
   // listadoEmpleado = [];//llenar el select con los datos del empleado
   closeResult = '';//viene del modal
   filterpost: string='';
   HorasTrabajadas:any=[];//horas trabajadas de asistencia
-
-  asistencias: any = [];
   asistenciaEmpleado: any = [];
   empleados: any = [];
   empleado_p: number = 1;
   po: number = 1;
   p: number = 1;
   ae:number=1;
-  ip_public='';
   fecha1: string;
   fecha2: string;
+  fecha1Asistencia: string;
+  fecha2Asistencia: string;
   id_empleado:string;//dato para obtener asistencia del empleado
   @Input() empleadoObj: any;
   empleadoObj2 = {} as EmpleadoModel;
@@ -53,38 +51,16 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     var fecha = new Date();
+    fecha.setDate(fecha.getDate());
     this.fecha1 = fecha.toJSON().slice(0, 10);
     this.fecha2 = fecha.toJSON().slice(0, 10);
-    this.cargarAsistencia();
+    this.fecha1Asistencia = fecha.toJSON().slice(0, 10);
+    this.fecha2Asistencia = fecha.toJSON().slice(0, 10);
+
     this.ListarEmpleado();
-    this.aut.buscarIp().subscribe((res:any)=>{
-      this.ip_public=res.ip;
-    });
   }
 
-  async enviarAsistencia(formulario: NgForm, crud: boolean) {
-    if (formulario.invalid) { return; }
-    formulario.value.ip_public=this.ip_public;
-    if (crud) {
-      this.aut.updateAsistencia(formulario.value).subscribe((res: any) => {
-        Swal.fire({ icon: 'success', text: 'Se actualizó con éxito' });
-        this.openListaAsistencia();
-        formulario.resetForm();
-        this.cargarAsistencia();
-      }, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' }); });
-    }
-    else {
-      this.validarEmpresaLocalStorage();
-      this.aut.crearAsistencia(formulario.value).subscribe((res: any) => {
-        Swal.fire({ icon: 'success', text: 'Se actualizó con éxito' });
-        this.openListaAsistencia();
-        formulario.resetForm();
-        this.cargarAsistencia();
-      },
-        err => { Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' }); }
-      );
-    }
-  }
+
   // async enviar(formulario: NgForm,crud:boolean) {
   //   if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
   //       if (crud) {
@@ -148,22 +124,13 @@ export class AdminComponent implements OnInit {
     var elemento = document.getElementById("ucr");
     elemento.className += "active show";
   }
-  openEditAsistencia(asistencia: Asistencia) {
-    this.asistencia = asistencia;
-    (<HTMLElement>document.getElementsByClassName('actualizar-crud-asistencia-btn')[0]).click()
-    var elemento = document.getElementById("aucr");
-    elemento.className += "active show";
-  }
+
   openListaEmpleado() {
     (<HTMLElement>document.getElementsByClassName('listadoEmpleadoCrud')[0]).click()
     var elemento = document.getElementById("lce");
     elemento.className += "active";
   }
-  openListaAsistencia() {
-    (<HTMLElement>document.getElementsByClassName('listaAsistenciaBtn')[0]).click()
-    var elemento = document.getElementById("alce");
-    elemento.className += "active";
-  }
+
 
   mostrarImagen(imagen) {
     if (typeof (imagen) != 'undefined') {
@@ -177,16 +144,8 @@ export class AdminComponent implements OnInit {
 
 
 
-  cargarAsistencia() {
-    Swal.showLoading();
-    this.aut.obtenerAsistencia().subscribe((res: any[]) => {
-      Swal.close();
-      this.asistencias = res;
-    },error=>{Swal.close();});
-  }
-  validarEmpresaLocalStorage() {
-    if (localStorage.getItem('token') == null) { return Swal.fire({ icon: 'warning', text: 'La empresa no esta asginada, vuelva a logearse' }) }
-  }
+
+
   openReport(content,id_empleado){
     this.id_empleado=id_empleado;
     this.asistenciaEmpleado=[];

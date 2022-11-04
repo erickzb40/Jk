@@ -7,22 +7,40 @@
     </div>
     <div class="card-body">
       <div class="hed">
-        <input type="text" class="form-control" style="width: 250px" placeholder="Buscar.." [(ngModel)]="filterpost"
+        <div style="width: 250px;">
+          <label for="">Filtrar por nombre:</label>
+          <input type="text" class="form-control" style="width: 250px" placeholder="Buscar.." [(ngModel)]="filterpost"
         name="filterpost" />
-        <select class="form-select" [(ngModel)]="mesActual" style="width: 150px;" (change)="reporteMesSelect()">
-          <option  [value]="i" *ngFor="let item of fecha; let i = index">{{item}}</option>
-        </select>
-        <div class="dropdown mb-1">
-          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Reportes Excel
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" (click)="reporteMes()">Total</a>
-            <!--    <a class="dropdown-item" disabled>Reporte Por dia</a> -->
-            <a class="dropdown-item" (click)="exportToExcel()">Consolidado Diario</a>
+        </div>
+        <div style="width: 150px;">
+          <label for="">Filtrar por año:</label>
+          <select class="form-select" [(ngModel)]="yearActual" style="width: 150px;" (change)="reporteMesSelect()">
+            <option  value="2022">2022</option>
+            <option  value="2023">2023</option>
+            <option  value="2024">2024</option>
+          </select>
+        </div>
+        <div style="width: 150px;">
+          <label for="">Filtrar por mes:</label>
+          <select class="form-select" [(ngModel)]="mesActual" style="width: 150px;" (change)="reporteMesSelect()">
+            <option  [value]="i" *ngFor="let item of fecha; let i = index">{{item}}</option>
+          </select>
+        </div>
+        <div style="width: 220px;">
+          <label for="">Reportes:</label>
+          <div class="dropdown mb-1">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Reportes Excel
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="reporteMes()">Total</a>
+              <!--    <a class="dropdown-item" disabled>Reporte Por dia</a> -->
+              <a class="dropdown-item" (click)="exportToExcel()">Consolidado Diario</a>
+            </div>
           </div>
         </div>
+
       </div>
 
       <div class="table-responsive table-bordered table-hover">
@@ -66,7 +84,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let fila of reporteMesActual| filter:filterpost:['Nombre']| sort: 'Nombre' |paginate: { itemsPerPage: 5, currentPage: reporte}">
+            <tr *ngFor="let fila of reporteMesActual| filter:filterpost:['Nombre']| sort: 'Nombre' |paginate: { itemsPerPage: 10, currentPage: reporte}">
               <td scope="col">{{fila.Nombre}}</td>
               <td scope="col">{{fila.Codigo}}</td>
               <td scope="col">{{fila.dia1}}</td>
@@ -104,7 +122,7 @@
             </tr>
           </tbody>
         </table>
-        <pagination-controls (pageChange)="reporte = $event"></pagination-controls>
+        <pagination-controls (pageChange)="reporte = $event" class="text-center"></pagination-controls>
       </div>
     </div>
   </div>

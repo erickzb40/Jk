@@ -16,20 +16,22 @@ export class ReportesComponent implements OnInit {
 
   fecha = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   mesActual: any = new Date().getMonth();
+  yearActual: any = new Date().getFullYear();
   reporteMesActual: any;
   filterpost:string='';
   reporte=0;
   ngOnInit(): void {
+    console.log(this.yearActual)
     this.obtenerReporteMesActual(this.mesActual);
   }
   reporteMes(): void {
     Swal.showLoading();
-    this.aut.getAsistenciaPorMes(Number(this.mesActual) + 1).subscribe((res: []) => {
+    this.aut.getAsistenciaPorMes(Number(this.mesActual) + 1,this.yearActual).subscribe((res: []) => {
       if (res.length == 0) {
         return Swal.fire({ icon: 'warning', text: 'No se encontró registros del mes seleccionado!' })
       }
       Swal.close();
-      this.excelService.exportAsExcelFile(res, 'reporte total');
+      this.excelService.ExcelConsolidadoDiario(res, 'reporte total');
     }, error => {
       Swal.close();
     }
@@ -37,7 +39,7 @@ export class ReportesComponent implements OnInit {
   }
   exportToExcel(): void {
     Swal.showLoading();
-    this.aut.getAsistenciaPorMes(Number(this.mesActual) + 1).subscribe((res: []) => {
+    this.aut.getAsistenciaPorMes(Number(this.mesActual) + 1,this.yearActual).subscribe((res: []) => {
       Swal.close();
       if (res.length == 0) {
         if (res.length == 0) {
@@ -45,13 +47,13 @@ export class ReportesComponent implements OnInit {
         }}
       else {
         var reporte = this.FiltrarTabla.filtrarHorasEmpleado(res);
-        this.excelService.exportAsExcelFile(reporte, 'consolidado diario');
+        this.excelService.ExcelConsolidadoDiario(reporte, 'consolidado diario');
       }}, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error en la conexión' }); })
   }
 
   obtenerReporteMesActual(mes: any): void {
     Swal.showLoading();
-    this.aut.getAsistenciaPorMes(Number(mes) + 1).subscribe((res: []) => {
+    this.aut.getAsistenciaPorMes(Number(mes) + 1,this.yearActual).subscribe((res: []) => {
       Swal.close();
       this.reporteMesActual = this.FiltrarTabla.filtrarHorasEmpleado(res);
     }, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error en la conexión' }); })

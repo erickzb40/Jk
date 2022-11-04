@@ -1,10 +1,10 @@
 export interface Asistencia{
 id? :Number;
-fecha? :Date;
+fecha? :String;
 tipo?:string;
 cod_empleado?:Number;
 identificador?:string;
 imagen?:string;
 empresa?:Number;
-ip_public:string;
+ip_public?:string;
 }

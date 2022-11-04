@@ -30,6 +30,10 @@ import { SortPipe } from './src/pages/shared/pipes/sort.pipe';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { ReportesComponent } from './src/pages/admin/reportes/reportes.component';
+import { ListadoComponent } from './src/pages/admin/listado/listado.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Select2Module } from 'ng-select2-component';
 
 // import {AuthModule} from './auth/auth.module';
 
@@ -50,6 +54,7 @@ import { ReportesComponent } from './src/pages/admin/reportes/reportes.component
     AsistenciaFormComponent,
     SortPipe,
     ReportesComponent,
+    ListadoComponent,
       ],
   imports: [
     BrowserModule,
@@ -67,7 +72,10 @@ import { ReportesComponent } from './src/pages/admin/reportes/reportes.component
 HttpClientModule,
     WebcamModule,
     NgbModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    NgxMatSelectSearchModule,
+    MatAutocompleteModule,
+    Select2Module
   ],
   providers: [ ExcelService],
   bootstrap: [AppComponent]
