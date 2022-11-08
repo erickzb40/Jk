@@ -17,28 +17,41 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class AdminComponent implements OnInit {
   empleado: EmpleadoModel = {
+    id: null,
     nombre: '',
     num_doc: '',
-    tipo_doc: '',
-    local: null,
+    tipo_doc: '01',
+    local: '',
     descripcion: '',
     codigo: null
   };
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   // listadoEmpleado = [];//llenar el select con los datos del empleado
+  local: any = [];
   closeResult = '';//viene del modal
-  filterpost: string='';
-  HorasTrabajadas:any=[];//horas trabajadas de asistencia
+  filterpost: string = '';
+  HorasTrabajadas: any = [];//horas trabajadas de asistencia
   asistenciaEmpleado: any = [];
   empleados: any = [];
   empleado_p: number = 1;
   po: number = 1;
   p: number = 1;
-  ae:number=1;
+  ae: number = 1;
   fecha1: string;
   fecha2: string;
   fecha1Asistencia: string;
   fecha2Asistencia: string;
-  id_empleado:string;//dato para obtener asistencia del empleado
+  id_empleado: string;//dato para obtener asistencia del empleado
   @Input() empleadoObj: any;
   empleadoObj2 = {} as EmpleadoModel;
   @Input() asistenciaObj: Asistencia;
@@ -47,7 +60,7 @@ export class AdminComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private excelService: ExcelService,
     private modalService: NgbModal
-      ) { }
+  ) { }
 
   ngOnInit(): void {
     var fecha = new Date();
@@ -56,82 +69,90 @@ export class AdminComponent implements OnInit {
     this.fecha2 = fecha.toJSON().slice(0, 10);
     this.fecha1Asistencia = fecha.toJSON().slice(0, 10);
     this.fecha2Asistencia = fecha.toJSON().slice(0, 10);
-
+    this.aut.getLocales().subscribe((res) => {
+      this.local = res;
+    });
     this.ListarEmpleado();
   }
 
-
-  // async enviar(formulario: NgForm,crud:boolean) {
-  //   if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
-  //       if (crud) {
-  //         await this.aut.getEmpleadoCodigo(formulario.value.codigo,formulario.value.id).subscribe(res => {
-  //           if (Object.entries(res).length !== 0) {
-  //             Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });
-  //           }else{   this.aut.updateEmpleado(formulario.value).subscribe(res => {
-  //                   console.log(' se actualizo');
-  //                    Swal.fire({ icon: 'success', text: 'Actualizado' });
-  //                    this.ListarEmpleado();
-  //                    this.openListaEmpleado();
-  //                    formulario.resetForm();
-  //                    },err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al actualizar' });return;});
-  //           }})
-  //       } else {await this.aut.getEmpleadoCodigoInsert(formulario.value.codigo).subscribe(res => {
-  //           if (Object.entries(res).length !== 0) {
-  //             Swal.fire({ icon: 'warning', text: 'Ya existe un empleado con ese codigo!' });return;
-  //           }else{  this.aut.insertEmpleado(formulario.value).subscribe(res => {
-  //                   Swal.fire({ icon: 'success', text: 'Registro Creado' });
-  //                   this.ListarEmpleado();
-  //                   this.openListaEmpleado();
-  //                   formulario.resetForm();},
-  //                   err => {Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' });return;});
-  //           }})}
-  // }
-  async enviar(formulario: NgForm, crud: boolean) {
+  async enviar(formulario: NgForm) {
     if (formulario.invalid) { return; }//si el formulario es invalido no hace nada
-    if (crud) {
-      this.aut.updateEmpleado(formulario.value).subscribe(res => {
-        this.openListaEmpleado();
-        return this.finUpdate(formulario, 'Actualizado con éxito');
-      }, err => {
-        if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
-        else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
-      });
-    } else {
-      this.aut.insertEmpleado(formulario.value).subscribe(res => {
-        this.openListaEmpleado();
-        return this.finUpdate(formulario, 'Creado con éxito');
+    if (this.empleado.id == null) {
+      this.aut.insertEmpleado(formulario.value).subscribe(() => {
+        this.modalService.dismissAll();
+        formulario.resetForm();
+        this.empleado = {
+          id:null,
+          nombre: '',
+          num_doc: '',
+          tipo_doc: '01',
+          local: '',
+          descripcion: '',
+          codigo: null
+        }
+        this.ListarEmpleado();
+        return setTimeout(() => {
+          this.Toast.fire({
+            icon: 'success',
+            title: 'Se creó con éxito'
+          })
+        }, 200);
       },
         err => {
           if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
           else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
         })
     }
+    else{
+      this.aut.updateEmpleado(formulario.value).subscribe(() => {
+        this.modalService.dismissAll();
+        formulario.resetForm();
+        this.ListarEmpleado();
+        this.Toast.fire({
+          icon: 'success',
+          title: 'Se actualizó con éxito'
+        })
+      },
+      err => {
+        if (err.error.detail) { Swal.fire({ icon: 'warning', text: err.error.detail }); }
+        else { Swal.fire({ icon: 'warning', text: 'Hubo un error al crear el registro' }); }
+      })
+    }
+
   }
-  //parte del codigo final de insertar y actualizar
-  public finUpdate(formulario, res) {
-    this.ListarEmpleado();
-    formulario.resetForm();
-    Swal.fire({ icon: 'success', text: res });
-  }
+
   ListarEmpleado() {
     this.aut.getListaEmpleados().subscribe((res: any[]) => {
       this.empleados = res;
     });
   }
-  openEdit(empleado: EmpleadoModel) {
-    this.empleado = empleado;
-    (<HTMLElement>document.getElementsByClassName('actualizar-crud-empleado-btn')[0]).click()
-    var elemento = document.getElementById("ucr");
-    elemento.className += "active show";
+
+  updateAsitencia(id, identificador) {
+    Swal.fire({
+      title: 'Esta seguro de actualizar a ' + identificador + '?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.aut.updateAsistencia({ id: id, identificador: identificador }).subscribe(() => {
+          Swal.fire({
+            title: 'Actualizado!',
+            icon: 'success'
+          })
+          this.busquedaAsistenciaEmpleado();
+        }, error => {
+          Swal.fire({
+            title: 'Hubo un error en la conexión!',
+            icon: 'error'
+          })
+        })
+      }
+    })
   }
-
-  openListaEmpleado() {
-    (<HTMLElement>document.getElementsByClassName('listadoEmpleadoCrud')[0]).click()
-    var elemento = document.getElementById("lce");
-    elemento.className += "active";
-  }
-
-
   mostrarImagen(imagen) {
     if (typeof (imagen) != 'undefined') {
       this.domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + imagen);
@@ -142,21 +163,17 @@ export class AdminComponent implements OnInit {
     }
   }
 
-
-
-
-
-  openReport(content,id_empleado){
-    this.id_empleado=id_empleado;
-    this.asistenciaEmpleado=[];
+  openReport(content, id_empleado) {
+    this.id_empleado = id_empleado;
+    this.asistenciaEmpleado = [];
     this.busquedaAsistenciaEmpleado();
-    this.modalService.open(content,{ size: 'lg', backdrop: 'static' }).result.then((result) => {
+    this.modalService.open(content, { size: 'lg', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  private getDismissReason(reason: any): string {
+  getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -165,12 +182,48 @@ export class AdminComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  busquedaAsistenciaEmpleado(){
-    this.aut.getAsistenciaEmpleado(this.fecha1,this.fecha2,this.id_empleado).subscribe((res:[])=>{
-      this.asistenciaEmpleado=res;
+  busquedaAsistenciaEmpleado() {
+    this.aut.getAsistenciaEmpleado(this.fecha1, this.fecha2, this.id_empleado).subscribe((res: []) => {
+      this.asistenciaEmpleado = res;
     })
   }
-  reporteEmpleado(){
+  reporteEmpleado() {
     this.excelService.exportAsExcelFile(this.asistenciaEmpleado, 'Reporte Empleado');
+  }
+  abrirNuevoEmpleado(modal) {
+    this.empleado = {
+      id: null,
+      nombre: '',
+      num_doc: '',
+      tipo_doc: '01',
+      local: '',
+      descripcion: '',
+      codigo: null
+    };
+    this.modalService.open(modal, { size: 'lg', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  updateEmpleado() {
+
+  }
+  EditarCampos(modal, id, local, codigo, activo, nombre, num_doc, tipo_doc) {
+    this.empleado = {
+      id: id,
+      nombre: nombre,
+      num_doc: num_doc,
+      tipo_doc: tipo_doc,
+      local: local,
+      codigo: codigo,
+      activo: activo
+    };
+    this.modalService.open(modal, { size: 'lg', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 }

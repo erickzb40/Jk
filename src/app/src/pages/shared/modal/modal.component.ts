@@ -1,6 +1,6 @@
-import {Component,Input,OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { WebcamImage } from 'ngx-webcam';
+
 
 @Component({
   selector: 'app-modal',
@@ -11,8 +11,8 @@ export class ModalComponent {
   closeResult = '';
 
 
-  constructor(private modalService: NgbModal) {}
-
+  constructor(private modalService: NgbModal) {
+  }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

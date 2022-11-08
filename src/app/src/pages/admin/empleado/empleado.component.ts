@@ -1,10 +1,8 @@
 import  Swal from 'sweetalert2';
-
 import { EmpleadoModel } from './../../../../models/empleado.interface';
 import { NgForm } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {AuthService} from './../../services/auth.service';
-import { Local } from 'src/app/models/local.interface';
 
 @Component({
   selector: 'app-empleado-crud',
@@ -19,7 +17,7 @@ export class EmpleadoCrudComponent implements OnInit {
     nombre: '',
     num_doc: '',
     tipo_doc: '',
-    local: null,
+    local: '',
     codigo: null,
     activo:false
   };
@@ -45,8 +43,5 @@ export class EmpleadoCrudComponent implements OnInit {
     }else{
       return Swal.fire({icon:'warning',text:'El codigo debe ser numerico!'});
     }
-
   }
-
-
 }

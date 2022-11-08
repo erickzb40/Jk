@@ -3,7 +3,7 @@ export interface EmpleadoModel {
   nombre: string;
   num_doc: string;
   tipo_doc: string;
-  local: number;
+  local: string;
   codigo: number;
   descripcion?:string;
   activo?:boolean;

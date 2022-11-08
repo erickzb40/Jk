@@ -31,11 +31,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { ReportesComponent } from './src/pages/admin/reportes/reportes.component';
 import { ListadoComponent } from './src/pages/admin/listado/listado.component';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Select2Module } from 'ng-select2-component';
-
-// import {AuthModule} from './auth/auth.module';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -73,9 +69,7 @@ HttpClientModule,
     WebcamModule,
     NgbModule,
     NoopAnimationsModule,
-    NgxMatSelectSearchModule,
-    MatAutocompleteModule,
-    Select2Module
+    MatCardModule
   ],
   providers: [ ExcelService],
   bootstrap: [AppComponent]

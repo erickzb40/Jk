@@ -31,7 +31,7 @@ export class ReportesComponent implements OnInit {
         return Swal.fire({ icon: 'warning', text: 'No se encontró registros del mes seleccionado!' })
       }
       Swal.close();
-      this.excelService.ExcelConsolidadoDiario(res, 'reporte total');
+      this.excelService.ExcelConsolidadoDiario(res, 'reporte por dia');
     }, error => {
       Swal.close();
     }
