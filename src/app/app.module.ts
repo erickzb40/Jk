@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { APP_ROUTING} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmpleadoComponent } from './src/pages/empleado/empleado.component';
-import { EmpleadoCrudComponent} from './src/pages/admin/empleado/empleado.component';
 import { LoginComponent } from './src/pages/login/login.component';
 import { AdminComponent } from './src/pages/admin/admin.component';
 import { MenuComponent } from './src/pages/shared/menu/menu.component';
@@ -25,7 +24,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ImagenPipe } from './src/pages/shared/pipes/imagen.pipe';
 import { ExcelService} from './src/pages/services/export-excel.service';
 import { FilterPipe } from './src/pages/shared/pipes/filtrado.pipe';
-import { AsistenciaFormComponent } from './src/pages/admin/asistencia-form/asistencia-form.component';
 import { SortPipe } from './src/pages/shared/pipes/sort.pipe';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -39,7 +37,6 @@ import { MatCardModule } from '@angular/material/card';
     EmpleadoComponent,
     AdminComponent,
     MenuComponent,
-    EmpleadoCrudComponent,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
@@ -47,7 +44,6 @@ import { MatCardModule } from '@angular/material/card';
     PageNotFoundComponent,
     ImagenPipe,
     FilterPipe,
-    AsistenciaFormComponent,
     SortPipe,
     ReportesComponent,
     ListadoComponent,

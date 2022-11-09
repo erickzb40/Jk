@@ -26,6 +26,19 @@ export class ExcelService {
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
   public ExcelConsolidadoDiario(json: any, excelFileName: string): void {
+    json.sort(function (a, b) {
+      if (a.nombre > b.nombre) {
+        return 1;
+      }
+      if (a.nombre < b.nombre) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    json.forEach(element => {
+      element.fecha=this.formatDate(new Date(element.fecha));
+    })
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet((json));
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -56,6 +69,7 @@ export class ExcelService {
       type: EXCEL_TYPE
     });
     fileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+
   }
 
 }

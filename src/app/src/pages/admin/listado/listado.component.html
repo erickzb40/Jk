@@ -53,7 +53,7 @@
             *ngFor="let fila of asistencias| filter:filterAsistencia:['nombre']| sort: 'fecha'| paginate: { itemsPerPage: 10, currentPage: ae }">
             <td>{{fila.id}}</td>
             <!-- |date:'short' -->
-            <td>{{fila.fecha|date:'short'}}</td>
+            <td>{{fila.fecha| date: 'd/M/yy, h:mm a'}}</td>
             <td>{{fila.nombre}}</td>
             <td *ngIf="fila.imagen"><a style="cursor: pointer;" (click)="mostrarImagen(fila.imagen)"><img width="50"
                   [src]="fila.imagen |imagen"></a></td>

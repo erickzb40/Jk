@@ -148,7 +148,7 @@ export class ListadoComponent implements OnInit {
     form.value.ip_public = this.ip_public;
     this.aut.crearAsistencia(form.value).subscribe(() => {
       this.modalService.dismissAll();
-      this.cargarAsistencia();
+      this.busquedaAsistenciaRango();
       this.asistencia = { cod_empleado: 0, fecha: this.fechaActual, identificador: '' };
       setTimeout(() => {
         this.Toast.fire({

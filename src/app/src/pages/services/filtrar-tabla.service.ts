@@ -17,6 +17,10 @@ export class FiltrarTablaService {
     var listaFinal = [];
     for (let l = 0; l < lista.length; l++) {
       var Total = 0;
+      var semana1 = 0;
+      var semana2 = 0;
+      var semana3 = 0;
+      var semana4 = 0;
       listaFinal.push({ Nombre: lista[l].nombre });
       listaFinal[l]['Codigo'] = lista[l].codigo;
       listaFinal[l]['Año'] = new Date(list[0].fecha).getFullYear();
@@ -25,11 +29,40 @@ export class FiltrarTablaService {
         var horas = this.extraerHoraDia(lista[l], index);
         listaFinal[l]['dia' + index] = this.convertirMiliHora(horas);
         Total = Total + horas;
+        if (index <= 7) {
+          semana1 = semana1 + horas;
+        } else if (index > 7 && index <= 14) {
+          semana2 = semana2 + horas;
+        } else if (index > 14 && index <= 21) {
+          semana3 = semana3 + horas;
+        } else if (index > 21) {
+          semana4 = semana4 + horas;
+        }
       }
       if (Total > 0) {
         listaFinal[l]['Total'] = this.convertirMiliHora(Total);
       } else {
         listaFinal[l]['Total'] = '';
+      }
+      if (semana1 > 0) {
+        listaFinal[l]['Semana1'] = this.convertirMiliHora(semana1);
+      } else {
+        listaFinal[l]['Semana1'] = '';
+      }
+      if (semana2 > 0) {
+        listaFinal[l]['Semana2'] = this.convertirMiliHora(semana2);
+      } else {
+        listaFinal[l]['Semana2'] = '';
+      }
+      if (semana3 > 0) {
+        listaFinal[l]['Semana3'] = this.convertirMiliHora(semana3);
+      } else {
+        listaFinal[l]['Semana3'] = '';
+      }
+      if (semana4 > 0) {
+        listaFinal[l]['Semana4'] = this.convertirMiliHora(semana4);
+      } else {
+        listaFinal[l]['Semana4'] = '';
       }
 
     }
@@ -79,7 +112,14 @@ export class FiltrarTablaService {
           }
           //VALIDAMOS SI EL DIA TERMINA CON UNA ENTRADA Y TIENE UNA SALIDA EN EL DIA SIGUIENTE
           if (identificador == 'ENTRADA' && new Date(element.asistencia[index + 1].fecha).getDate() == (dia + 1) && element.asistencia[index + 1].identificador == 'SALIDA') {
-            SALIDA = new Date(element.asistencia[index+1].fecha).getTime();
+            SALIDA = new Date(element.asistencia[index + 1].fecha).getTime();
+            HORAS = HORAS + SALIDA - fecha.getTime();
+            SALIDA = 0;
+            ENTRADA = 0;
+          }
+          //VALIDAMOS SI ES EL ULTIMO DIA DEL MES Y EL SIGUIENTE REGISTRO ES EL DIA DESPUES CON EL IDENTIFICADOR SALIDA
+          if (new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate()==dia&&new Date(element.asistencia[index + 1].fecha).getDate()==1 && element.asistencia[index + 1].identificador == 'SALIDA') {
+            SALIDA = new Date(element.asistencia[index + 1].fecha).getTime();
             HORAS = HORAS + SALIDA - fecha.getTime();
             SALIDA = 0;
             ENTRADA = 0;
@@ -130,6 +170,7 @@ export class FiltrarTablaService {
       });
       empleados.push({ nombre: nombre, codigo: codigo, asistencia: fecha });
     });
+    console.log(empleados)
     return empleados;
   }
 }

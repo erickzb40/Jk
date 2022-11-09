@@ -25,6 +25,7 @@ export class AdminComponent implements OnInit {
     descripcion: '',
     codigo: null
   };
+  reportEmpleadoNombre='';
   Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -163,7 +164,8 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  openReport(content, id_empleado) {
+  openReport(content, id_empleado,nombre) {
+    this.reportEmpleadoNombre=nombre;
     this.id_empleado = id_empleado;
     this.asistenciaEmpleado = [];
     this.busquedaAsistenciaEmpleado();
