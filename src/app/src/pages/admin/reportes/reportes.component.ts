@@ -18,8 +18,11 @@ export class ReportesComponent implements OnInit {
   mesActual: any = new Date().getMonth();
   yearActual: any = new Date().getFullYear();
   reporteMesActual: any;
-  filterpost:string='';
+  reporteDiario:any;
+  filtroNombreConsolidado:string='';
+  filtroNombreReporte:string='';
   reporte=0;
+  pd=0;
   ngOnInit(): void {
     this.obtenerReporteMesActual(this.mesActual);
 
@@ -50,11 +53,14 @@ export class ReportesComponent implements OnInit {
         this.excelService.ExcelConsolidadoDiario(reporte, 'consolidado diario');
       }}, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error en la conexión' }); })
   }
-
+  cambiarPestana(){
+    console.log('cambió')
+  }
   obtenerReporteMesActual(mes: any): void {
     Swal.showLoading();
     this.aut.getAsistenciaPorMes(Number(mes) + 1,this.yearActual).subscribe((res: []) => {
       Swal.close();
+      this.reporteDiario=this.FiltrarTabla.reportePorDia(res);
       this.reporteMesActual = this.FiltrarTabla.filtrarHorasEmpleado(res);
     }, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error en la conexión' }); })
   }

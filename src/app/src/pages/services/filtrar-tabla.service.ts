@@ -199,15 +199,15 @@ export class FiltrarTablaService {
 
         if (horas[0] > 0) {
           listaFinal.push({ ID: element.codigo });
-          listaFinal[contador]['NOMBRE'] = element.nombre;
-          listaFinal[contador]['FECHA'] = new Date(horas[1]).toLocaleDateString();
-          listaFinal[contador]['INGRESO 1'] = ingreso1;
-          listaFinal[contador]['SALIDA 1'] = salida1;
-          listaFinal[contador]['TIEMPO 1'] = total1;
-          listaFinal[contador]['INGRESO 2'] = ingreso2;
-          listaFinal[contador]['SALIDA 2'] = salida2;
-          listaFinal[contador]['TIEMPO 2'] = total2;
-          listaFinal[contador]['TOTAL'] = this.convertirMiliHora(horas[0]);
+          listaFinal[contador]['Nombre'] = element.nombre;
+          listaFinal[contador]['fecha'] = new Date(horas[1]).toLocaleDateString();
+          listaFinal[contador]['ingreso1'] = ingreso1;
+          listaFinal[contador]['salida1'] = salida1;
+          listaFinal[contador]['tiempo1'] = total1;
+          listaFinal[contador]['ingreso2'] = ingreso2;
+          listaFinal[contador]['salida2'] = salida2;
+          listaFinal[contador]['tiempo2'] = total2;
+          listaFinal[contador]['total'] = this.convertirMiliHora(horas[0]);
           contador++;
         }
       }
