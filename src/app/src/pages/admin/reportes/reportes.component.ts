@@ -21,8 +21,8 @@ export class ReportesComponent implements OnInit {
   filterpost:string='';
   reporte=0;
   ngOnInit(): void {
-    console.log(this.yearActual)
     this.obtenerReporteMesActual(this.mesActual);
+
   }
   reporteMes(): void {
     Swal.showLoading();
@@ -31,7 +31,7 @@ export class ReportesComponent implements OnInit {
         return Swal.fire({ icon: 'warning', text: 'No se encontró registros del mes seleccionado!' })
       }
       Swal.close();
-      this.excelService.ExcelConsolidadoDiario(res, 'reporte por dia');
+      this.excelService.ExcelConsolidadoDiario(this.FiltrarTabla.reportePorDia(res), 'reporte por dia');
     }, error => {
       Swal.close();
     }
@@ -46,7 +46,7 @@ export class ReportesComponent implements OnInit {
           return Swal.fire({ icon: 'warning', text: 'No se encontró registros del mes seleccionado!' })
         }}
       else {
-        var reporte = this.FiltrarTabla.filtrarHorasEmpleado(res);
+       var reporte=this.FiltrarTabla.filtrarHorasEmpleado(res);
         this.excelService.ExcelConsolidadoDiario(reporte, 'consolidado diario');
       }}, err => { Swal.fire({ icon: 'warning', text: 'Hubo un error en la conexión' }); })
   }

@@ -133,7 +133,7 @@
       </thead>
       <tbody style="text-align: left;">
         <tr *ngFor="let fila of asistenciaEmpleado| sort: 'id' | paginate: { itemsPerPage: 10, currentPage: ae }">
-          <td>{{fila.fecha|date:'short'}}</td>
+          <td>{{fila.fecha|date:'d/M/yy, h:mm a'}}</td>
           <td>{{fila.nombre}}</td>
           <td>{{fila.num_doc}}</td>
           <td *ngIf="fila.imagen"><a style="cursor: pointer;" (click)="mostrarImagen(fila.imagen)"><img width="50"
