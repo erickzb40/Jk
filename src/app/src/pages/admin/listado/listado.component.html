@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let fila of asistencias| filter:filterAsistencia:['nombre']| sort: 'fecha'| paginate: { itemsPerPage: 10, currentPage: ae }">
+            *ngFor="let fila of asistencias| filter:filterAsistencia:['nombre']| sort: 'fecha'| paginate: {id:'pasistencia', itemsPerPage: 10, currentPage: ae }">
             <td>{{fila.id}}</td>
             <!-- |date:'short' -->
             <td>{{fila.fecha| date: 'd/M/yy, h:mm a'}}</td>
@@ -68,7 +68,7 @@
         </tbody>
       </table>
     </div>
-    <pagination-controls (pageChange)="ae = $event"></pagination-controls>
+    <div style="text-align: center;"><pagination-controls id="pasistencia" (pageChange)="ae = $event"></pagination-controls></div>
   </div>
 </div>
 <ng-template #crearAsistencia let-modal style="width: 1000px;">

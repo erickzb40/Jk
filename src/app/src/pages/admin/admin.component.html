@@ -55,7 +55,7 @@
                           </thead>
                           <tbody>
                             <tr
-                              *ngFor="let fila of empleados | filter:filterpost:['nombre'] |paginate: { itemsPerPage: 10, currentPage: empleado_p}">
+                              *ngFor="let fila of empleados | filter:filterpost:['nombre'] |paginate: { id:'pempleado',itemsPerPage: 10, currentPage: empleado_p}">
                               <td>{{fila.id}}</td>
                               <td>{{fila.nombre}}</td>
                               <td>{{fila.num_doc}}</td>
@@ -68,7 +68,7 @@
                           </tbody>
                         </table>
                       </div>
-                      <pagination-controls (pageChange)="empleado_p = $event"></pagination-controls>
+                      <div style="text-align: center;"><pagination-controls id="pempleado" (pageChange)="empleado_p = $event"></pagination-controls></div>
                       <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
                       <!-- /.card -->
                     </div>
